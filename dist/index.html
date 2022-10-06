@@ -6,7 +6,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Cold's Todo List</title>
-        <script src="main.js"></script>
+        <script src="main.js" defer></script>
         <link rel="stylesheet" href="../src/styles.css">
     </head>
 
@@ -18,7 +18,7 @@
         </header>
         <nav>
             <div class="tasks">
-                <div class="tasks-title">Tasks</div>
+                <div class="task-header">Tasks</div>
                 <ul>
                     <li>Inbox</li>
                     <li>Today</li>
@@ -27,7 +27,7 @@
             </div>
 
             <div class="projects">
-                <div class="projects-title">
+                <div class="project-header">
                     Projects
                 </div>
                 <button class="create-project">Create Project</button>
@@ -36,8 +36,60 @@
         </nav>
 
         <main>
-            <div class="todo-name">Inbox</div>
-            <button class="add-todo">Add a todo</button>
+            <div class="task-selected-header">Inbox</div>
+            <button class="show-task-modal">Add a todo</button>
+            <div class="task-modal hide">
+                <div class="task-container">
+                    <div class="modal-task-header">Add Task</div>
+
+                    <div class="task-info-container">
+                        <div class="title-container">
+                            <label for="title">Title</label>
+                            <input type="text" placeholder="Task title" id="title" required>
+                            <div class="titleError">ㅤ</div>
+                        </div>
+                        <div class="description-container">
+
+                            <label for="description">Description <span class="optional">optional</span></label>
+
+                            <textarea id="description" rows="3" cols="1" maxlength="150">
+                  It was a dark and stormy night...
+                  </textarea>
+
+                        </div>
+                        <div class="date-container">
+                            <label for="date">Due Date <span class="optional">optional</span></label>
+                            <input type="date" id="date">
+                        </div>
+
+                        <div class="task-modal-selection-container">
+                            <div class="task-modal-priority-container">
+                                <label for="priority-selected">Priority</label>
+                                <select name="priority" id="priority-selected">
+                                    <option value="Low" selected>Low</option>
+                                    <option value="Medium">Medium</option>
+                                    <option value="High">High</option>
+                                </select>
+                            </div>
+
+                            <div class="task-modal-project-container">
+                                <label for="project-selected">Projects</label>
+                                <select name="project" id="project-selected">
+                                    <option value="Project idk" selected>Project idk</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="modal-buttons-container">
+                            <button class="cancel-task">Cancel</button>
+                            <button class="add-task">Add</button>
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </div>
         </main>
 
 
