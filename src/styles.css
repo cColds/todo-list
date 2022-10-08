@@ -184,16 +184,31 @@ main {
 	border-radius: 5px 5px 0px 0px;
 }
 
-input:focus {
+input:focus,
+textarea:focus,
+#priority-selected:focus,
+#project-selected:focus {
 	outline: 2px solid #38bdf8;
 }
 
 #title,
 #description,
 #date {
-	padding: 0.5rem;
+	padding: 15px;
 	border-radius: 5px;
 	border: 1px solid rgba(15, 23, 42, 0.3);
+}
+
+.title-container {
+	position: relative;
+}
+
+.title-checkmark-svg > svg,
+.title-error-svg > svg {
+	position: absolute;
+	left: 385px;
+	top: 45px;
+	opacity: 0;
 }
 
 .title-container,
@@ -233,6 +248,8 @@ input:focus {
 #priority-selected,
 #project-selected {
 	padding: 10px;
+	border-radius: 5px;
+	border: none;
 }
 
 .task-modal-priority-container > label,
@@ -251,7 +268,7 @@ textarea {
 	resize: none;
 }
 
-.titleError {
+.title-error {
 	color: red;
 	font-size: 0.85rem;
 }
