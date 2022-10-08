@@ -11,6 +11,7 @@ export const taskModal = () => {
 		error.style.opacity = 1;
 		titleInput.style.outline = "2px solid #ef4444";
 	};
+
 	taskCancelBtn.addEventListener("click", toggleTaskModal);
 
 	taskAddBtn.addEventListener("click", () => {

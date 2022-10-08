@@ -56,8 +56,8 @@ li {
 	gap: 20px;
 }
 
-.tasks > ul > li:nth-child(1) {
-	background-color: #4f46e5;
+.task-selected {
+	background-color: #4f46e5 !important;
 	color: white;
 }
 
