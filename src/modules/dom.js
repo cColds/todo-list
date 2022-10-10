@@ -1,7 +1,8 @@
 import { taskModal } from "./taskModal";
-import { task } from "./selectedTask";
-
+import { taskNavigation } from "./selectedTask";
+import { task } from "./task";
 export default function dom() {
 	taskModal.checkFormValidity();
-	task.selectedTask();
+	taskNavigation.selectedTask();
+	task.taskProps();
 }

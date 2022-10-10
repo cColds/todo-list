@@ -1,13 +1,15 @@
 import { pubSub } from "./pubSub";
 
-const title = document.querySelector("#title");
+export const taskModal = (function () {
+	const title = document.querySelector("#title");
 
-export const taskModal = {
-	checkFormValidity: () => {
+	const checkFormValidity = () => {
 		const isValidTitle = () => title.checkValidity();
 		const isValidForm = () => {
-			if (isValidTitle()) taskModal.toggleTaskModal();
-			else taskModal.displayValidity().displayError();
+			if (isValidTitle()) {
+				taskModal.toggleTaskModal();
+				pubSub.publish("task-created");
+			} else taskModal.displayValidity().displayError();
 		};
 
 		const taskCancelBtn = document.querySelector(".cancel-task");
@@ -27,8 +29,8 @@ export const taskModal = {
 			if (isValidTitle()) taskModal.displayValidity().displayCorrect();
 			else taskModal.displayValidity().displayError();
 		});
-	},
-	displayValidity: () => {
+	};
+	const displayValidity = () => {
 		const titleError = document.querySelector(".title-error");
 		const titleInput = document.querySelector("#title");
 		const checkmark = document.querySelector(".title-checkmark-svg > svg");
@@ -55,9 +57,9 @@ export const taskModal = {
 			checkmark,
 			error,
 		};
-	},
+	};
 
-	clearValues: () => {
+	const clearValues = () => {
 		const description = document.querySelector("#description");
 		const dueDate = document.querySelector("#date");
 		const priority = document.querySelector("#priority-selected");
@@ -73,10 +75,12 @@ export const taskModal = {
 		dueDate.value = "";
 		priority.value = "Low";
 		projects.value = "Project idk";
-	},
+	};
 
-	toggleTaskModal: () => {
+	const toggleTaskModal = () => {
 		const taskModalVisibility = document.querySelector(".task-modal");
 		taskModalVisibility.classList.toggle("hide");
-	},
-};
+	};
+
+	return { checkFormValidity, displayValidity, clearValues, toggleTaskModal };
+})();
