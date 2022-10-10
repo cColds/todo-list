@@ -1,65 +1,82 @@
-export const taskModal = () => {
-	const titleError = document.querySelector(".title-error");
-	const titleInput = document.querySelector("#title");
-	const checkmark = document.querySelector(".title-checkmark-svg > svg");
-	const error = document.querySelector(".title-error-svg > svg");
+import { pubSub } from "./pubSub";
 
-	const displayError = () => {
-		titleError.textContent = "Title cannot be empty.";
-		error.style.opacity = 1;
-		titleInput.style.outline = "2px solid #ef4444";
-		checkmark.style.opacity = 0;
-	};
+const title = document.querySelector("#title");
 
-	const displayCorrect = () => {
-		titleError.textContent = "";
-		titleInput.style.outline = "2px solid #22c55e";
-		error.style.opacity = 0;
-		checkmark.style.opacity = 1;
-	};
+export const taskModal = {
+	checkFormValidity: () => {
+		const isValidTitle = () => title.checkValidity();
+		const isValidForm = () => {
+			if (isValidTitle()) taskModal.toggleTaskModal();
+			else taskModal.displayValidity().displayError();
+		};
 
-	const title = document.querySelector("#title");
+		const taskCancelBtn = document.querySelector(".cancel-task");
+		const taskAddBtn = document.querySelector(".add-task");
+		const showTaskModal = document.querySelector(".show-task-modal");
 
-	const isValidTitle = () => title.checkValidity();
-	const isValidForm = () =>
-		isValidTitle() ? toggleTaskModal() : displayError();
+		taskCancelBtn.addEventListener("click", taskModal.toggleTaskModal);
 
-	const taskCancelBtn = document.querySelector(".cancel-task");
-	const taskAddBtn = document.querySelector(".add-task");
-	const showTaskModal = document.querySelector(".show-task-modal");
+		taskAddBtn.addEventListener("click", isValidForm);
 
-	taskCancelBtn.addEventListener("click", toggleTaskModal);
+		showTaskModal.addEventListener("click", () => {
+			taskModal.clearValues();
+			taskModal.toggleTaskModal();
+		});
 
-	taskAddBtn.addEventListener("click", isValidForm);
+		title.addEventListener("keyup", () => {
+			if (isValidTitle()) taskModal.displayValidity().displayCorrect();
+			else taskModal.displayValidity().displayError();
+		});
+	},
+	displayValidity: () => {
+		const titleError = document.querySelector(".title-error");
+		const titleInput = document.querySelector("#title");
+		const checkmark = document.querySelector(".title-checkmark-svg > svg");
+		const error = document.querySelector(".title-error-svg > svg");
 
-	showTaskModal.addEventListener("click", () => {
-		clearValues();
-		toggleTaskModal();
-	});
+		const displayError = () => {
+			titleError.textContent = "Title cannot be empty.";
+			error.style.opacity = 1;
+			titleInput.style.outline = "2px solid #ef4444";
+			checkmark.style.opacity = 0;
+		};
 
-	title.addEventListener("keyup", () => {
-		isValidTitle() ? displayCorrect() : displayError();
-	});
+		const displayCorrect = () => {
+			titleError.textContent = "";
+			titleInput.style.outline = "2px solid #22c55e";
+			error.style.opacity = 0;
+			checkmark.style.opacity = 1;
+		};
+		return {
+			displayError,
+			displayCorrect,
+			titleError,
+			titleInput,
+			checkmark,
+			error,
+		};
+	},
 
-	function clearValues() {
+	clearValues: () => {
 		const description = document.querySelector("#description");
 		const dueDate = document.querySelector("#date");
 		const priority = document.querySelector("#priority-selected");
 		const projects = document.querySelector("#project-selected");
 
+		taskModal.displayValidity().textContent = "";
+		taskModal.displayValidity().titleInput.style.outline = "";
+		taskModal.displayValidity().checkmark.style.opacity = 0;
+		taskModal.displayValidity().error.style.opacity = 0;
+
 		title.value = "";
-		titleError.textContent = "";
 		description.value = "";
 		dueDate.value = "";
 		priority.value = "Low";
 		projects.value = "Project idk";
-		titleInput.style.outline = "";
-		checkmark.style.opacity = 0;
-		error.style.opacity = 0;
-	}
+	},
 
-	function toggleTaskModal() {
-		const taskModal = document.querySelector(".task-modal");
-		taskModal.classList.toggle("hide");
-	}
+	toggleTaskModal: () => {
+		const taskModalVisibility = document.querySelector(".task-modal");
+		taskModalVisibility.classList.toggle("hide");
+	},
 };
