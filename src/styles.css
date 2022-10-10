@@ -250,6 +250,7 @@ textarea:focus,
 	padding: 10px;
 	border-radius: 5px;
 	border: none;
+	border-right: 5px solid transparent;
 }
 
 .task-modal-priority-container > label,
