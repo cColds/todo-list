@@ -126,15 +126,17 @@ const taskCard = (function () {
 
 		const taskChecked = document.createElement("div");
 		const taskCheckedContainer = document.createElement("div");
-		const taskCheckmarkSVG = document.createElement("div");
+		const taskCheckmarkSVG = `
+		<svg viewBox="0 0 24 24" class="task-checkmark-svg" width="18" height="18">
+			<path fill="currentColor" d="M9,20.42L2.79,14.21L5.62,11.38L9,14.77L18.88,4.88L21.71,7.71L9,20.42Z" />
+		</svg>`;
 
 		taskCardContainer.classList.add("task");
 
 		taskChecked.classList.add("task-checked");
 		taskCheckedContainer.classList.add("checkmark-container");
-		taskCheckmarkSVG.classList.add("task-checkmark-svg");
 
-		taskCheckedContainer.appendChild(taskCheckmarkSVG);
+		taskCheckedContainer.innerHTML += taskCheckmarkSVG;
 		taskChecked.appendChild(taskCheckedContainer);
 
 		const taskTitle = document.createElement("div");
