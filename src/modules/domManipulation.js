@@ -120,7 +120,44 @@ const taskCard = (function () {
 	};
 
 	const createTaskCard = (task) => {
-		console.log(task);
+		const taskContainer = document.querySelector(".task-container");
+
+		const taskCardContainer = document.createElement("div");
+
+		const taskChecked = document.createElement("div");
+		const taskCheckedContainer = document.createElement("div");
+		const taskCheckmarkSVG = document.createElement("div");
+
+		taskCardContainer.classList.add("task");
+
+		taskChecked.classList.add("task-checked");
+		taskCheckedContainer.classList.add("checkmark-container");
+		taskCheckmarkSVG.classList.add("task-checkmark-svg");
+
+		taskCheckedContainer.appendChild(taskCheckmarkSVG);
+		taskChecked.appendChild(taskCheckedContainer);
+
+		const taskTitle = document.createElement("div");
+		const taskDate = document.createElement("div");
+		const taskDescription = document.createElement("div");
+		const taskPriority = document.createElement("div");
+
+		taskTitle.textContent = `Title: ${task.title}`;
+		taskDate.textContent = `Due Date: ${task.date ? task.date : "None"}`;
+		taskDescription.textContent = `Description: ${
+			task.description ? task.description : "None"
+		}`;
+		taskPriority.textContent = `Priority: ${task.priority}`;
+
+		taskCardContainer.append(
+			taskChecked,
+			taskTitle,
+			taskDate,
+			taskDescription,
+			taskPriority
+		);
+
+		taskContainer.appendChild(taskCardContainer);
 	};
 
 	return { render };
