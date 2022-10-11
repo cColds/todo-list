@@ -6,7 +6,7 @@ export default function renderPage() {
 	taskNavigation.render();
 }
 
-export const taskNavigation = (function () {
+const taskNavigation = (function () {
 	const render = function () {
 		const taskItemsList = document.querySelector(".task-items");
 
@@ -32,7 +32,7 @@ export const taskNavigation = (function () {
 	return { render };
 })();
 
-export const taskModal = (function () {
+const taskModal = (function () {
 	const title = document.querySelector("#title");
 	const description = document.querySelector("#description");
 	const dueDate = document.querySelector("#date");
