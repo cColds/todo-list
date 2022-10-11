@@ -1,3 +1,3 @@
-import dom from "./modules/dom";
+import renderPage from "./modules/domManipulation";
 
-dom();
+renderPage();

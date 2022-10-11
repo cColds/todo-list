@@ -69,6 +69,61 @@ li {
 	gap: 25px;
 }
 
+.task-container {
+	display: flex;
+	flex-direction: column;
+}
+
+.task > div {
+	margin-left: 40px;
+}
+
+.task {
+	border: 1px solid rgba(0, 0, 0, 0.5);
+	border-radius: 5px;
+	margin: 40px 0px 0px 40px;
+	width: 40%;
+	padding: 15px;
+	height: 100%;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	position: relative;
+}
+
+.task-checked {
+	position: absolute;
+	top: 32%;
+	left: -25px;
+	width: 30px;
+	height: 30px;
+	border: 3px solid #4f46e5;
+	border-radius: 50%;
+	cursor: pointer;
+}
+
+.task-checked:hover {
+	background-color: rgba(0, 0, 0, 0.1);
+}
+
+.task-checkmark-svg:hover {
+	opacity: 1;
+	transition: 100ms;
+}
+
+.checkmark-container {
+	position: relative;
+	display: grid;
+	place-items: center;
+	width: 100%;
+	height: 100%;
+}
+
+.task-checkmark-svg {
+	position: absolute;
+	opacity: 0;
+	border-radius: inherit;
+}
+
 .task-header,
 .project-header {
 	font-size: 1.5rem;
@@ -107,12 +162,14 @@ main {
 	margin-top: 40px;
 }
 
+/* TASK MODAL */
+
 .show-task-modal {
 	margin-left: 40px;
 	margin-top: 10px;
 	border: none;
 	cursor: pointer;
-	height: 50px;
+	min-height: 50px;
 	width: 200px;
 	border-radius: 5px;
 	background-color: #4f46e5;
@@ -120,7 +177,7 @@ main {
 	font-size: 1.2rem;
 }
 
-.task-container {
+.modal-task-container {
 	background-color: white;
 
 	border-radius: 10px;
