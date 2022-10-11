@@ -4,6 +4,7 @@ import { task } from "./task";
 export default function renderPage() {
 	taskModal.render();
 	taskNavigation.render();
+	taskCard.render();
 }
 
 const taskNavigation = (function () {
@@ -18,9 +19,8 @@ const taskNavigation = (function () {
 		});
 	};
 	const unstylePreviousTask = function () {
-		document
-			.querySelector(".task-selected")
-			.classList.remove("task-selected");
+		const unstyleTask = document.querySelector(".task-selected");
+		unstyleTask.classList.remove("task-selected");
 	};
 	const showCurrentTask = function (e) {
 		const taskHeader = document.querySelector(".task-selected-header");
@@ -39,6 +39,8 @@ const taskModal = (function () {
 	const priority = document.querySelector("#priority-selected");
 	const projects = document.querySelector("#project-selected");
 
+	const isValidTitle = () => title.checkValidity();
+
 	const render = () => {
 		const taskCancelBtn = document.querySelector(".cancel-task");
 		const taskAddBtn = document.querySelector(".add-task");
@@ -46,7 +48,12 @@ const taskModal = (function () {
 
 		taskCancelBtn.addEventListener("click", taskModal.toggleTaskModal);
 
-		taskAddBtn.addEventListener("click", isValidForm);
+		taskAddBtn.addEventListener("click", () => {
+			if (isValidTitle()) {
+				taskModal.toggleTaskModal();
+				pubSub.publish("task-submitted");
+			} else taskModal.displayError();
+		});
 
 		showTaskModal.addEventListener("click", () => {
 			taskModal.clearValues();
@@ -57,12 +64,6 @@ const taskModal = (function () {
 			if (isValidTitle()) taskModal.displayCorrect();
 			else taskModal.displayError();
 		});
-	};
-	const isValidTitle = () => title.checkValidity();
-	const isValidForm = () => {
-		if (isValidTitle()) {
-			taskModal.toggleTaskModal();
-		} else taskModal.displayError();
 	};
 
 	const titleError = document.querySelector(".title-error");
@@ -106,7 +107,21 @@ const taskModal = (function () {
 		render,
 		clearValues,
 		toggleTaskModal,
-		displayCorrect,
 		displayError,
+		displayCorrect,
 	};
+})();
+
+const taskCard = (function () {
+	const render = () => {
+		pubSub.subscribe("task-created", (taskProperties) => {
+			createTaskCard(taskProperties);
+		});
+	};
+
+	const createTaskCard = (task) => {
+		console.log(task);
+	};
+
+	return { render };
 })();
