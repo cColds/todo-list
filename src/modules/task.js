@@ -15,10 +15,12 @@ function createTask() {
 	const priority = document.querySelector("#priority-selected").value;
 	const project = document.querySelector("#project-selected").value;
 
-	const [month, day, year] = Array.from(dueDate.split("-"));
+	const formattedDueDate = format(
+		new Date(dueDate),
+		"MMMM d, EEEE, y, K:mm a"
+	);
 
-	const formattedDueDate = format(new Date(month, day, year), "MM-dd-yyyy");
-
+	console.log(formattedDueDate);
 	pubSub.publish(
 		"task-created",
 		Task(title, description, formattedDueDate, priority, project)
