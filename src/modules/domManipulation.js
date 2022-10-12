@@ -39,7 +39,7 @@ const taskModal = (function () {
 	const priority = document.querySelector("#priority-selected");
 	const projects = document.querySelector("#project-selected");
 
-	const isValidTitle = () => title.checkValidity();
+	const _isValidTitle = () => title.checkValidity();
 
 	const render = () => {
 		const taskCancelBtn = document.querySelector(".cancel-task");
@@ -49,7 +49,7 @@ const taskModal = (function () {
 		taskCancelBtn.addEventListener("click", taskModal.toggleTaskModal);
 
 		taskAddBtn.addEventListener("click", () => {
-			if (isValidTitle()) {
+			if (_isValidTitle()) {
 				taskModal.toggleTaskModal();
 				pubSub.publish("task-submitted");
 			} else taskModal.displayError();
@@ -61,7 +61,7 @@ const taskModal = (function () {
 		});
 
 		title.addEventListener("keyup", () => {
-			if (isValidTitle()) taskModal.displayCorrect();
+			if (_isValidTitle()) taskModal.displayCorrect();
 			else taskModal.displayError();
 		});
 	};
@@ -106,20 +106,31 @@ const taskModal = (function () {
 	return {
 		render,
 		clearValues,
-		toggleTaskModal,
 		displayError,
 		displayCorrect,
+		toggleTaskModal,
 	};
 })();
 
-const taskCard = (function () {
+export const taskCard = (function () {
+	const tasks = [];
+	const getTask = () => tasks;
+
 	const render = () => {
 		pubSub.subscribe("task-created", (taskProperties) => {
-			createTaskCard(taskProperties);
+			_createTaskCard(taskProperties);
 		});
+
+		pubSub.subscribe("task-completed", _completedTaskCard);
 	};
 
-	const createTaskCard = (task) => {
+	const _completedTaskCard = () => {
+		// console.log("test");
+	};
+
+	const _createTaskCard = (task) => {
+		tasks.push(task);
+
 		const taskContainer = document.querySelector(".task-container");
 
 		const taskCardContainer = document.createElement("div");
@@ -132,6 +143,8 @@ const taskCard = (function () {
 		</svg>`;
 
 		taskCardContainer.classList.add("task");
+
+		taskCardContainer.dataset.task = `task${getTask().length - 1}`;
 
 		taskChecked.classList.add("task-checked");
 		taskCheckedContainer.classList.add("checkmark-container");
@@ -162,5 +175,5 @@ const taskCard = (function () {
 		taskContainer.appendChild(taskCardContainer);
 	};
 
-	return { render };
+	return { render, getTask };
 })();
