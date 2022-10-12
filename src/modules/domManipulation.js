@@ -1,6 +1,7 @@
 import { pubSub } from "./pubSub";
 import { task } from "./task";
 import { completedTask } from "./task";
+import { todayTask } from "./task";
 
 export default function renderPage() {
 	taskModal.render();
@@ -146,7 +147,7 @@ export const taskCard = (function () {
 
 	const _createTaskCard = (task) => {
 		tasks.push(task);
-
+		console.log(todayTask());
 		const taskContainer = document.querySelector(".task-container");
 
 		const taskCardContainer = document.createElement("div");
