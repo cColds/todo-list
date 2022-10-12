@@ -20,20 +20,10 @@ function createTask() {
 	);
 }
 
-pubSub.subscribe("task-submitted", completedTask);
+export function completedTask(e) {
+	const task = e.target.closest(".task");
+	const getTaskIndex = +task.dataset.task.replace(/\D+/g, "");
+	const completedTask = taskCard.getTask().splice(getTaskIndex, 1);
 
-function completedTask() {
-	const checkmarks = document.querySelectorAll(".task-checked");
-
-	checkmarks.forEach((checkmark) => {
-		checkmark.addEventListener("click", (e) => {
-			// const checked = e.target.closest(".task");
-			// const getTaskIndex = +checked.dataset.task.replace(/\D+/g, "");
-
-			// taskCard.getTask().splice(getTaskIndex, 1);
-			console.log("logged");
-
-			pubSub.publish("task-completed");
-		});
-	});
+	pubSub.publish("task-completed", getTaskIndex);
 }

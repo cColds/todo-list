@@ -1,5 +1,6 @@
 import { pubSub } from "./pubSub";
 import { task } from "./task";
+import { completedTask } from "./task";
 
 export default function renderPage() {
 	taskModal.render();
@@ -124,8 +125,23 @@ export const taskCard = (function () {
 		pubSub.subscribe("task-completed", _completedTaskCard);
 	};
 
-	const _completedTaskCard = () => {
-		// console.log("test");
+	const _completedTaskCard = (index) => {
+		const completedTask = document.querySelector(
+			`[data-task=task${index}]`
+		);
+		completedTask.innerHTML = "";
+		completedTask.remove();
+		renderNewDataSet();
+	};
+
+	const renderNewDataSet = () => {
+		const taskClass = document.querySelectorAll(".task");
+		let i = 0;
+
+		taskClass.forEach((task) => {
+			task.dataset.task = `task${i}`;
+			i++;
+		});
 	};
 
 	const _createTaskCard = (task) => {
@@ -173,6 +189,7 @@ export const taskCard = (function () {
 		);
 
 		taskContainer.appendChild(taskCardContainer);
+		taskChecked.addEventListener("click", (e) => completedTask(e));
 	};
 
 	return { render, getTask };
