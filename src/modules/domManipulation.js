@@ -175,7 +175,9 @@ export const taskCard = (function () {
 		const taskPriority = document.createElement("div");
 
 		taskTitle.textContent = `Title: ${task.title}`;
-		taskDate.textContent = `Due Date: ${task.date ? task.date : "None"}`;
+		taskDate.textContent = `Due Date: ${
+			task.dueDate ? task.dueDate : "None"
+		}`;
 		taskDescription.textContent = `Description: ${
 			task.description ? task.description : "None"
 		}`;
