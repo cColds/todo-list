@@ -35,27 +35,29 @@ nav {
 	height: calc(100vh - 85px);
 	background-color: #f3f4f6;
 	width: 250px;
+	box-shadow: rgba(0, 0, 0, 0.24) 0px 0px 8px;
 }
 
 li {
 	list-style-type: none;
 }
 
-.tasks > ul > li {
+.task-items > li {
 	list-style: none;
 	background-color: #e2e8f0;
 	border-radius: 5px;
 	cursor: pointer;
 	padding: 10px 0px 10px 10px;
 	width: 95%;
+	font-size: 1.2rem;
 }
 
-.tasks > ul > li:hover {
-	font-size: 1.05rem;
-	opacity: 0.8;
+.task-items > li:hover {
+	font-size: 1.25rem;
+	background-color: rgba(71, 85, 105, 0.2);
 }
 
-.tasks > ul {
+.task-items {
 	display: flex;
 	flex-direction: column;
 	gap: 20px;
@@ -66,8 +68,16 @@ li {
 	color: white;
 }
 
+.task-items > li {
+	display: flex;
+	gap: 10px;
+}
+
+.inbox-svg {
+}
+
 .tasks {
-	padding-top: 50px;
+	padding-top: 10px;
 	display: flex;
 	flex-direction: column;
 	margin-left: 10%;
@@ -113,7 +123,7 @@ li {
 	justify-content: flex-end;
 	padding-left: 15px;
 	font-size: 1.5rem;
-	background-color: #f97316;
+	background-color: #81b29a;
 	margin-left: 40px;
 	width: 65%;
 	height: 70px;
@@ -126,18 +136,6 @@ li {
 	margin-right: auto;
 }
 
-.favorite-all-tasks {
-	width: 180px;
-	height: 50px;
-	padding: 0px 15px 0px 15px;
-	background-color: #38bdf8;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	cursor: pointer;
-	border-radius: 5px;
-}
-
 .delete-all-tasks {
 	border: none;
 	color: white;
@@ -145,7 +143,7 @@ li {
 	font-weight: bold;
 	margin-right: 15px;
 	background-color: red;
-	width: 100px;
+	width: 150px;
 	height: 50px;
 	padding: 0px 15px 0px 15px;
 	cursor: pointer;
@@ -202,6 +200,10 @@ li {
 	font-size: 1.5rem;
 	font-weight: bold;
 	width: 95%;
+}
+
+.task-header {
+	margin-bottom: 20px;
 }
 
 .projects {

@@ -17,7 +17,7 @@ function createTask() {
 
 	let formattedDueDate = null;
 	if (dueDate)
-		formattedDueDate = format(new Date(dueDate), "MMMM d, EEEE, y, K:mm a");
+		formattedDueDate = format(new Date(dueDate), "MMMM d, EEEE, y, h:mm a");
 
 	pubSub.publish(
 		"task-created",
