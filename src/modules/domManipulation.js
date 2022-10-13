@@ -122,7 +122,6 @@ export const taskCard = (function () {
 		pubSub.subscribe("task-created", (taskProperties) => {
 			_createTaskCard(taskProperties);
 		});
-
 		pubSub.subscribe("task-completed", _completedTaskCard);
 	};
 
@@ -145,9 +144,15 @@ export const taskCard = (function () {
 		});
 	};
 
+	const checkPriority = (priority) => {
+		if (priority === "Low") {
+			return "priority-low";
+		} else if (priority === "Medium") {
+			return "priority-medium";
+		} else return "priority-high";
+	};
+
 	const _createTaskCard = (task) => {
-		tasks.push(task);
-		console.log(todayTask());
 		const taskContainer = document.querySelector(".task-container");
 
 		const taskCardContainer = document.createElement("div");
@@ -160,6 +165,7 @@ export const taskCard = (function () {
 		</svg>`;
 
 		taskCardContainer.classList.add("task");
+		taskCardContainer.classList.add(checkPriority(task.priority));
 
 		taskCardContainer.dataset.task = `task${getTask().length - 1}`;
 
@@ -174,14 +180,17 @@ export const taskCard = (function () {
 		const taskDescription = document.createElement("div");
 		const taskPriority = document.createElement("div");
 
-		taskTitle.textContent = `Title: ${task.title}`;
-		taskDate.textContent = `Due Date: ${
-			task.dueDate ? task.dueDate : "None"
-		}`;
-		taskDescription.textContent = `Description: ${
-			task.description ? task.description : "None"
-		}`;
-		taskPriority.textContent = `Priority: ${task.priority}`;
+		taskTitle.textContent = task.title;
+		taskDate.textContent = task.dueDate ? task.dueDate : "None";
+
+		taskDescription.textContent = task.description;
+
+		taskPriority.textContent = task.priority;
+
+		taskTitle.classList.add("task-title");
+		taskDate.classList.add("task-date");
+		taskDescription.classList.add("task-description");
+		taskPriority.classList.add("task-priority");
 
 		taskCardContainer.append(
 			taskChecked,
@@ -190,6 +199,7 @@ export const taskCard = (function () {
 			taskDescription,
 			taskPriority
 		);
+		tasks.push(task);
 
 		taskContainer.appendChild(taskCardContainer);
 		taskChecked.addEventListener("click", (e) => completedTask(e));

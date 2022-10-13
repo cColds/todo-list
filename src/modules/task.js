@@ -15,12 +15,10 @@ function createTask() {
 	const priority = document.querySelector("#priority-selected").value;
 	const project = document.querySelector("#project-selected").value;
 
-	const formattedDueDate = format(
-		new Date(dueDate),
-		"MMMM d, EEEE, y, K:mm a"
-	);
+	let formattedDueDate = null;
+	if (dueDate)
+		formattedDueDate = format(new Date(dueDate), "MMMM d, EEEE, y, K:mm a");
 
-	console.log(formattedDueDate);
 	pubSub.publish(
 		"task-created",
 		Task(title, description, formattedDueDate, priority, project)
@@ -38,15 +36,15 @@ export function completedTask(e) {
 
 export function todayTask() {
 	// const currentDate = format(new Date());
-	console.log(taskCard.getTask());
-	const todayTask = taskCard.getTask().forEach((task) => {
-		// console.log(
-		// 	dateDifference(
-		// 		parseDate(task.dueDate),
-		// 		parseDate(getCurrentFormattedDate(new Date()))
-		// 	)
-		// );
-	});
+	// console.log(taskCard.getTask());
+	// const todayTask = taskCard.getTask().forEach((task) => {
+	// 	// console.log(
+	// 	// 	dateDifference(
+	// 	// 		parseDate(task.dueDate),
+	// 	// 		parseDate(getCurrentFormattedDate(new Date()))
+	// 	// 	)
+	// 	// );
+	// });
 }
 
 // function getCurrentFormattedDate(date) {
