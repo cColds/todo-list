@@ -124,16 +124,22 @@ export const taskCard = (function () {
 		pubSub.subscribe("task-completed", _completedTaskCard);
 	};
 
+	const _updateTaskCounter = () => {
+		const taskCounter = document.querySelector(".tasks-counter");
+		taskCounter.textContent = `Task: ${getTask().length}`;
+	};
+
 	const _completedTaskCard = (index) => {
 		const completedTask = document.querySelector(
 			`[data-task=task${index}]`
 		);
 		completedTask.innerHTML = "";
 		completedTask.remove();
-		renderNewDataSet();
+		_renderNewDataSet();
+		_updateTaskCounter();
 	};
 
-	const renderNewDataSet = () => {
+	const _renderNewDataSet = () => {
 		const taskClass = document.querySelectorAll(".task");
 		let i = 0;
 
@@ -198,6 +204,8 @@ export const taskCard = (function () {
 		taskCardContainer.append(taskTitle, taskDate, taskDescription);
 
 		taskContainer.appendChild(taskCardContainer);
+
+		_updateTaskCounter();
 	};
 
 	return { render, getTask };

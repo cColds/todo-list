@@ -38,26 +38,5 @@ export function todayTask() {
 	// const currentDate = format(new Date());
 	// console.log(taskCard.getTask());
 	// const todayTask = taskCard.getTask().forEach((task) => {
-	// 	// console.log(
-	// 	// 	dateDifference(
-	// 	// 		parseDate(task.dueDate),
-	// 	// 		parseDate(getCurrentFormattedDate(new Date()))
-	// 	// 	)
-	// 	// );
 	// });
 }
-
-// function getCurrentFormattedDate(date) {
-// 	const year = date.getFullYear();
-// 	const month = (1 + date.getMonth()).toString().padStart(2, "0");
-// 	const day = date.getDate().toString().padStart(2, "0");
-
-// 	return `${month}-${day}-${year}`;
-// }
-
-// function parseDate(str) {
-// 	const monthDayYear = str.split("-");
-// 	return new Date(monthDayYear[2], monthDayYear[0] - 1, monthDayYear[1]);
-// }
-// const dateDifference = (first, second) =>
-// 	Math.round((second - first) / (1000 * 60 * 60 * 24));
