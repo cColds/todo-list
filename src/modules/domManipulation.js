@@ -152,12 +152,7 @@ export const taskCard = (function () {
 		return "priority-high";
 	};
 
-	const _createTaskCard = (task) => {
-		tasks.push(task);
-
-		const taskContainer = document.querySelector(".task-container");
-
-		const taskCardContainer = document.createElement("div");
+	const createSvg = (taskCardContainer) => {
 		const taskChecked = document.createElement("div");
 		const taskCheckedContainer = document.createElement("div");
 		const taskCheckmarkSVG = `
@@ -165,19 +160,28 @@ export const taskCard = (function () {
 			<path fill="currentColor" d="M9,20.42L2.79,14.21L5.62,11.38L9,14.77L18.88,4.88L21.71,7.71L9,20.42Z" />
 		</svg>`;
 
-		taskCardContainer.classList.add("task");
-		taskCardContainer.classList.add(checkPriority(task.priority));
 		taskChecked.classList.add("task-checked");
 		taskCheckedContainer.classList.add("checkmark-container");
 
-		taskCardContainer.dataset.task = `task${getTask().length - 1}`;
-
 		taskCheckedContainer.innerHTML += taskCheckmarkSVG;
-		taskChecked.appendChild(taskCheckedContainer);
 
+		taskChecked.appendChild(taskCheckedContainer);
+		taskCardContainer.appendChild(taskChecked);
+
+		taskChecked.addEventListener("click", (e) => completedTask(e));
+	};
+
+	const _createTaskCard = (task) => {
+		tasks.push(task);
+
+		const taskContainer = document.querySelector(".task-container");
+
+		const taskCardContainer = document.createElement("div");
 		const taskTitle = document.createElement("div");
 		const taskDate = document.createElement("div");
 		const taskDescription = document.createElement("div");
+
+		createSvg(taskCardContainer);
 
 		taskTitle.textContent = task.title;
 		taskDate.textContent = task.dueDate;
@@ -187,15 +191,13 @@ export const taskCard = (function () {
 		taskDate.classList.add("task-date");
 		taskDescription.classList.add("task-description");
 
-		taskCardContainer.append(
-			taskChecked,
-			taskTitle,
-			taskDate,
-			taskDescription
-		);
+		taskCardContainer.classList.add("task");
+		taskCardContainer.classList.add(checkPriority(task.priority));
+		taskCardContainer.dataset.task = `task${getTask().length - 1}`;
+
+		taskCardContainer.append(taskTitle, taskDate, taskDescription);
 
 		taskContainer.appendChild(taskCardContainer);
-		taskChecked.addEventListener("click", (e) => completedTask(e));
 	};
 
 	return { render, getTask };
