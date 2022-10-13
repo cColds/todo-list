@@ -71,12 +71,12 @@ li {
 	display: flex;
 	flex-direction: column;
 	margin-left: 10%;
-	gap: 25px;
 }
 
 .task-container {
 	display: flex;
 	flex-direction: column;
+	gap: 10px;
 }
 
 .task > div {
@@ -85,10 +85,10 @@ li {
 
 .task {
 	border-radius: 5px;
-	margin: 40px 0px 0px 40px;
-	width: 50%;
+	margin: 0px 0px 0px 40px;
+	width: 65%;
 	box-shadow: rgba(0, 0, 0, 0.24) 0px 0px 8px;
-	height: 100%;
+	height: 80px;
 	padding: 15px 25px 25px 15px;
 	display: grid;
 	grid-template-columns: 1fr 1fr;
@@ -105,6 +105,51 @@ li {
 
 .priority-high {
 	border-left: 10px solid #ef4444;
+}
+
+.task-counter-utilities {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	padding-left: 15px;
+	font-size: 1.5rem;
+	background-color: #f97316;
+	margin-left: 40px;
+	width: 65%;
+	height: 70px;
+	margin-bottom: 25px;
+	color: white;
+	border-radius: 5px;
+	gap: 20px;
+}
+.tasks-counter {
+	margin-right: auto;
+}
+
+.favorite-all-tasks {
+	width: 180px;
+	height: 50px;
+	padding: 0px 15px 0px 15px;
+	background-color: #38bdf8;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+	border-radius: 5px;
+}
+
+.delete-all-tasks {
+	border: none;
+	color: white;
+	font-size: 1rem;
+	font-weight: bold;
+	margin-right: 15px;
+	background-color: red;
+	width: 100px;
+	height: 50px;
+	padding: 0px 15px 0px 15px;
+	cursor: pointer;
+	border-radius: 5px;
 }
 
 .task-title,
@@ -195,6 +240,7 @@ main {
 .show-task-modal {
 	margin-left: 40px;
 	margin-top: 10px;
+	margin-bottom: 25px;
 	border: none;
 	cursor: pointer;
 	min-height: 50px;

@@ -92,7 +92,6 @@ const taskModal = (function () {
 		titleInput.style.outline = "";
 		checkmark.style.opacity = 0;
 		error.style.opacity = 0;
-
 		title.value = "";
 		description.value = "";
 		dueDate.value = "";
@@ -149,14 +148,16 @@ export const taskCard = (function () {
 			return "priority-low";
 		} else if (priority === "Medium") {
 			return "priority-medium";
-		} else return "priority-high";
+		}
+		return "priority-high";
 	};
 
 	const _createTaskCard = (task) => {
+		tasks.push(task);
+
 		const taskContainer = document.querySelector(".task-container");
 
 		const taskCardContainer = document.createElement("div");
-
 		const taskChecked = document.createElement("div");
 		const taskCheckedContainer = document.createElement("div");
 		const taskCheckmarkSVG = `
@@ -166,11 +167,10 @@ export const taskCard = (function () {
 
 		taskCardContainer.classList.add("task");
 		taskCardContainer.classList.add(checkPriority(task.priority));
-
-		taskCardContainer.dataset.task = `task${getTask().length - 1}`;
-
 		taskChecked.classList.add("task-checked");
 		taskCheckedContainer.classList.add("checkmark-container");
+
+		taskCardContainer.dataset.task = `task${getTask().length - 1}`;
 
 		taskCheckedContainer.innerHTML += taskCheckmarkSVG;
 		taskChecked.appendChild(taskCheckedContainer);
@@ -178,28 +178,21 @@ export const taskCard = (function () {
 		const taskTitle = document.createElement("div");
 		const taskDate = document.createElement("div");
 		const taskDescription = document.createElement("div");
-		const taskPriority = document.createElement("div");
 
 		taskTitle.textContent = task.title;
-		taskDate.textContent = task.dueDate ? task.dueDate : "None";
-
+		taskDate.textContent = task.dueDate;
 		taskDescription.textContent = task.description;
-
-		taskPriority.textContent = task.priority;
 
 		taskTitle.classList.add("task-title");
 		taskDate.classList.add("task-date");
 		taskDescription.classList.add("task-description");
-		taskPriority.classList.add("task-priority");
 
 		taskCardContainer.append(
 			taskChecked,
 			taskTitle,
 			taskDate,
-			taskDescription,
-			taskPriority
+			taskDescription
 		);
-		tasks.push(task);
 
 		taskContainer.appendChild(taskCardContainer);
 		taskChecked.addEventListener("click", (e) => completedTask(e));
