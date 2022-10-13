@@ -114,7 +114,7 @@ const taskModal = (function () {
 })();
 
 export const taskCard = (function () {
-	const tasks = [];
+	let tasks = [];
 	const getTask = () => tasks;
 
 	const render = () => {
@@ -122,11 +122,20 @@ export const taskCard = (function () {
 			_createTaskCard(taskProperties);
 		});
 		pubSub.subscribe("task-completed", _completedTaskCard);
+
+		const deleteAllTasks = document.querySelector(".delete-all-tasks");
+		deleteAllTasks.addEventListener("click", _deleteAllTasks);
 	};
 
 	const _updateTaskCounter = () => {
 		const taskCounter = document.querySelector(".tasks-counter");
 		taskCounter.textContent = `Task: ${getTask().length}`;
+	};
+
+	const _deleteAllTasks = () => {
+		document.querySelectorAll(".task").forEach((el) => el.remove());
+		tasks = [];
+		_updateTaskCounter();
 	};
 
 	const _completedTaskCard = (index) => {
@@ -177,10 +186,10 @@ export const taskCard = (function () {
 		taskChecked.addEventListener("click", (e) => completedTask(e));
 	};
 
+	const taskContainer = document.querySelector(".task-container");
+
 	const _createTaskCard = (task) => {
 		tasks.push(task);
-
-		const taskContainer = document.querySelector(".task-container");
 
 		const taskCardContainer = document.createElement("div");
 		const taskTitle = document.createElement("div");
