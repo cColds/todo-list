@@ -1,10 +1,18 @@
 import { pubSub } from "./pubSub";
-import { taskCard } from "./domManipulation";
-import { compareAsc, format } from "date-fns";
+import { format, isToday } from "date-fns";
 
 function Task(title, description, dueDate, priority, project) {
 	return { title, description, dueDate, priority, project };
 }
+
+const tasks = [];
+
+function pushTaskArrayForAllTaskNames() {
+	const taskListItems = document.querySelector(".task-items");
+
+	Array.from(taskListItems.children).forEach(() => tasks.push([]));
+}
+pushTaskArrayForAllTaskNames();
 
 pubSub.subscribe("task-submitted", createTask);
 
@@ -15,28 +23,40 @@ function createTask() {
 	const priority = document.querySelector("#priority-selected").value;
 	const project = document.querySelector("#project-selected").value;
 
-	let formattedDueDate = null;
-	if (dueDate)
-		formattedDueDate = format(new Date(dueDate), "MMMM d, EEEE, y, h:mm a");
-
+	tasks[0].push(Task(title, description, dueDate, priority, project));
 	pubSub.publish(
 		"task-created",
-		Task(title, description, formattedDueDate, priority, project)
+		Task(title, description, dueDate, priority, project)
 	);
 }
 
-export function completedTask(e) {
+function formatDate(dueDate) {
+	if (dueDate) return format(new Date(dueDate), "MMMM d, EEEE, y, h:mm a");
+}
+
+function completedTask(e) {
 	const task = e.target.closest(".task");
 	const getTaskIndex = +task.dataset.task.replace(/\D+/g, "");
 
-	taskCard.getTask().splice(getTaskIndex, 1);
-
+	tasks[0].splice(getTaskIndex, 1);
 	pubSub.publish("task-completed", getTaskIndex);
 }
 
-export function todayTask() {
-	// const currentDate = format(new Date());
-	// console.log(taskCard.getTask());
-	// const todayTask = taskCard.getTask().forEach((task) => {
-	// });
+pubSub.subscribe("today-task-selected", todayTask);
+
+function todayTask() {
+	const tasksInToday = [];
+	filterTodayTasks(tasksInToday);
+
+	pubSub.publish("today-tasks", tasksInToday);
 }
+
+function filterTodayTasks(tasksInToday) {
+	tasks.forEach((task) => {
+		if (isToday(new Date(task.dueDate))) {
+			tasksInToday.push(task);
+		}
+	});
+}
+
+export { formatDate, completedTask, todayTask, tasks };

@@ -1,12 +1,10 @@
 import { pubSub } from "./pubSub";
-import { task } from "./task";
-import { completedTask } from "./task";
-import { todayTask } from "./task";
+import { task, tasks, formatDate, todayTask, completedTask } from "./task";
 
 export default function renderPage() {
 	taskModal.render();
-	taskNavigation.render();
 	taskCard.render();
+	taskNavigation.render();
 }
 
 const taskNavigation = (function () {
@@ -17,6 +15,7 @@ const taskNavigation = (function () {
 			if (e.target.tagName === "LI") {
 				unstylePreviousTask();
 				showCurrentTask(e);
+				publishTaskListName(e.target.classList[0]);
 			}
 		});
 	};
@@ -29,6 +28,16 @@ const taskNavigation = (function () {
 
 		e.target.classList.add("task-selected");
 		taskHeader.textContent = e.target.textContent;
+	};
+
+	const publishTaskListName = (taskListName) => {
+		if (taskListName.includes("inbox")) {
+			pubSub.publish("inbox-task-selected");
+		} else if (taskListName.includes("today")) {
+			pubSub.publish("today-task-selected");
+		} else if (taskListName.includes("upcoming")) {
+			pubSub.publish("upcoming-task-selected");
+		}
 	};
 
 	return { render };
@@ -114,47 +123,46 @@ const taskModal = (function () {
 })();
 
 export const taskCard = (function () {
-	let tasks = [];
-	const getTask = () => tasks;
-
 	const render = () => {
 		pubSub.subscribe("task-created", (taskProperties) => {
 			_createTaskCard(taskProperties);
 		});
 		pubSub.subscribe("task-completed", _completedTaskCard);
-
-		const deleteAllTasks = document.querySelector(".delete-all-tasks");
-		deleteAllTasks.addEventListener("click", _deleteAllTasks);
+		pubSub.subscribe("today-tasks", (tasksArray) => todayTask(tasksArray));
 	};
 
-	const _updateTaskCounter = () => {
+	const updateTaskCounter = () => {
 		const taskCounter = document.querySelector(".tasks-counter");
-		taskCounter.textContent = `Task: ${getTask().length}`;
+		taskCounter.textContent = `Tasks: ${tasks[0].length}`;
 	};
 
-	const _deleteAllTasks = () => {
+	const deleteAllDomTasks = () => {
 		document.querySelectorAll(".task").forEach((el) => el.remove());
-		tasks = [];
-		_updateTaskCounter();
 	};
+
+	// const todayTask = (tasksArray) => {
+	// 	tasksArray.forEach((task) => {
+	// 		_createTaskCard(task);
+	// 	});
+	// };
 
 	const _completedTaskCard = (index) => {
 		const completedTask = document.querySelector(
 			`[data-task=task${index}]`
 		);
+
 		completedTask.innerHTML = "";
 		completedTask.remove();
-		_renderNewDataSet();
-		_updateTaskCounter();
+		renderNewDataSet();
+		updateTaskCounter();
 	};
 
-	const _renderNewDataSet = () => {
+	const renderNewDataSet = () => {
 		const taskClass = document.querySelectorAll(".task");
-		let i = 0;
+		let i = -1;
 
 		taskClass.forEach((task) => {
-			task.dataset.task = `task${i}`;
-			i++;
+			task.dataset.task = `task${(i += 1)}`;
 		});
 	};
 
@@ -189,8 +197,6 @@ export const taskCard = (function () {
 	const taskContainer = document.querySelector(".task-container");
 
 	const _createTaskCard = (task) => {
-		tasks.push(task);
-
 		const taskCardContainer = document.createElement("div");
 		const taskTitle = document.createElement("div");
 		const taskDate = document.createElement("div");
@@ -199,7 +205,7 @@ export const taskCard = (function () {
 		createSvg(taskCardContainer);
 
 		taskTitle.textContent = task.title;
-		taskDate.textContent = task.dueDate;
+		taskDate.textContent = formatDate(task.dueDate);
 		taskDescription.textContent = task.description;
 
 		taskTitle.classList.add("task-title");
@@ -208,14 +214,14 @@ export const taskCard = (function () {
 
 		taskCardContainer.classList.add("task");
 		taskCardContainer.classList.add(checkPriority(task.priority));
-		taskCardContainer.dataset.task = `task${getTask().length - 1}`;
+		taskCardContainer.dataset.task = `task${tasks[0].length - 1}`;
 
 		taskCardContainer.append(taskTitle, taskDate, taskDescription);
 
 		taskContainer.appendChild(taskCardContainer);
 
-		_updateTaskCounter();
+		updateTaskCounter();
 	};
 
-	return { render, getTask };
+	return { render, deleteAllDomTasks, renderNewDataSet };
 })();
