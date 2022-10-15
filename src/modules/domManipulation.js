@@ -148,6 +148,14 @@ const taskModal = (function () {
 	const toggleTaskModal = () => {
 		const taskModalVisibility = document.querySelector(".task-modal");
 		taskModalVisibility.classList.toggle("hide");
+		if (getTaskNameIndex() === 1)
+			document.querySelector(
+				".date-container label .optional"
+			).textContent = "";
+		else
+			document.querySelector(
+				".date-container label .optional"
+			).textContent = "optional";
 	};
 
 	return {
