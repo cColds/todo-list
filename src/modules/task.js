@@ -30,6 +30,7 @@ function createTask() {
 	if (getTaskNameIndex() !== 0) {
 		tasks[0].push(Task(title, description, dueDate, priority, project));
 	}
+
 	pubSub.publish(
 		"task-created",
 		Task(title, description, dueDate, priority, project)
@@ -42,34 +43,40 @@ function getTaskNameIndex() {
 	return +taskSelected.classList[0].replace(/\D+/g, "");
 }
 
+function getTaskIndex(e) {
+	const task = e.target.closest(".task");
+	return +task.dataset.task.replace(/\D+/g, "");
+}
+
 function formatDate(dueDate) {
 	if (dueDate) return format(new Date(dueDate), "MMMM d, EEEE, y, h:mm a");
 }
 
 function completedTask(e) {
-	const task = e.target.closest(".task");
-	const getTaskIndex = +task.dataset.task.replace(/\D+/g, "");
-	console.log(tasks);
-	tasks[getTaskNameIndex()].splice(getTaskIndex, 1);
-	pubSub.publish("task-completed", getTaskIndex);
-	console.log(tasks);
+	tasks[getTaskNameIndex()].splice(getTaskIndex(e), 1);
+	pubSub.publish("task-completed", getTaskIndex(e));
 }
-
-pubSub.subscribe("today-task-selected", todayTask);
 
 function todayTask() {
-	const tasksInToday = [];
-	filterTodayTasks(tasksInToday);
+	filterTodayTasks();
 }
 
-function filterTodayTasks(tasksInToday) {
+function filterTodayTasks() {
 	// loop through inbox array (index[0])
+	tasks[1].length = 0;
 	tasks[0].forEach((task) => {
 		if (isToday(new Date(task.dueDate))) {
-			tasksInToday.push(task);
+			tasks[1].push(task);
 		}
 	});
 	return tasks;
 }
 
-export { formatDate, completedTask, todayTask, tasks };
+export {
+	formatDate,
+	completedTask,
+	todayTask,
+	tasks,
+	getTaskNameIndex,
+	getTaskIndex,
+};

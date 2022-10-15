@@ -1,11 +1,20 @@
+import { isToday } from "date-fns";
 import { pubSub } from "./pubSub";
-import { task, tasks, formatDate, todayTask, completedTask } from "./task";
+import {
+	tasks,
+	formatDate,
+	completedTask,
+	getTaskNameIndex,
+	todayTask,
+} from "./task";
 
 export default function renderPage() {
 	taskModal.render();
 	taskCard.render();
 	taskNavigation.render();
 }
+
+console.log(isToday(new Date("2022-10-14T21:21")));
 
 const taskNavigation = (function () {
 	const render = function () {
@@ -15,7 +24,7 @@ const taskNavigation = (function () {
 			if (e.target.tagName === "LI") {
 				unstylePreviousTask();
 				showCurrentTask(e);
-				publishTaskListName(e.target.classList[0]);
+				pubSub.publish("task-selected");
 			}
 		});
 	};
@@ -28,16 +37,6 @@ const taskNavigation = (function () {
 
 		e.target.classList.add("task-selected");
 		taskHeader.textContent = e.target.textContent;
-	};
-
-	const publishTaskListName = (taskListName) => {
-		if (taskListName.includes("inbox")) {
-			pubSub.publish("inbox-task-selected");
-		} else if (taskListName.includes("today")) {
-			pubSub.publish("today-task-selected");
-		} else if (taskListName.includes("upcoming")) {
-			pubSub.publish("upcoming-task-selected");
-		}
 	};
 
 	return { render };
@@ -60,10 +59,13 @@ const taskModal = (function () {
 		taskCancelBtn.addEventListener("click", taskModal.toggleTaskModal);
 
 		taskAddBtn.addEventListener("click", () => {
+			if (!_isValidTitle()) titleDisplayError();
+			if (checkTodayTaskValidity() === "error") return;
+
 			if (_isValidTitle()) {
 				taskModal.toggleTaskModal();
 				pubSub.publish("task-submitted");
-			} else taskModal.displayError();
+			} else taskModal.titleDisplayError();
 		});
 
 		showTaskModal.addEventListener("click", () => {
@@ -72,9 +74,23 @@ const taskModal = (function () {
 		});
 
 		title.addEventListener("keyup", () => {
-			if (_isValidTitle()) taskModal.displayCorrect();
-			else taskModal.displayError();
+			if (_isValidTitle()) taskModal.displayCorrectTitle();
+			else taskModal.titleDisplayError();
 		});
+
+		dueDate.addEventListener("change", () => {
+			checkTodayTaskValidity();
+		});
+	};
+
+	const checkTodayTaskValidity = () => {
+		if (getTaskNameIndex() === 1 && !isToday(new Date(dueDate.value))) {
+			dueDateDisplayError();
+			return "error";
+		} else if (getTaskNameIndex() === 1) {
+			dueDateDisplayCorrect();
+			return "correct";
+		}
 	};
 
 	const titleError = document.querySelector(".title-error");
@@ -82,18 +98,35 @@ const taskModal = (function () {
 	const checkmark = document.querySelector(".title-checkmark-svg > svg");
 	const error = document.querySelector(".title-error-svg > svg");
 
-	const displayError = () => {
+	const titleDisplayError = () => {
 		titleError.textContent = "Title cannot be empty.";
 		error.style.opacity = 1;
 		titleInput.style.outline = "2px solid #ef4444";
 		checkmark.style.opacity = 0;
 	};
 
-	const displayCorrect = () => {
+	const displayCorrectTitle = () => {
 		titleError.textContent = "";
 		titleInput.style.outline = "2px solid #22c55e";
 		error.style.opacity = 0;
 		checkmark.style.opacity = 1;
+	};
+
+	let dueDateTextError = document.querySelector(".date-container > div");
+
+	const dueDateDisplayError = () => {
+		dueDateTextError.classList.add("required-due-date");
+		dueDate.classList.add("date-error");
+		dueDateTextError.textContent =
+			"Due date is required, and must be today.";
+	};
+
+	const dueDateDisplayCorrect = () => {
+		dueDateTextError.classList.remove("required-due-date");
+
+		dueDate.classList.remove("date-error");
+		dueDateTextError.textContent = "";
+		dueDate.style.outline = "rgb(34, 197, 94) solid 2px";
 	};
 
 	const clearValues = () => {
@@ -106,6 +139,10 @@ const taskModal = (function () {
 		dueDate.value = "";
 		priority.value = "Low";
 		projects.value = "Project idk";
+		dueDateTextError.classList.remove("required-due-date");
+		dueDate.classList.remove("date-error");
+		dueDateTextError.textContent = "";
+		dueDate.style.outline = "";
 	};
 
 	const toggleTaskModal = () => {
@@ -116,23 +153,31 @@ const taskModal = (function () {
 	return {
 		render,
 		clearValues,
-		displayError,
-		displayCorrect,
+		titleDisplayError,
+		displayCorrectTitle,
 		toggleTaskModal,
 	};
 })();
 
 export const taskCard = (function () {
 	const render = () => {
-		pubSub.subscribe("task-created", (taskProperties) => {
-			_createTaskCard(taskProperties);
-		});
+		pubSub.subscribe("task-created", _createTaskCard);
 		pubSub.subscribe("task-completed", _completedTaskCard);
+
+		pubSub.subscribe("task-selected", () => {
+			updateTaskCounter(getTaskNameIndex());
+			deleteAllDomTasks();
+			console.log(tasks);
+			todayTask();
+			tasks[getTaskNameIndex()].forEach((task) => {
+				_createTaskCard(task);
+			});
+		});
 	};
 
-	const updateTaskCounter = () => {
+	const updateTaskCounter = (taskNameIndex) => {
 		const taskCounter = document.querySelector(".tasks-counter");
-		taskCounter.textContent = `Tasks: ${tasks[0].length}`;
+		taskCounter.textContent = `Tasks: ${tasks[taskNameIndex].length}`;
 	};
 
 	const deleteAllDomTasks = () => {
@@ -147,7 +192,8 @@ export const taskCard = (function () {
 		completedTask.innerHTML = "";
 		completedTask.remove();
 		renderNewDataSet();
-		updateTaskCounter();
+		updateTaskCounter(getTaskNameIndex());
+		console.log(tasks);
 	};
 
 	const renderNewDataSet = () => {
@@ -213,7 +259,7 @@ export const taskCard = (function () {
 
 		taskContainer.appendChild(taskCardContainer);
 
-		updateTaskCounter();
+		updateTaskCounter(getTaskNameIndex());
 	};
 
 	return { render, deleteAllDomTasks, renderNewDataSet };
