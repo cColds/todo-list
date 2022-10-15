@@ -128,7 +128,6 @@ export const taskCard = (function () {
 			_createTaskCard(taskProperties);
 		});
 		pubSub.subscribe("task-completed", _completedTaskCard);
-		pubSub.subscribe("today-tasks", (tasksArray) => todayTask(tasksArray));
 	};
 
 	const updateTaskCounter = () => {
@@ -139,12 +138,6 @@ export const taskCard = (function () {
 	const deleteAllDomTasks = () => {
 		document.querySelectorAll(".task").forEach((el) => el.remove());
 	};
-
-	// const todayTask = (tasksArray) => {
-	// 	tasksArray.forEach((task) => {
-	// 		_createTaskCard(task);
-	// 	});
-	// };
 
 	const _completedTaskCard = (index) => {
 		const completedTask = document.querySelector(
