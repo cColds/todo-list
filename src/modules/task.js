@@ -1,5 +1,5 @@
 import { pubSub } from "./pubSub";
-import { format, isToday } from "date-fns";
+import { format, isToday, isFuture } from "date-fns";
 
 function Task(title, description, dueDate, priority, project, id) {
 	return { title, description, dueDate, priority, project, id };
@@ -23,6 +23,7 @@ function createTask() {
 		"task-created",
 		Task(title, description, dueDate, priority, project, id)
 	);
+	console.log(tasks);
 }
 
 function getTaskNameIndex() {
@@ -49,6 +50,9 @@ function completedTask(e) {
 const filterTodayTasks = () =>
 	tasks.filter((task) => isToday(new Date(task.dueDate)));
 
+const filterUpcomingTasks = () =>
+	tasks.filter((task) => isFuture(new Date(task.dueDate)));
+
 export {
 	formatDate,
 	completedTask,
@@ -56,4 +60,5 @@ export {
 	tasks,
 	getTaskNameIndex,
 	getTaskIndex,
+	filterUpcomingTasks,
 };

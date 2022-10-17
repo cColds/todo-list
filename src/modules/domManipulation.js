@@ -6,6 +6,7 @@ import {
 	completedTask,
 	getTaskNameIndex,
 	filterTodayTasks,
+	filterUpcomingTasks,
 } from "./task";
 
 export default function renderPage() {
@@ -183,7 +184,17 @@ export const taskCard = (function () {
 			tasks.forEach((task) => _createTaskCard(task));
 		} else if (getTaskNameIndex() === 1) {
 			todayTask();
+		} else {
+			upcomingTask();
 		}
+	};
+
+	const upcomingTask = () => {
+		deleteAllDomTasks();
+		if (filterUpcomingTasks().length !== 0) {
+			filterUpcomingTasks().forEach((task) => _createTaskCard(task));
+		}
+		updateTaskCounter();
 	};
 
 	const todayTask = () => {
@@ -195,12 +206,14 @@ export const taskCard = (function () {
 	};
 
 	const updateTaskCounter = () => {
-		const todayTaskLength = filterTodayTasks().length;
-		const taskLength =
-			getTaskNameIndex() !== 0 ? todayTaskLength : tasks.length;
-
 		const taskCounter = document.querySelector(".tasks-counter");
-		taskCounter.textContent = `Tasks: ${taskLength}`;
+		taskCounter.textContent = `Tasks: ${getTaskLength()}`;
+	};
+
+	const getTaskLength = () => {
+		if (getTaskNameIndex() === 0) return tasks.length;
+		if (getTaskNameIndex() === 1) return filterTodayTasks().length;
+		if (getTaskNameIndex() === 2) return filterUpcomingTasks().length;
 	};
 
 	const deleteAllDomTasks = () => {
@@ -235,6 +248,12 @@ export const taskCard = (function () {
 		} else if (getTaskNameIndex() === 1) {
 			taskClass.forEach((task) => {
 				for (const taskId of filterTodayTasks()) {
+					task.dataset.task = `task${taskId.id}`;
+				}
+			});
+		} else {
+			taskClass.forEach((task) => {
+				for (const taskId of filterUpcomingTasks()) {
 					task.dataset.task = `task${taskId.id}`;
 				}
 			});
