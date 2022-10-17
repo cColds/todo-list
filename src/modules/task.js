@@ -1,18 +1,11 @@
 import { pubSub } from "./pubSub";
 import { format, isToday } from "date-fns";
 
-function Task(title, description, dueDate, priority, project) {
-	return { title, description, dueDate, priority, project };
+function Task(title, description, dueDate, priority, project, id) {
+	return { title, description, dueDate, priority, project, id };
 }
 
 const tasks = [];
-
-function pushTaskArrayForAllTaskNames() {
-	const taskListItems = document.querySelector(".task-items");
-
-	Array.from(taskListItems.children).forEach(() => tasks.push([]));
-}
-pushTaskArrayForAllTaskNames();
 
 pubSub.subscribe("task-submitted", createTask);
 
@@ -23,19 +16,13 @@ function createTask() {
 	const priority = document.querySelector("#priority-selected").value;
 	const project = document.querySelector("#project-selected").value;
 
-	tasks[getTaskNameIndex()].push(
-		Task(title, description, dueDate, priority, project)
-	);
-	// inbox should store all the tasks so push as well if it hasn't already
-	if (getTaskNameIndex() !== 0) {
-		tasks[0].push(Task(title, description, dueDate, priority, project));
-	}
+	const id = tasks.length;
+	tasks.push(Task(title, description, dueDate, priority, project, id));
 
 	pubSub.publish(
 		"task-created",
-		Task(title, description, dueDate, priority, project)
+		Task(title, description, dueDate, priority, project, id)
 	);
-	console.log(tasks);
 }
 
 function getTaskNameIndex() {
@@ -53,29 +40,19 @@ function formatDate(dueDate) {
 }
 
 function completedTask(e) {
-	tasks[getTaskNameIndex()].splice(getTaskIndex(e), 1);
+	tasks.splice(getTaskIndex(e), 1);
+	console.log(tasks);
+
 	pubSub.publish("task-completed", getTaskIndex(e));
 }
 
-function todayTask() {
-	filterTodayTasks();
-}
-
-function filterTodayTasks() {
-	// loop through inbox array (index[0])
-	tasks[1].length = 0;
-	tasks[0].forEach((task) => {
-		if (isToday(new Date(task.dueDate))) {
-			tasks[1].push(task);
-		}
-	});
-	return tasks;
-}
+const filterTodayTasks = () =>
+	tasks.filter((task) => isToday(new Date(task.dueDate)));
 
 export {
 	formatDate,
 	completedTask,
-	todayTask,
+	filterTodayTasks,
 	tasks,
 	getTaskNameIndex,
 	getTaskIndex,

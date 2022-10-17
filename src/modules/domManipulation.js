@@ -5,7 +5,7 @@ import {
 	formatDate,
 	completedTask,
 	getTaskNameIndex,
-	todayTask,
+	filterTodayTasks,
 } from "./task";
 
 export default function renderPage() {
@@ -13,8 +13,6 @@ export default function renderPage() {
 	taskCard.render();
 	taskNavigation.render();
 }
-
-console.log(isToday(new Date("2022-10-14T21:21")));
 
 const taskNavigation = (function () {
 	const render = function () {
@@ -148,6 +146,10 @@ const taskModal = (function () {
 	const toggleTaskModal = () => {
 		const taskModalVisibility = document.querySelector(".task-modal");
 		taskModalVisibility.classList.toggle("hide");
+		toggleOptionalDueDateText();
+	};
+
+	const toggleOptionalDueDateText = () => {
 		if (getTaskNameIndex() === 1)
 			document.querySelector(
 				".date-container label .optional"
@@ -172,20 +174,33 @@ export const taskCard = (function () {
 		pubSub.subscribe("task-created", _createTaskCard);
 		pubSub.subscribe("task-completed", _completedTaskCard);
 
-		pubSub.subscribe("task-selected", () => {
-			updateTaskCounter(getTaskNameIndex());
-			deleteAllDomTasks();
-			console.log(tasks);
-			todayTask();
-			tasks[getTaskNameIndex()].forEach((task) => {
-				_createTaskCard(task);
-			});
-		});
+		pubSub.subscribe("task-selected", taskToDisplay);
 	};
 
-	const updateTaskCounter = (taskNameIndex) => {
+	const taskToDisplay = () => {
+		if (getTaskNameIndex() === 0) {
+			deleteAllDomTasks();
+			tasks.forEach((task) => _createTaskCard(task));
+		} else if (getTaskNameIndex() === 1) {
+			todayTask();
+		}
+	};
+
+	const todayTask = () => {
+		deleteAllDomTasks();
+		if (filterTodayTasks().length !== 0) {
+			filterTodayTasks().forEach((task) => _createTaskCard(task));
+		}
+		updateTaskCounter();
+	};
+
+	const updateTaskCounter = () => {
+		const todayTaskLength = filterTodayTasks().length;
+		const taskLength =
+			getTaskNameIndex() !== 0 ? todayTaskLength : tasks.length;
+
 		const taskCounter = document.querySelector(".tasks-counter");
-		taskCounter.textContent = `Tasks: ${tasks[taskNameIndex].length}`;
+		taskCounter.textContent = `Tasks: ${taskLength}`;
 	};
 
 	const deleteAllDomTasks = () => {
@@ -199,26 +214,36 @@ export const taskCard = (function () {
 
 		completedTask.innerHTML = "";
 		completedTask.remove();
-		renderNewDataSet();
-		updateTaskCounter(getTaskNameIndex());
-		console.log(tasks);
+		renderNewDataIndex();
+		updateTaskCounter();
 	};
 
-	const renderNewDataSet = () => {
+	const renderNewDataIndex = () => {
 		const taskClass = document.querySelectorAll(".task");
-		let i = -1;
+		let taskId = -1;
+		let taskDataSet = -1;
 
-		taskClass.forEach((task) => {
-			task.dataset.task = `task${(i += 1)}`;
+		tasks.forEach((task) => {
+			taskId += 1;
+			task.id = taskId;
 		});
+
+		if (getTaskNameIndex() === 0) {
+			taskClass.forEach((task) => {
+				task.dataset.task = `task${(taskDataSet += 1)}`;
+			});
+		} else if (getTaskNameIndex() === 1) {
+			taskClass.forEach((task) => {
+				for (const taskId of filterTodayTasks()) {
+					task.dataset.task = `task${taskId.id}`;
+				}
+			});
+		}
 	};
 
 	const checkPriority = (priority) => {
-		if (priority === "Low") {
-			return "priority-low";
-		} else if (priority === "Medium") {
-			return "priority-medium";
-		}
+		if (priority === "Low") return "priority-low";
+		if (priority === "Medium") return "priority-medium";
 		return "priority-high";
 	};
 
@@ -261,14 +286,14 @@ export const taskCard = (function () {
 
 		taskCardContainer.classList.add("task");
 		taskCardContainer.classList.add(checkPriority(task.priority));
-		taskCardContainer.dataset.task = `task${tasks[0].length - 1}`;
+		taskCardContainer.dataset.task = `task${task.id}`;
 
 		taskCardContainer.append(taskTitle, taskDate, taskDescription);
 
 		taskContainer.appendChild(taskCardContainer);
 
-		updateTaskCounter(getTaskNameIndex());
+		updateTaskCounter();
 	};
 
-	return { render, deleteAllDomTasks, renderNewDataSet };
+	return { render, deleteAllDomTasks, renderNewDataIndex };
 })();
