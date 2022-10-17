@@ -7,6 +7,7 @@ import {
 	getTaskNameIndex,
 	filterTodayTasks,
 	filterUpcomingTasks,
+	isFuture,
 } from "./task";
 
 export default function renderPage() {
@@ -59,7 +60,7 @@ const taskModal = (function () {
 
 		taskAddBtn.addEventListener("click", () => {
 			if (!_isValidTitle()) titleDisplayError();
-			if (checkTodayTaskValidity() === "error") return;
+			if (checkDateValidity() === "error") return;
 
 			if (_isValidTitle()) {
 				taskModal.toggleTaskModal();
@@ -78,17 +79,27 @@ const taskModal = (function () {
 		});
 
 		dueDate.addEventListener("change", () => {
-			checkTodayTaskValidity();
+			checkDateValidity();
 		});
 	};
 
-	const checkTodayTaskValidity = () => {
+	let dueDateError = document.querySelector(".date-container > div");
+
+	const checkDateValidity = () => {
 		if (getTaskNameIndex() === 1 && !isToday(new Date(dueDate.value))) {
-			dueDateDisplayError();
+			dateDisplayError();
+			dueDateError.textContent = "Date must be today";
 			return "error";
 		} else if (getTaskNameIndex() === 1) {
-			dueDateDisplayCorrect();
-			return "correct";
+			dateDisplayCorrect();
+		}
+
+		if (getTaskNameIndex() === 2 && !isFuture(new Date(dueDate.value))) {
+			dateDisplayError();
+			dueDateError.textContent = "Must be upcoming";
+			return "error";
+		} else if (getTaskNameIndex() === 2) {
+			dateDisplayCorrect();
 		}
 	};
 
@@ -111,20 +122,16 @@ const taskModal = (function () {
 		checkmark.style.opacity = 1;
 	};
 
-	let dueDateTextError = document.querySelector(".date-container > div");
-
-	const dueDateDisplayError = () => {
-		dueDateTextError.classList.add("required-due-date");
+	const dateDisplayError = () => {
+		dueDateError.classList.add("required-due-date");
 		dueDate.classList.add("date-error");
-		dueDateTextError.textContent =
-			"Due date is required, and must be today.";
 	};
 
-	const dueDateDisplayCorrect = () => {
-		dueDateTextError.classList.remove("required-due-date");
+	const dateDisplayCorrect = () => {
+		dueDateError.classList.remove("required-due-date");
 
 		dueDate.classList.remove("date-error");
-		dueDateTextError.textContent = "";
+		dueDateError.textContent = "";
 		dueDate.style.outline = "rgb(34, 197, 94) solid 2px";
 	};
 
@@ -138,9 +145,9 @@ const taskModal = (function () {
 		dueDate.value = "";
 		priority.value = "Low";
 		projects.value = "Project idk";
-		dueDateTextError.classList.remove("required-due-date");
+		dueDateError.classList.remove("required-due-date");
 		dueDate.classList.remove("date-error");
-		dueDateTextError.textContent = "";
+		dueDateError.textContent = "";
 		dueDate.style.outline = "";
 	};
 

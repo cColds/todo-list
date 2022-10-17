@@ -61,4 +61,5 @@ export {
 	getTaskNameIndex,
 	getTaskIndex,
 	filterUpcomingTasks,
+	isFuture,
 };
