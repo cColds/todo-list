@@ -51,10 +51,26 @@ const taskModal = (function () {
 
 	const _isValidTitle = () => title.checkValidity();
 
+	const deleteAllTasks = document.querySelector(".delete-all-tasks");
+	const deleteAllTasksModal = document.querySelector(
+		".delete-all-tasks-modal-container"
+	);
+
+	const deleteAllTasksCancel = document.querySelector(
+		".delete-all-tasks-cancel"
+	);
+
 	const render = () => {
 		const taskCancelBtn = document.querySelector(".cancel-task");
 		const taskAddBtn = document.querySelector(".add-task");
 		const showTaskModal = document.querySelector(".show-task-modal");
+
+		deleteAllTasks.addEventListener("click", toggleDeleteAllTasksModal);
+
+		deleteAllTasksCancel.addEventListener(
+			"click",
+			toggleDeleteAllTasksModal
+		);
 
 		taskCancelBtn.addEventListener("click", taskModal.toggleTaskModal);
 
@@ -81,6 +97,10 @@ const taskModal = (function () {
 		dueDate.addEventListener("change", () => {
 			checkDateValidity();
 		});
+	};
+
+	const toggleDeleteAllTasksModal = () => {
+		deleteAllTasksModal.classList.toggle("hide");
 	};
 
 	let dueDateError = document.querySelector(".date-container > div");
@@ -226,6 +246,8 @@ export const taskCard = (function () {
 	const deleteAllDomTasks = () => {
 		document.querySelectorAll(".task").forEach((el) => el.remove());
 	};
+
+	const deleteAllTasksInTaskList = () => {};
 
 	const _completedTaskCard = (index) => {
 		const completedTask = document.querySelector(

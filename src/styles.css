@@ -415,3 +415,82 @@ textarea {
 	color: red;
 	font-size: 0.85rem;
 }
+
+.delete-all-tasks-modal-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	background-color: rgba(0, 0, 0, 0.4);
+	color: black;
+}
+.delete-all-tasks-modal-container.hide {
+	display: none;
+}
+
+.delete-all-tasks-modal-info-container {
+	display: flex;
+	flex-direction: column;
+	gap: 25px;
+	padding: 15px 15px;
+	justify-content: space-between;
+	height: 100%;
+}
+
+.delete-all-tasks-modal {
+	background-color: white;
+	width: 500px;
+
+	height: 300px;
+	border-radius: 5px;
+	display: flex;
+	flex-direction: column;
+}
+
+.delete-all-tasks-heading {
+	border-radius: 5px 5px 0px 0px;
+	background-color: #4f46e5;
+	padding: 15px;
+	color: white;
+}
+
+.delete-all-tasks-message {
+	font-size: 1.3rem;
+}
+
+.delete-all-tasks-modal button {
+	border: none;
+	padding: 10px 10px;
+	border-radius: 5px;
+	width: 180px;
+	color: white;
+	font-weight: bold;
+	font-size: 1.1rem;
+	cursor: pointer;
+}
+
+.delete-all-tasks-button-container {
+	display: flex;
+	justify-content: space-between;
+}
+
+.delete-all-tasks-confirm:hover {
+	background-color: #1faa52;
+	opacity: 0.9;
+}
+
+.delete-all-tasks-cancel:hover {
+	background-color: #af1e1e;
+	opacity: 0.9;
+}
+
+.delete-all-tasks-cancel {
+	background-color: #dc2626;
+}
+.delete-all-tasks-confirm {
+	background-color: #22c55e;
+}
