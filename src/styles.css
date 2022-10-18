@@ -52,7 +52,7 @@ li {
 	font-size: 1.2rem;
 }
 
-.task-items > li:hover {
+.task-items > li:not(.task-selected):hover {
 	font-size: 1.25rem;
 	background-color: rgba(71, 85, 105, 0.2);
 }
@@ -150,6 +150,10 @@ li {
 	border-radius: 5px;
 }
 
+.delete-all-tasks:hover {
+	opacity: 0.9;
+}
+
 .task-title,
 .task-date,
 .task-priority {
@@ -195,7 +199,7 @@ li {
 }
 
 .task-header,
-.project-header {
+.project-header-container {
 	font-size: 1.5rem;
 	font-weight: bold;
 	width: 95%;
@@ -219,9 +223,14 @@ li {
 	cursor: pointer;
 	border: none;
 	color: white;
-	background-color: #4f46e5;
+	background-color: #29497a;
 	border-radius: 5px;
 	font-size: 1.2rem;
+}
+
+.create-project:hover {
+	opacity: 0.9;
+	font-size: 1.25rem;
 }
 
 main {
@@ -233,7 +242,7 @@ main {
 	font-size: 2.5rem;
 	display: flex;
 	margin-left: 40px;
-	margin-top: 40px;
+	margin-top: 5px;
 }
 
 /* TASK MODAL */
@@ -250,6 +259,10 @@ main {
 	background-color: #4f46e5;
 	color: white;
 	font-size: 1.2rem;
+}
+
+.show-task-modal:hover {
+	opacity: 0.9;
 }
 
 .modal-task-container {
@@ -470,13 +483,15 @@ textarea {
 }
 
 .delete-all-tasks-confirm:hover,
-.project-create:hover {
+.project-create:hover,
+.add-task:hover {
 	background-color: #1faa52;
 	opacity: 0.9;
 }
 
 .delete-all-tasks-cancel:hover,
-.project-cancel:hover {
+.project-cancel:hover,
+.cancel-task:hover {
 	background-color: #af1e1e;
 	opacity: 0.9;
 }
@@ -499,6 +514,11 @@ textarea {
 	border-radius: 5px;
 	display: flex;
 	flex-direction: column;
+}
+
+.project-header-container {
+	display: flex;
+	justify-content: space-between;
 }
 
 .project-modal-header {
@@ -564,4 +584,52 @@ textarea {
 	color: white;
 	width: 150px;
 	cursor: pointer;
+	font-size: 1rem;
+}
+
+.projects-counter {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 5px;
+	background-color: #af1e1e;
+	color: white;
+	border-radius: 5px;
+	width: 60px;
+	font-size: 1.2rem;
+}
+
+.project-border {
+	width: 95%;
+	border-bottom: 1px solid black;
+}
+
+.project-items li {
+	background-color: #e2e8f0;
+
+	width: 95%;
+	height: 45px;
+	cursor: pointer;
+	border: none;
+
+	border-radius: 5px;
+	font-size: 1.1rem;
+}
+
+.project-items {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.project-items li:hover {
+	font-size: 1.15rem;
+	background-color: rgba(71, 85, 105, 0.2);
+}
+
+.project-item {
+	display: flex;
+	padding-left: 10px;
+	align-items: center;
+	gap: 10px;
 }
