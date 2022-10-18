@@ -28,6 +28,7 @@ const taskNavigation = (function () {
 			}
 		});
 	};
+
 	const unstylePreviousTask = function () {
 		const unstyleTask = document.querySelector(".task-selected");
 		unstyleTask.classList.remove("task-selected");
@@ -49,15 +50,17 @@ const taskModal = (function () {
 	const priority = document.querySelector("#priority-selected");
 	const projects = document.querySelector("#project-selected");
 
-	const _isValidTitle = () => title.checkValidity();
+	const isValidTitle = () => title.checkValidity();
 
 	const deleteAllTasks = document.querySelector(".delete-all-tasks");
 	const deleteAllTasksModal = document.querySelector(
 		".delete-all-tasks-modal-container"
 	);
-
 	const deleteAllTasksCancel = document.querySelector(
 		".delete-all-tasks-cancel"
+	);
+	const deleteAllTasksConfirm = document.querySelector(
+		".delete-all-tasks-confirm"
 	);
 
 	const render = () => {
@@ -66,22 +69,24 @@ const taskModal = (function () {
 		const showTaskModal = document.querySelector(".show-task-modal");
 
 		deleteAllTasks.addEventListener("click", toggleDeleteAllTasksModal);
+		deleteAllTasksCancel.addEventListener("click", () => {
+			toggleDeleteAllTasksModal;
+		});
 
-		deleteAllTasksCancel.addEventListener(
-			"click",
-			toggleDeleteAllTasksModal
-		);
+		deleteAllTasksConfirm.addEventListener("click", () => {
+			toggleDeleteAllTasksModal();
+			pubSub.publish("delete-all-tasks");
+		});
 
 		taskCancelBtn.addEventListener("click", taskModal.toggleTaskModal);
 
 		taskAddBtn.addEventListener("click", () => {
-			if (!_isValidTitle()) titleDisplayError();
+			if (!isValidTitle()) displayErrorTitle();
 			if (checkDateValidity() === "error") return;
-
-			if (_isValidTitle()) {
+			if (isValidTitle()) {
 				taskModal.toggleTaskModal();
 				pubSub.publish("task-submitted");
-			} else taskModal.titleDisplayError();
+			}
 		});
 
 		showTaskModal.addEventListener("click", () => {
@@ -90,37 +95,15 @@ const taskModal = (function () {
 		});
 
 		title.addEventListener("keyup", () => {
-			if (_isValidTitle()) taskModal.displayCorrectTitle();
-			else taskModal.titleDisplayError();
+			if (isValidTitle()) taskModal.displayCorrectTitle();
+			else taskModal.displayErrorTitle();
 		});
 
-		dueDate.addEventListener("change", () => {
-			checkDateValidity();
-		});
+		dueDate.addEventListener("change", checkDateValidity);
 	};
 
 	const toggleDeleteAllTasksModal = () => {
 		deleteAllTasksModal.classList.toggle("hide");
-	};
-
-	let dueDateError = document.querySelector(".date-container > div");
-
-	const checkDateValidity = () => {
-		if (getTaskNameIndex() === 1 && !isToday(new Date(dueDate.value))) {
-			dateDisplayError();
-			dueDateError.textContent = "Date must be today";
-			return "error";
-		} else if (getTaskNameIndex() === 1) {
-			dateDisplayCorrect();
-		}
-
-		if (getTaskNameIndex() === 2 && !isFuture(new Date(dueDate.value))) {
-			dateDisplayError();
-			dueDateError.textContent = "Must be upcoming";
-			return "error";
-		} else if (getTaskNameIndex() === 2) {
-			dateDisplayCorrect();
-		}
 	};
 
 	const titleError = document.querySelector(".title-error");
@@ -128,7 +111,7 @@ const taskModal = (function () {
 	const checkmark = document.querySelector(".title-checkmark-svg > svg");
 	const error = document.querySelector(".title-error-svg > svg");
 
-	const titleDisplayError = () => {
+	const displayErrorTitle = () => {
 		titleError.textContent = "Title cannot be empty.";
 		error.style.opacity = 1;
 		titleInput.style.outline = "2px solid #ef4444";
@@ -142,21 +125,42 @@ const taskModal = (function () {
 		checkmark.style.opacity = 1;
 	};
 
-	const dateDisplayError = () => {
-		dueDateError.classList.add("required-due-date");
-		dueDate.classList.add("date-error");
+	const dueDateError = document.querySelector(".date-container > div");
+
+	const checkDateValidity = () => {
+		const date = new Date(dueDate.value);
+
+		if (getTaskNameIndex() === 1 && !isToday(date)) {
+			displayDueDateValidity(false, "Date must be today");
+			return "error";
+		} else if (getTaskNameIndex() === 1) {
+			displayDueDateValidity(true, "");
+		}
+
+		if (getTaskNameIndex() === 2 && !isFuture(date)) {
+			displayDueDateValidity(false, "Must be upcoming");
+			return "error";
+		} else if (getTaskNameIndex() === 2) {
+			displayDueDateValidity(true, "");
+		}
 	};
 
-	const dateDisplayCorrect = () => {
-		dueDateError.classList.remove("required-due-date");
-
-		dueDate.classList.remove("date-error");
-		dueDateError.textContent = "";
-		dueDate.style.outline = "rgb(34, 197, 94) solid 2px";
+	const displayDueDateValidity = (bool, dueDateText) => {
+		if (bool) {
+			dueDateError.classList.remove("required-due-date");
+			dueDate.classList.remove("date-error");
+			dueDateError.textContent = dueDateText;
+			dueDate.style.outline = "rgb(34, 197, 94) solid 2px";
+		} else {
+			dueDateError.classList.add("required-due-date");
+			dueDateError.textContent = dueDateText;
+			dueDate.classList.add("date-error");
+			dueDate.style.outline = "rgb(239, 68, 68) solid 2px";
+		}
 	};
 
 	const clearValues = () => {
-		title.textContent = "";
+		titleError.textContent = "";
 		titleInput.style.outline = "";
 		checkmark.style.opacity = 0;
 		error.style.opacity = 0;
@@ -178,20 +182,15 @@ const taskModal = (function () {
 	};
 
 	const toggleOptionalDueDateText = () => {
-		if (getTaskNameIndex() === 1)
-			document.querySelector(
-				".date-container label .optional"
-			).textContent = "";
-		else
-			document.querySelector(
-				".date-container label .optional"
-			).textContent = "optional";
+		const optionalDueDateText = document.querySelector("label .optional");
+		const taskNameIndex = getTaskNameIndex();
+		optionalDueDateText.textContent = taskNameIndex === 1 ? "" : "optional";
 	};
 
 	return {
 		render,
 		clearValues,
-		titleDisplayError,
+		displayErrorTitle,
 		displayCorrectTitle,
 		toggleTaskModal,
 	};
@@ -199,16 +198,22 @@ const taskModal = (function () {
 
 export const taskCard = (function () {
 	const render = () => {
-		pubSub.subscribe("task-created", _createTaskCard);
-		pubSub.subscribe("task-completed", _completedTaskCard);
-
+		pubSub.subscribe("task-created", createTaskCard);
+		pubSub.subscribe("task-completed", completedTaskCard);
 		pubSub.subscribe("task-selected", taskToDisplay);
+		pubSub.subscribe("delete-all-tasks", deleteAllTasks);
+	};
+
+	const deleteAllTasks = () => {
+		tasks.length = 0;
+		deleteAllDomTasks();
+		updateTaskCounter();
 	};
 
 	const taskToDisplay = () => {
 		if (getTaskNameIndex() === 0) {
 			deleteAllDomTasks();
-			tasks.forEach((task) => _createTaskCard(task));
+			tasks.forEach((task) => createTaskCard(task));
 		} else if (getTaskNameIndex() === 1) {
 			todayTask();
 		} else {
@@ -218,81 +223,74 @@ export const taskCard = (function () {
 
 	const upcomingTask = () => {
 		deleteAllDomTasks();
-		if (filterUpcomingTasks().length !== 0) {
-			filterUpcomingTasks().forEach((task) => _createTaskCard(task));
+		const upcomingTasks = filterUpcomingTasks();
+		if (upcomingTasks.length) {
+			upcomingTasks.forEach((task) => createTaskCard(task));
 		}
 		updateTaskCounter();
 	};
 
 	const todayTask = () => {
 		deleteAllDomTasks();
-		if (filterTodayTasks().length !== 0) {
-			filterTodayTasks().forEach((task) => _createTaskCard(task));
+		const todayTasks = filterTodayTasks();
+		if (todayTasks.length) {
+			todayTasks.forEach((task) => createTaskCard(task));
 		}
 		updateTaskCounter();
 	};
 
 	const updateTaskCounter = () => {
 		const taskCounter = document.querySelector(".tasks-counter");
-		taskCounter.textContent = `Tasks: ${getTaskLength()}`;
+		taskCounter.textContent = `Tasks: ${getTaskArray().length}`;
 	};
 
-	const getTaskLength = () => {
-		if (getTaskNameIndex() === 0) return tasks.length;
-		if (getTaskNameIndex() === 1) return filterTodayTasks().length;
-		if (getTaskNameIndex() === 2) return filterUpcomingTasks().length;
+	const getTaskArray = () => {
+		const taskNameIndex = getTaskNameIndex();
+		if (taskNameIndex === 0) return tasks;
+		if (taskNameIndex === 1) return filterTodayTasks();
+		if (taskNameIndex === 2) return filterUpcomingTasks();
 	};
 
-	const deleteAllDomTasks = () => {
-		document.querySelectorAll(".task").forEach((el) => el.remove());
-	};
-
-	const deleteAllTasksInTaskList = () => {};
-
-	const _completedTaskCard = (index) => {
+	const completedTaskCard = (index) => {
 		const completedTask = document.querySelector(
-			`[data-task=task${index}]`
+			`[data-task-id=task${index}]`
 		);
-
 		completedTask.innerHTML = "";
 		completedTask.remove();
-		renderNewDataIndex();
+		updateNewIndexValues();
 		updateTaskCounter();
 	};
 
-	const renderNewDataIndex = () => {
-		const taskClass = document.querySelectorAll(".task");
-		let taskId = -1;
-		let taskDataSet = -1;
+	const taskCard = document.getElementsByClassName("task");
+
+	const deleteAllDomTasks = () => {
+		for (let i = taskCard.length - 1; i >= 0; i--) taskCard[i].remove();
+	};
+	const updateNewIndexValues = () => {
+		let taskObjectId = -1;
 
 		tasks.forEach((task) => {
-			taskId += 1;
-			task.id = taskId;
+			taskObjectId += 1;
+			task.id = taskObjectId;
 		});
 
+		let taskDataSet = -1;
+
 		if (getTaskNameIndex() === 0) {
-			taskClass.forEach((task) => {
-				task.dataset.task = `task${(taskDataSet += 1)}`;
-			});
-		} else if (getTaskNameIndex() === 1) {
-			taskClass.forEach((task) => {
-				for (const taskId of filterTodayTasks()) {
-					task.dataset.task = `task${taskId.id}`;
-				}
-			});
+			for (const task of taskCard) {
+				task.dataset.taskId = `task${(taskDataSet += 1)}`;
+			}
 		} else {
-			taskClass.forEach((task) => {
-				for (const taskId of filterUpcomingTasks()) {
-					task.dataset.task = `task${taskId.id}`;
-				}
+			let selectedTask = null;
+
+			if (getTaskNameIndex() === 1) selectedTask = filterTodayTasks();
+			else selectedTask = filterUpcomingTasks();
+
+			taskCard.forEach((taskCard) => {
+				for (const task of selectedTask)
+					taskCard.dataset.taskId = `task${task.id}`;
 			});
 		}
-	};
-
-	const checkPriority = (priority) => {
-		if (priority === "Low") return "priority-low";
-		if (priority === "Medium") return "priority-medium";
-		return "priority-high";
 	};
 
 	const createSvg = (taskCardContainer) => {
@@ -301,7 +299,8 @@ export const taskCard = (function () {
 		const taskCheckmarkSVG = `
 		<svg viewBox="0 0 24 24" class="task-checkmark-svg" width="18" height="18">
 			<path fill="currentColor" d="M9,20.42L2.79,14.21L5.62,11.38L9,14.77L18.88,4.88L21.71,7.71L9,20.42Z" />
-		</svg>`;
+		</svg>
+		`;
 
 		taskChecked.classList.add("task-checked");
 		taskCheckedContainer.classList.add("checkmark-container");
@@ -311,12 +310,12 @@ export const taskCard = (function () {
 		taskChecked.appendChild(taskCheckedContainer);
 		taskCardContainer.appendChild(taskChecked);
 
-		taskChecked.addEventListener("click", (e) => completedTask(e));
+		taskChecked.addEventListener("click", completedTask);
 	};
 
-	const taskContainer = document.querySelector(".task-container");
-
-	const _createTaskCard = (task) => {
+	const createTaskCard = (task) => {
+		const taskContainer = document.querySelector(".task-container");
+		console.log(tasks);
 		const taskCardContainer = document.createElement("div");
 		const taskTitle = document.createElement("div");
 		const taskDate = document.createElement("div");
@@ -333,15 +332,14 @@ export const taskCard = (function () {
 		taskDescription.classList.add("task-description");
 
 		taskCardContainer.classList.add("task");
-		taskCardContainer.classList.add(checkPriority(task.priority));
-		taskCardContainer.dataset.task = `task${task.id}`;
+		taskCardContainer.classList.add(task.priority);
+		taskCardContainer.dataset.taskId = `task${task.id}`;
 
 		taskCardContainer.append(taskTitle, taskDate, taskDescription);
-
 		taskContainer.appendChild(taskCardContainer);
 
 		updateTaskCounter();
 	};
 
-	return { render, deleteAllDomTasks, renderNewDataIndex };
+	return { render, deleteAllDomTasks, updateNewIndexValues };
 })();
