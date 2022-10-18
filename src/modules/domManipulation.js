@@ -9,12 +9,14 @@ import {
 	filterUpcomingTasks,
 	isFuture,
 } from "./task";
+import { idk } from "./project";
 
 export default function renderPage() {
 	taskModal.render();
 	taskCard.render();
 	taskNavigation.render();
-	createProjectModal.render();
+	projectModal.render();
+	createDomProject.render();
 }
 
 const taskNavigation = (function () {
@@ -345,7 +347,7 @@ export const taskCard = (function () {
 	return { render, deleteAllDomTasks, updateNewIndexValues };
 })();
 
-const createProjectModal = (function () {
+const projectModal = (function () {
 	const projectModal = document.querySelector(".project-modal-container");
 	const projectTitleError = document.querySelector(".project-title-error");
 	const projectInput = document.querySelector("#project-input");
@@ -366,7 +368,10 @@ const createProjectModal = (function () {
 
 		projectModalCancelBtn.addEventListener("click", toggleProjectModal);
 		projectModalCreateBtn.addEventListener("click", () => {
-			if (validateProjectName(projectInput.value)) toggleProjectModal();
+			if (validateProjectName(projectInput.value)) {
+				toggleProjectModal();
+				pubSub.publish("project-name-submitted");
+			}
 		});
 
 		projectForm.addEventListener("submit", (e) => e.preventDefault());
@@ -407,5 +412,34 @@ const createProjectModal = (function () {
 		projectTitleError.textContent = "";
 	};
 
+	return { render };
+})();
+
+const createDomProject = (function () {
+	const render = () => {
+		pubSub.subscribe("project-created", createProject);
+	};
+
+	const createProject = (project) => {
+		const projectItemsContainer = document.querySelector(".project-items");
+
+		const projectItem = document.createElement("li");
+		const projectItemName = document.createElement("div");
+
+		projectItem.innerHTML = projectItemListSvg();
+
+		projectItem.classList.add("project-item");
+		projectItemName.textContent = project.name;
+
+		projectItem.appendChild(projectItemName);
+		projectItemsContainer.appendChild(projectItem);
+	};
+
+	const projectItemListSvg = () => {
+		return `<svg style="width:24px;height:24px" viewBox="0 0 24 24">
+		<path fill="currentColor"
+			d="M7,5H21V7H7V5M7,13V11H21V13H7M4,4.5A1.5,1.5 0 0,1 5.5,6A1.5,1.5 0 0,1 4,7.5A1.5,1.5 0 0,1 2.5,6A1.5,1.5 0 0,1 4,4.5M4,10.5A1.5,1.5 0 0,1 5.5,12A1.5,1.5 0 0,1 4,13.5A1.5,1.5 0 0,1 2.5,12A1.5,1.5 0 0,1 4,10.5M7,19V17H21V19H7M4,16.5A1.5,1.5 0 0,1 5.5,18A1.5,1.5 0 0,1 4,19.5A1.5,1.5 0 0,1 2.5,18A1.5,1.5 0 0,1 4,16.5Z" />
+	</svg>`;
+	};
 	return { render };
 })();
