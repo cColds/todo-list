@@ -1,4 +1,5 @@
 import { pubSub } from "./pubSub";
+import { tasks } from "./task";
 
 function Project(name, id) {
 	return { name, id };
@@ -16,4 +17,15 @@ function createProject() {
 	console.log(projectList);
 }
 
-export { createProject };
+pubSub.subscribe("task-created", createProjectTask);
+
+function createProjectTask(task) {
+	const projectSelected = document.querySelector(".task-selected");
+	const projectSelectedName = document.querySelector(".task-selected div");
+
+	if (projectSelected.classList[0] !== "project-item") return;
+	task.projectName = projectSelectedName.textContent;
+	console.log(task);
+}
+
+export { projectList };

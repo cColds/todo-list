@@ -9,7 +9,7 @@ import {
 	filterUpcomingTasks,
 	isFuture,
 } from "./task";
-import { idk, projectList } from "./project";
+import { projectList } from "./project";
 
 export default function renderPage() {
 	taskModal.render();
@@ -184,9 +184,13 @@ const taskModal = (function () {
 	};
 
 	const toggleOptionalDueDateText = () => {
-		const optionalDueDateText = document.querySelector("label .optional");
+		const optionalDueDateText = document.querySelector(
+			".date-container label .optional"
+		);
 		const taskNameIndex = getTaskNameIndex();
-		optionalDueDateText.textContent = taskNameIndex === 1 ? "" : "optional";
+		if (taskNameIndex === 1 || taskNameIndex === 2) {
+			optionalDueDateText.textContent = "";
+		} else optionalDueDateText.textContent = "optional";
 	};
 
 	return {
