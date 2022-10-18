@@ -105,15 +105,15 @@ li {
 	position: relative;
 }
 
-.priority-low {
+.Low {
 	border-left: 10px solid #22c55e;
 }
 
-.priority-medium {
+.Medium {
 	border-left: 10px solid #fcd34d;
 }
 
-.priority-high {
+.High {
 	border-left: 10px solid #ef4444;
 }
 
@@ -192,7 +192,6 @@ li {
 .task-checkmark-svg {
 	position: absolute;
 	opacity: 0;
-	border-radius: inherit;
 }
 
 .task-header,
@@ -289,22 +288,26 @@ main {
 	font-size: 1.05rem;
 }
 
-.task-modal {
+.task-modal,
+.delete-all-tasks-modal-container,
+.project-modal-container {
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	position: fixed;
-	left: 0;
 	top: 0;
-	height: 100%;
-	width: 100%;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
 	background-color: rgba(0, 0, 0, 0.5);
+	color: black;
+	z-index: 1;
 }
-
-.task-modal.hide {
+.task-modal.hide,
+.delete-all-tasks-modal-container.hide,
+.project-modal-container.hide {
 	display: none;
 }
-
 .modal-task-header {
 	background-color: #4f46e5;
 	width: 100%;
@@ -341,7 +344,8 @@ textarea:focus,
 	outline: rgb(239, 68, 68) solid 2px;
 }
 
-.title-container {
+.title-container,
+.project-modal-info {
 	position: relative;
 }
 
@@ -411,25 +415,10 @@ textarea {
 	resize: none;
 }
 
-.title-error {
+.title-error,
+.project-title-error {
 	color: red;
-	font-size: 0.85rem;
-}
-
-.delete-all-tasks-modal-container {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100vw;
-	height: 100vh;
-	background-color: rgba(0, 0, 0, 0.4);
-	color: black;
-}
-.delete-all-tasks-modal-container.hide {
-	display: none;
+	font-size: 0.95rem;
 }
 
 .delete-all-tasks-modal-info-container {
@@ -473,24 +462,106 @@ textarea {
 	cursor: pointer;
 }
 
-.delete-all-tasks-button-container {
+.delete-all-tasks-button-container,
+.project-buttons-container {
 	display: flex;
 	justify-content: space-between;
+	width: 100%;
 }
 
-.delete-all-tasks-confirm:hover {
+.delete-all-tasks-confirm:hover,
+.project-create:hover {
 	background-color: #1faa52;
 	opacity: 0.9;
 }
 
-.delete-all-tasks-cancel:hover {
+.delete-all-tasks-cancel:hover,
+.project-cancel:hover {
 	background-color: #af1e1e;
 	opacity: 0.9;
 }
 
-.delete-all-tasks-cancel {
+.delete-all-tasks-cancel,
+.project-cancel {
 	background-color: #dc2626;
 }
-.delete-all-tasks-confirm {
+.delete-all-tasks-confirm,
+.project-create {
 	background-color: #22c55e;
+}
+
+/* PROJECTS */
+
+.project-modal {
+	width: 500px;
+	height: 350px;
+	background-color: white;
+	border-radius: 5px;
+	display: flex;
+	flex-direction: column;
+}
+
+.project-modal-header {
+	background-color: #4f46e5;
+	color: white;
+	font-weight: bold;
+	font-size: 1.2rem;
+	border-radius: 5px 5px 0px 0px;
+	padding: 15px;
+}
+#project-form {
+	display: flex;
+	justify-content: space-between;
+	height: 100%;
+	gap: 15px;
+	align-items: center;
+	flex-direction: column;
+}
+
+#project-form label {
+	font-size: 1.4rem;
+}
+
+.project-modal-info svg {
+	position: absolute;
+	left: 455px;
+	top: 62px;
+	opacity: 0;
+}
+
+#project-input {
+	border: none;
+	outline: 1px solid rgba(0, 0, 0, 0.3);
+	border-radius: 5px;
+	height: 35px;
+	padding: 10px;
+}
+
+.show {
+	opacity: 1 !important;
+}
+
+.project-form-info {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	gap: 10px;
+}
+
+.project-modal-info {
+	padding: 15px;
+	display: flex;
+	flex-direction: column;
+
+	height: 100%;
+}
+
+.project-modal-info button {
+	border: none;
+	padding: 15px;
+	border-radius: 5px;
+	font-weight: bold;
+	color: white;
+	width: 150px;
+	cursor: pointer;
 }

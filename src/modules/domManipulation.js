@@ -14,6 +14,7 @@ export default function renderPage() {
 	taskModal.render();
 	taskCard.render();
 	taskNavigation.render();
+	createProjectModal.render();
 }
 
 const taskNavigation = (function () {
@@ -70,7 +71,7 @@ const taskModal = (function () {
 
 		deleteAllTasks.addEventListener("click", toggleDeleteAllTasksModal);
 		deleteAllTasksCancel.addEventListener("click", () => {
-			toggleDeleteAllTasksModal;
+			toggleDeleteAllTasksModal();
 		});
 
 		deleteAllTasksConfirm.addEventListener("click", () => {
@@ -342,4 +343,58 @@ export const taskCard = (function () {
 	};
 
 	return { render, deleteAllDomTasks, updateNewIndexValues };
+})();
+
+const createProjectModal = (function () {
+	const projectModal = document.querySelector(".project-modal-container");
+	const projectTitleError = document.querySelector(".project-title-error");
+	const projectInput = document.querySelector("#project-input");
+	const errorSvg = document.querySelector(".project-error-svg");
+	const correctSvg = document.querySelector(".project-correct-svg");
+
+	const render = () => {
+		const createProjectBtn = document.querySelector(".create-project");
+		const projectForm = document.querySelector("#project-form");
+
+		const projectModalCancelBtn = document.querySelector(".project-cancel");
+		const projectModalCreateBtn = document.querySelector(".project-create");
+
+		createProjectBtn.addEventListener("click", toggleProjectModal);
+
+		projectModalCancelBtn.addEventListener("click", toggleProjectModal);
+		projectModalCreateBtn.addEventListener("click", () => {
+			if (validateProjectName(projectInput.value)) toggleProjectModal();
+		});
+
+		projectForm.addEventListener("submit", (e) => e.preventDefault());
+
+		projectInput.addEventListener("keyup", () =>
+			validateProjectName(projectInput.value)
+		);
+	};
+
+	const toggleProjectModal = () => projectModal.classList.toggle("hide");
+
+	const validateProjectName = (projectInput) => {
+		if (projectInput) {
+			styleProjectCorrect();
+			return true;
+		} else styleProjectError();
+	};
+
+	const styleProjectCorrect = () => {
+		projectTitleError.textContent = "";
+		projectInput.style.outline = "rgb(34, 197, 94) solid 2px";
+		errorSvg.classList.remove("show");
+		correctSvg.classList.add("show");
+	};
+
+	const styleProjectError = () => {
+		projectTitleError.textContent = "Project title cannot be empty.";
+		projectInput.style.outline = "rgb(239, 68, 68) solid 2px";
+		errorSvg.classList.add("show");
+		correctSvg.classList.remove("show");
+	};
+
+	return { render };
 })();

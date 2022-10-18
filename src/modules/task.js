@@ -23,7 +23,6 @@ function createTask() {
 		"task-created",
 		Task(title, description, dueDate, priority, project, id)
 	);
-	console.log(tasks);
 }
 
 function getTaskNameIndex() {
@@ -33,7 +32,7 @@ function getTaskNameIndex() {
 
 function getTaskIndex(e) {
 	const task = e.target.closest(".task");
-	return +task.dataset.task.replace(/\D+/g, "");
+	return +task.dataset.taskId.replace(/\D+/g, "");
 }
 
 function formatDate(dueDate) {
@@ -42,8 +41,6 @@ function formatDate(dueDate) {
 
 function completedTask(e) {
 	tasks.splice(getTaskIndex(e), 1);
-	console.log(tasks);
-
 	pubSub.publish("task-completed", getTaskIndex(e));
 }
 
