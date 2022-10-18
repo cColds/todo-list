@@ -359,7 +359,10 @@ const createProjectModal = (function () {
 		const projectModalCancelBtn = document.querySelector(".project-cancel");
 		const projectModalCreateBtn = document.querySelector(".project-create");
 
-		createProjectBtn.addEventListener("click", toggleProjectModal);
+		createProjectBtn.addEventListener("click", () => {
+			toggleProjectModal();
+			clearProjectForm();
+		});
 
 		projectModalCancelBtn.addEventListener("click", toggleProjectModal);
 		projectModalCreateBtn.addEventListener("click", () => {
@@ -394,6 +397,14 @@ const createProjectModal = (function () {
 		projectInput.style.outline = "rgb(239, 68, 68) solid 2px";
 		errorSvg.classList.add("show");
 		correctSvg.classList.remove("show");
+	};
+
+	const clearProjectForm = () => {
+		projectInput.value = "";
+		errorSvg.classList.remove("show");
+		correctSvg.classList.remove("show");
+		projectInput.style.outline = "1px solid rgba(0, 0, 0, 0.3)";
+		projectTitleError.textContent = "";
 	};
 
 	return { render };
