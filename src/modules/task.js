@@ -1,8 +1,8 @@
 import { pubSub } from "./pubSub";
 import { format, isToday, isFuture } from "date-fns";
 
-function Task(title, description, dueDate, priority, project, id) {
-	return { title, description, dueDate, priority, project, id };
+function Task(title, description, dueDate, priority, project, id, projectName) {
+	return { title, description, dueDate, priority, project, id, projectName };
 }
 
 const tasks = [];
@@ -17,11 +17,15 @@ function createTask() {
 	const project = document.querySelector("#project-selected").value;
 
 	const id = tasks.length;
-	tasks.push(Task(title, description, dueDate, priority, project, id));
+	const projectName = "";
+
+	tasks.push(
+		Task(title, description, dueDate, priority, project, id, projectName)
+	);
 
 	pubSub.publish(
 		"task-created",
-		Task(title, description, dueDate, priority, project, id)
+		Task(title, description, dueDate, priority, project, id, projectName)
 	);
 }
 

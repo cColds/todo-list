@@ -425,7 +425,7 @@ const projectNavigation = (function () {
 
 	const selectedProject = (e) => {
 		taskNavigation.selectedItem().classList.remove("task-selected");
-		e.target.classList.add("task-selected");
+		e.target.closest("li").classList.add("task-selected");
 		taskNavigation.taskHeader().textContent = e.target.textContent;
 	};
 	return { render };

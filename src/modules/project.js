@@ -21,11 +21,19 @@ pubSub.subscribe("task-created", createProjectTask);
 
 function createProjectTask(task) {
 	const projectSelected = document.querySelector(".task-selected");
-	const projectSelectedName = document.querySelector(".task-selected div");
+	if (!projectSelected.classList.contains("project-item")) return;
 
-	if (projectSelected.classList[0] !== "project-item") return;
-	task.projectName = projectSelectedName.textContent;
-	console.log(task);
+	const projectSelectedName = document.querySelector(".task-selected div");
+	const projectTask = tasks[tasks.length - 1];
+
+	console.log(tasks);
+	projectTask.projectName = projectSelectedName.textContent;
+
+	console.log(filterProjectTasks(projectTask.projectName));
 }
 
-export { projectList };
+function filterProjectTasks(projectSelectedName) {
+	return tasks.filter((item) => item.projectName === projectSelectedName);
+}
+
+export { projectList, createProjectTask };

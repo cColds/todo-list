@@ -633,3 +633,6 @@ textarea {
 	align-items: center;
 	gap: 10px;
 }
+.project-item svg {
+	pointer-events: none;
+}
