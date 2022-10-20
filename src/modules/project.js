@@ -24,16 +24,12 @@ function createProjectTask(task) {
 	if (!projectSelected.classList.contains("project-item")) return;
 
 	const projectSelectedName = document.querySelector(".task-selected div");
-	const projectTask = tasks[tasks.length - 1];
+	const projectTask = tasks[task.id];
 
-	console.log(tasks);
 	projectTask.projectName = projectSelectedName.textContent;
-
-	console.log(filterProjectTasks(projectTask.projectName));
 }
 
-function filterProjectTasks(projectSelectedName) {
-	return tasks.filter((item) => item.projectName === projectSelectedName);
-}
+const filterProjectTasks = (projectSelectedName) =>
+	tasks.filter((item) => item.projectName === projectSelectedName);
 
-export { projectList, createProjectTask };
+export { projectList, createProjectTask, filterProjectTasks };

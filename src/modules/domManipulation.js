@@ -9,7 +9,7 @@ import {
 	filterUpcomingTasks,
 	isFuture,
 } from "./task";
-import { projectList } from "./project";
+import { projectList, filterProjectTasks } from "./project";
 
 export default function renderPage() {
 	taskModal.render();
@@ -19,6 +19,7 @@ export default function renderPage() {
 	createDomProject.render();
 	projectNavigation.render();
 	updateProjects.render();
+	displayProjectTasks.render();
 }
 
 const taskNavigation = (function () {
@@ -208,6 +209,7 @@ export const taskCard = (function () {
 		pubSub.subscribe("task-completed", completedTaskCard);
 		pubSub.subscribe("task-selected", taskToDisplay);
 		pubSub.subscribe("delete-all-tasks", deleteAllTasks);
+		pubSub.subscribe("project-task-display", createTaskCard);
 	};
 
 	const deleteAllTasks = () => {
@@ -251,10 +253,16 @@ export const taskCard = (function () {
 	};
 
 	const getTaskArray = () => {
-		const taskNameIndex = getTaskNameIndex();
-		if (taskNameIndex === 0) return tasks;
-		if (taskNameIndex === 1) return filterTodayTasks();
-		if (taskNameIndex === 2) return filterUpcomingTasks();
+		const taskIndex = getTaskNameIndex();
+		const selectedTask = document.querySelector(".task-selected");
+		const projectSelected = selectedTask.classList.contains("project-item");
+
+		if (taskIndex === 0 && !projectSelected) return tasks;
+		if (taskIndex === 1 && !projectSelected) return filterTodayTasks();
+		if (taskIndex === 2 && !projectSelected) return filterUpcomingTasks();
+
+		const projectTask = selectedTask.children[1].textContent;
+		return filterProjectTasks(projectTask);
 	};
 
 	const completedTaskCard = (index) => {
@@ -267,10 +275,10 @@ export const taskCard = (function () {
 		updateTaskCounter();
 	};
 
-	const taskCard = document.getElementsByClassName("task");
-
+	const taskCards = document.getElementsByClassName("task");
+	// NAME COLLISION ?
 	const deleteAllDomTasks = () => {
-		for (let i = taskCard.length - 1; i >= 0; i--) taskCard[i].remove();
+		for (let i = taskCards.length - 1; i >= 0; i--) taskCards[i].remove();
 	};
 	const updateNewIndexValues = () => {
 		let taskObjectId = -1;
@@ -283,7 +291,7 @@ export const taskCard = (function () {
 		let taskDataSet = -1;
 
 		if (getTaskNameIndex() === 0) {
-			for (const task of taskCard) {
+			for (const task of taskCards) {
 				task.dataset.taskId = `task${(taskDataSet += 1)}`;
 			}
 		} else {
@@ -292,10 +300,10 @@ export const taskCard = (function () {
 			if (getTaskNameIndex() === 1) selectedTask = filterTodayTasks();
 			else selectedTask = filterUpcomingTasks();
 
-			taskCard.forEach((taskCard) => {
+			for (let i = taskCards.length; i >= 0; i--) {
 				for (const task of selectedTask)
-					taskCard.dataset.taskId = `task${task.id}`;
-			});
+					task.dataset.taskId = `task${task.id}`;
+			}
 		}
 	};
 
@@ -321,7 +329,7 @@ export const taskCard = (function () {
 
 	const createTaskCard = (task) => {
 		const taskContainer = document.querySelector(".task-container");
-		console.log(tasks);
+
 		const taskCardContainer = document.createElement("div");
 		const taskTitle = document.createElement("div");
 		const taskDate = document.createElement("div");
@@ -347,7 +355,12 @@ export const taskCard = (function () {
 		updateTaskCounter();
 	};
 
-	return { render, deleteAllDomTasks, updateNewIndexValues };
+	return {
+		render,
+		deleteAllDomTasks,
+		updateNewIndexValues,
+		updateTaskCounter,
+	};
 })();
 
 const projectModal = (function () {
@@ -424,10 +437,30 @@ const projectNavigation = (function () {
 	};
 
 	const selectedProject = (e) => {
+		console.log(tasks);
 		taskNavigation.selectedItem().classList.remove("task-selected");
 		e.target.closest("li").classList.add("task-selected");
 		taskNavigation.taskHeader().textContent = e.target.textContent;
 	};
+
+	return { render };
+})();
+
+const displayProjectTasks = (function () {
+	const render = () => {
+		pubSub.subscribe("project-item-clicked", projectTasks);
+	};
+
+	const projectTasks = () => {
+		taskCard.deleteAllDomTasks();
+		const projectSelectedName =
+			document.querySelector(".task-selected div").textContent;
+		filterProjectTasks(projectSelectedName).forEach((task) =>
+			pubSub.publish("project-task-display", task)
+		);
+		taskCard.updateTaskCounter();
+	};
+
 	return { render };
 })();
 
