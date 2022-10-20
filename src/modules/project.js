@@ -21,12 +21,15 @@ pubSub.subscribe("task-created", createProjectTask);
 
 function createProjectTask(task) {
 	const projectSelected = document.querySelector(".task-selected");
+	const projectDataSetId = projectSelected.dataset.projectId;
+
 	if (!projectSelected.classList.contains("project-item")) return;
 
 	const projectSelectedName = document.querySelector(".task-selected div");
 	const projectTask = tasks[task.id];
 
-	projectTask.projectName = projectSelectedName.textContent;
+	projectTask.projectName =
+		projectSelectedName.textContent + projectDataSetId;
 }
 
 const filterProjectTasks = (projectSelectedName) =>

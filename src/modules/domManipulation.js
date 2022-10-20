@@ -249,6 +249,7 @@ export const taskCard = (function () {
 
 	const updateTaskCounter = () => {
 		const taskCounter = document.querySelector(".tasks-counter");
+		console.log(getTaskArray());
 		taskCounter.textContent = `Tasks: ${getTaskArray().length}`;
 	};
 
@@ -261,7 +262,10 @@ export const taskCard = (function () {
 		if (taskIndex === 1 && !projectSelected) return filterTodayTasks();
 		if (taskIndex === 2 && !projectSelected) return filterUpcomingTasks();
 
-		const projectTask = selectedTask.children[1].textContent;
+		const projectDataSetId = selectedTask.dataset.projectId;
+		const projectTask =
+			selectedTask.children[1].textContent + projectDataSetId;
+
 		return filterProjectTasks(projectTask);
 	};
 
@@ -276,7 +280,7 @@ export const taskCard = (function () {
 	};
 
 	const taskCards = document.getElementsByClassName("task");
-	// NAME COLLISION ?
+
 	const deleteAllDomTasks = () => {
 		for (let i = taskCards.length - 1; i >= 0; i--) taskCards[i].remove();
 	};
@@ -437,7 +441,6 @@ const projectNavigation = (function () {
 	};
 
 	const selectedProject = (e) => {
-		console.log(tasks);
 		taskNavigation.selectedItem().classList.remove("task-selected");
 		e.target.closest("li").classList.add("task-selected");
 		taskNavigation.taskHeader().textContent = e.target.textContent;
@@ -453,10 +456,18 @@ const displayProjectTasks = (function () {
 
 	const projectTasks = () => {
 		taskCard.deleteAllDomTasks();
-		const projectSelectedName =
-			document.querySelector(".task-selected div").textContent;
-		filterProjectTasks(projectSelectedName).forEach((task) =>
+		const projectSelected = document.querySelector(".task-selected");
+		const projectDataSetId = projectSelected.dataset.projectId;
+		const projectName = document.querySelector(".task-selected div");
+
+		const projectNameAndId = projectName.textContent + projectDataSetId;
+
+		filterProjectTasks(projectNameAndId).forEach((task) =>
 			pubSub.publish("project-task-display", task)
+		);
+		console.log(
+			"FilteredProjectTask function: " +
+				filterProjectTasks(projectNameAndId)
 		);
 		taskCard.updateTaskCounter();
 	};
