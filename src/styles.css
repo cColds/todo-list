@@ -89,10 +89,6 @@ li {
 	gap: 10px;
 }
 
-.task > div {
-	margin-left: 40px;
-}
-
 .task {
 	border-radius: 5px;
 	margin: 0px 0px 0px 40px;
@@ -100,9 +96,17 @@ li {
 	box-shadow: rgba(0, 0, 0, 0.24) 0px 0px 8px;
 	height: 80px;
 	padding: 15px 25px 25px 15px;
+	display: flex;
+	justify-content: space-between;
+}
+
+.task-info {
 	display: grid;
-	grid-template-columns: 1fr 1fr;
 	position: relative;
+	grid-template-columns: 1fr 1fr;
+	justify-items: space-between;
+	margin-left: 50px;
+	width: 100%;
 }
 
 .Low {
@@ -160,6 +164,20 @@ li {
 	font-weight: bold;
 }
 
+#task-edit {
+	cursor: pointer;
+}
+
+.task-edit-container {
+	height: 0%;
+}
+
+#task-edit:hover {
+	transition: 0.5s;
+	opacity: 0.9;
+	color: #29497a;
+}
+
 .task-description {
 	font-size: 0.9rem;
 	color: #6b7280;
@@ -167,8 +185,8 @@ li {
 
 .task-checked {
 	position: absolute;
-	top: 32%;
-	left: -25px;
+	top: 30%;
+	left: -50px;
 	width: 30px;
 	height: 30px;
 	border: 3px solid #4f46e5;
@@ -265,7 +283,8 @@ main {
 	opacity: 0.9;
 }
 
-.modal-task-container {
+.modal-task-container,
+.edit-modal-task-container {
 	background-color: white;
 
 	border-radius: 10px;
@@ -276,26 +295,31 @@ main {
 	gap: 15px;
 }
 
-.modal-buttons-container {
+.modal-buttons-container,
+.edit-modal-buttons-container {
 	display: flex;
 	gap: 15px;
 	justify-content: space-between;
 }
 
 .add-task,
-.cancel-task {
+.cancel-task,
+.edit-save-task,
+.edit-cancel-task {
 	border: none;
 	width: 150px;
 	height: 50px;
 	border-radius: 5px;
 	cursor: pointer;
 }
-.cancel-task {
+.cancel-task,
+.edit-cancel-task {
 	background-color: #dc2626;
 	color: white;
 	font-size: 1.05rem;
 }
-.add-task {
+.add-task,
+.edit-save-task {
 	background-color: #22c55e;
 	color: white;
 	font-size: 1.05rem;
@@ -303,7 +327,8 @@ main {
 
 .task-modal,
 .delete-all-tasks-modal-container,
-.project-modal-container {
+.project-modal-container,
+.edit-task-modal {
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -318,10 +343,12 @@ main {
 }
 .task-modal.hide,
 .delete-all-tasks-modal-container.hide,
-.project-modal-container.hide {
+.project-modal-container.hide,
+.edit-task-modal.hide {
 	display: none;
 }
-.modal-task-header {
+.modal-task-header,
+.edit-modal-task-header {
 	background-color: #4f46e5;
 	width: 100%;
 	height: 75px;
@@ -336,13 +363,18 @@ main {
 input:focus,
 textarea:focus,
 #priority-selected:focus,
-#project-selected:focus {
+#project-selected:focus,
+#edit-priority-selected:focus,
+#edit-project-selected:focus {
 	outline: 2px solid #38bdf8;
 }
 
 #title,
 #description,
-#date {
+#date,
+#edit-title,
+#edit-description,
+#edit-date {
 	padding: 15px;
 	border-radius: 5px;
 	border: 1px solid rgba(15, 23, 42, 0.3);
@@ -358,12 +390,15 @@ textarea:focus,
 }
 
 .title-container,
-.project-modal-info {
+.project-modal-info,
+.edit-title-container {
 	position: relative;
 }
 
 .title-checkmark-svg > svg,
-.title-error-svg > svg {
+.title-error-svg > svg,
+.edit-title-checkmark-svg > svg,
+.edit-title-error-svg > svg {
 	position: absolute;
 	left: 385px;
 	top: 45px;
@@ -372,13 +407,17 @@ textarea:focus,
 
 .title-container,
 .description-container,
-.date-container {
+.date-container,
+.edit-title-container,
+.edit-description-container,
+.edit-date-container {
 	display: flex;
 	flex-direction: column;
 	gap: 5px;
 }
 
-.task-info-container {
+.task-info-container,
+.edit-task-info-container {
 	display: flex;
 	flex-direction: column;
 	gap: 25px;
@@ -386,7 +425,8 @@ textarea:focus,
 	padding: 25px;
 }
 
-.task-modal-selection-container {
+.task-modal-selection-container,
+.edit-task-modal-selection-container {
 	display: flex;
 	justify-content: space-between;
 	gap: 20px;
@@ -398,14 +438,18 @@ textarea:focus,
 }
 
 .task-modal-priority-container,
-.task-modal-project-container {
+.task-modal-project-container,
+.edit-task-modal-priority-container,
+.edit-task-modal-project-container {
 	display: flex;
 	flex-direction: column;
 	width: 200px;
 }
 
 #priority-selected,
-#project-selected {
+#project-selected,
+#edit-priority-selected,
+#edit-project-selected {
 	padding: 10px;
 	border-radius: 5px;
 	border: none;
@@ -413,11 +457,14 @@ textarea:focus,
 }
 
 .task-modal-priority-container > label,
-.task-modal-project-container > label {
+.task-modal-project-container > label,
+.edit-task-modal-priority-container > label,
+.edit-task-modal-project-container > label {
 	padding-bottom: 5px;
 }
 
-.optional {
+.optional,
+.edit-optional {
 	font-size: 0.95rem;
 	margin-left: 5px;
 
@@ -429,7 +476,8 @@ textarea {
 }
 
 .title-error,
-.project-title-error {
+.project-title-error,
+.edit-title-error {
 	color: red;
 	font-size: 0.95rem;
 }
@@ -484,14 +532,16 @@ textarea {
 
 .delete-all-tasks-confirm:hover,
 .project-create:hover,
-.add-task:hover {
+.add-task:hover,
+.edit-add-task:hover {
 	background-color: #1faa52;
 	opacity: 0.9;
 }
 
 .delete-all-tasks-cancel:hover,
 .project-cancel:hover,
-.cancel-task:hover {
+.cancel-task:hover,
+.edit-cancel-task:hover {
 	background-color: #af1e1e;
 	opacity: 0.9;
 }

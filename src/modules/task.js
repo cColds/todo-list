@@ -48,6 +48,28 @@ function completedTask(e) {
 	pubSub.publish("task-completed", getTaskIndex(e));
 }
 
+pubSub.subscribe("task-edit-saved", editTaskObjectValues);
+
+function editTaskObjectValues(index) {
+	const editTitle = document.querySelector("#edit-title").value;
+	const editDescription = document.querySelector("#edit-description").value;
+	const editDueDate = document.querySelector("#edit-date").value;
+	const editPriority = document.querySelector(
+		"#edit-priority-selected"
+	).value;
+	const editProject = document.querySelector("#edit-project-selected").value;
+
+	console.log(index);
+	tasks[index] = {
+		title: editTitle,
+		description: editDescription,
+		dueDate: editDueDate,
+		priority: editPriority,
+		project: editProject,
+	};
+	pubSub.publish("task-edit-object", tasks[index]);
+}
+
 const filterTodayTasks = () =>
 	tasks.filter((task) => isToday(new Date(task.dueDate)));
 
