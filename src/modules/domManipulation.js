@@ -119,6 +119,8 @@ const taskModal = (function () {
 
 		pubSub.subscribe("toggle-edit-modal", (taskIndex) => {
 			toggleClassOnEditModal(taskIndex);
+			resetEditTaskStyling();
+			setFormValues();
 			toggleEditModal();
 
 			console.log(getEditTaskIndex());
@@ -145,7 +147,7 @@ const taskModal = (function () {
 
 	const displayEditedTask = (taskProp) => {
 		const dataset = `[data-task-id=task${getEditTaskIndex()}]`;
-		console.log(`${dataset} .task-title`);
+
 		const taskTitle = document.querySelector(`${dataset} .task-title`);
 		const taskDescription = document.querySelector(
 			`${dataset} .task-description`
@@ -161,7 +163,15 @@ const taskModal = (function () {
 		taskPriority.classList.add(taskProp.priority);
 	};
 
-	const setFormValues = () => {};
+	const setFormValues = () => {
+		const taskObj = tasks[getEditTaskIndex()];
+
+		editTitleInput.value = taskObj.title;
+		editDescriptionInput.value = taskObj.description;
+		editDueDateInput.value = taskObj.dueDate;
+		editPriorityInput.value = taskObj.priority;
+		editProjectInput.value = taskObj.project;
+	};
 
 	const checkEditTitleValidity = () => {
 		if (isValidEditTitle()) {
@@ -181,12 +191,17 @@ const taskModal = (function () {
 			);
 	};
 
+	const resetEditTaskStyling = () => {
+		editErrorMarkSvg.style.opacity = 0;
+		editCheckMarkSvg.style.opacity = 0;
+		editTitleInput.style.outline = "";
+	};
+
 	const editTitleInput = document.querySelector("#edit-title");
-	// const editTitle = document.querySelector(".edit-title-container label");
-	// const editDescription = document.querySelector("#edit-description");
-	// const editDueDate = document.querySelector("#edit-date");
-	// const editPriority = document.querySelector("#edit-priority-selected");
-	// const editProject = document.querySelector("#edit-project-selected");
+	const editDescriptionInput = document.querySelector("#edit-description");
+	const editDueDateInput = document.querySelector("#edit-date");
+	const editPriorityInput = document.querySelector("#edit-priority-selected");
+	const editProjectInput = document.querySelector("#edit-project-selected");
 
 	const editTitleError = document.querySelector(".edit-title-error");
 	const editErrorMarkSvg = document.querySelector(
