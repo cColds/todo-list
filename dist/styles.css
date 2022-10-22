@@ -704,6 +704,7 @@ textarea {
 	padding-left: 10px;
 	align-items: center;
 	gap: 10px;
+	justify-content: space-between;
 }
 .project-item svg {
 	pointer-events: none;
@@ -724,4 +725,23 @@ textarea {
 	color: red;
 	font-size: 0.95rem;
 	opacity: 1 !important;
+}
+
+.project-utilities-left,
+.project-utilities-right {
+	display: flex;
+}
+
+.project-utilities-left {
+	display: flex;
+	gap: 5px;
+}
+
+.project-name {
+	font-size: 0.95rem;
+}
+
+.project-delete:hover {
+	transition: 0.5s;
+	color: red;
 }
