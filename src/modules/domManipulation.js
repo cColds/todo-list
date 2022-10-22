@@ -722,7 +722,7 @@ const editProject = (function () {
 	const render = () => {
 		pubSub.subscribe("project-setting-clicked", (e) => {
 			toggleEditProjectModal();
-
+			editProjectResetStyling();
 			editProjectCurrentInputTitle(e);
 		});
 		pubSub.subscribe("updated-project-name", displayNewProjectName);
@@ -772,6 +772,13 @@ const editProject = (function () {
 		projectEditErrorSvg.style.opacity = 0;
 		projectEditCheckMarkSvg.style.opacity = 1;
 		projectTitleError.classList.remove("error");
+	};
+
+	const editProjectResetStyling = () => {
+		editProjectTitleInput.style.outline = "1px solid rgba(0, 0, 0, 0.3)";
+		projectTitleError.classList.remove("error");
+		projectEditErrorSvg.style.opacity = 0;
+		projectEditCheckMarkSvg.style.opacity = 0;
 	};
 
 	const editProjectTitleError = () => {
