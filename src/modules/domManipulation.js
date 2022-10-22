@@ -86,7 +86,7 @@ const taskModal = (function () {
 
 		taskAddBtn.addEventListener("click", () => {
 			if (!isValidTitle()) displayErrorTitle();
-			if (checkDateValidity() === "error") return;
+			if (checkDateValidity(dueDate, dueDateError) === "error") return;
 			if (isValidTitle()) {
 				taskModal.toggleTaskModal();
 				pubSub.publish("task-submitted");
@@ -115,15 +115,18 @@ const taskModal = (function () {
 				);
 		});
 
-		dueDate.addEventListener("change", checkDateValidity);
+		dueDate.addEventListener("change", () =>
+			checkDateValidity(dueDate, dueDateError)
+		);
+		editDueDateInput.addEventListener("change", () =>
+			checkDateValidity(editDueDateInput, editDueDateError)
+		);
 
 		pubSub.subscribe("toggle-edit-modal", (taskIndex) => {
 			toggleClassOnEditModal(taskIndex);
+			toggleEditModal();
 			resetEditTaskStyling();
 			setFormValues();
-			toggleEditModal();
-
-			console.log(getEditTaskIndex());
 		});
 
 		const editTaskCancelBtn = document.querySelector(".edit-cancel-task");
@@ -135,9 +138,18 @@ const taskModal = (function () {
 		const editTaskSaveBtn = document.querySelector(".edit-save-task");
 
 		editTaskSaveBtn.addEventListener("click", () => {
+			if (!checkEditTitleValidity()) return;
+			if (
+				checkDateValidity(editDueDateInput, editDueDateError) ===
+				"error"
+			)
+				return;
+
 			if (checkEditTitleValidity()) {
 				toggleEditModal();
 				pubSub.publish("task-edit-saved", getEditTaskIndex());
+
+				console.log(tasks);
 			}
 		});
 		editTitleInput.addEventListener("keyup", checkEditTitleValidity);
@@ -192,9 +204,12 @@ const taskModal = (function () {
 	};
 
 	const resetEditTaskStyling = () => {
+		editTitleError.textContent = "";
+		editDueDateError.textContent = "";
 		editErrorMarkSvg.style.opacity = 0;
 		editCheckMarkSvg.style.opacity = 0;
-		editTitleInput.style.outline = "";
+		editTitleInput.style.outline = "none";
+		editDueDateInput.style.outline = "none";
 	};
 
 	const editTitleInput = document.querySelector("#edit-title");
@@ -261,26 +276,50 @@ const taskModal = (function () {
 	};
 
 	const dueDateError = document.querySelector(".date-container > div");
+	const editDueDateError = document.querySelector(".edit-due-date-error");
 
-	const checkDateValidity = () => {
-		const date = new Date(dueDate.value);
+	const checkDateValidity = (dueDate, dueDateError) => {
+		const date = new Date(checkEditOrAddTaskDate());
 
 		if (getTaskNameIndex() === 1 && !isToday(date)) {
-			displayDueDateValidity(false, "Date must be today");
+			displayDueDateValidity(
+				false,
+				"Date must be today",
+				dueDate,
+				dueDateError
+			);
 			return "error";
 		} else if (getTaskNameIndex() === 1) {
-			displayDueDateValidity(true, "");
+			displayDueDateValidity(true, "", dueDate, dueDateError);
 		}
 
 		if (getTaskNameIndex() === 2 && !isFuture(date)) {
-			displayDueDateValidity(false, "Must be upcoming");
+			displayDueDateValidity(
+				false,
+				"Must be upcoming",
+				dueDate,
+				dueDateError
+			);
 			return "error";
 		} else if (getTaskNameIndex() === 2) {
-			displayDueDateValidity(true, "");
+			displayDueDateValidity(true, "", dueDate, dueDateError);
 		}
 	};
 
-	const displayDueDateValidity = (bool, dueDateText) => {
+	const checkEditOrAddTaskDate = () => {
+		if (!editTaskModal.classList.contains("hide")) {
+			return editDueDateInput.value;
+		}
+		return dueDate.value;
+	};
+
+	const displayDueDateValidity = (
+		bool,
+		dueDateText,
+		dueDate,
+		dueDateError
+	) => {
+		console.log(dueDateError.classList);
 		if (bool) {
 			dueDateError.classList.remove("required-due-date");
 			dueDate.classList.remove("date-error");
@@ -381,7 +420,7 @@ export const taskCard = (function () {
 
 	const updateTaskCounter = () => {
 		const taskCounter = document.querySelector(".tasks-counter");
-		console.log(getTaskArray());
+
 		taskCounter.textContent = `Tasks: ${getTaskArray().length}`;
 	};
 
@@ -616,10 +655,7 @@ const displayProjectTasks = (function () {
 		filterProjectTasks(projectNameAndId).forEach((task) =>
 			pubSub.publish("project-task-display", task)
 		);
-		console.log(
-			"FilteredProjectTask function: " +
-				filterProjectTasks(projectNameAndId)
-		);
+
 		taskCard.updateTaskCounter();
 	};
 

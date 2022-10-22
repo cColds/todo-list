@@ -27,6 +27,7 @@ function createTask() {
 		"task-created",
 		Task(title, description, dueDate, priority, project, id, projectName)
 	);
+	console.log(tasks);
 }
 
 function getTaskNameIndex() {
@@ -58,14 +59,15 @@ function editTaskObjectValues(index) {
 		"#edit-priority-selected"
 	).value;
 	const editProject = document.querySelector("#edit-project-selected").value;
+	const projectName = tasks[index].projectName;
 
-	console.log(index);
 	tasks[index] = {
 		title: editTitle,
 		description: editDescription,
 		dueDate: editDueDate,
 		priority: editPriority,
 		project: editProject,
+		projectName: projectName,
 	};
 	pubSub.publish("task-edit-object", tasks[index]);
 }
