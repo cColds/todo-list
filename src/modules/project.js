@@ -19,11 +19,15 @@ function createProject() {
 
 pubSub.subscribe("task-created", createProjectTask);
 
-function createProjectTask(task) {
+function getProjectId() {
 	const projectSelected = document.querySelector(".task-selected");
 	const projectDataSetId = projectSelected.dataset.projectId;
+	console.log(projectSelected, projectDataSetId);
+	return projectDataSetId;
+}
 
-	if (!projectSelected.classList.contains("project-item")) return;
+function createProjectTask(task) {
+	if (!getProjectId().classList.contains("project-item")) return;
 
 	const projectSelectedName = document.querySelector(".task-selected div");
 	const projectTask = tasks[task.id];
@@ -32,7 +36,15 @@ function createProjectTask(task) {
 		projectSelectedName.textContent + projectDataSetId;
 }
 
+pubSub.subscribe("edited-project", updateProject);
+
+function updateProject(newName) {
+	projectList[getProjectId()].name = newName;
+	console.log(projectList);
+	pubSub.publish("updated-project-name", getProjectId());
+}
+
 const filterProjectTasks = (projectSelectedName) =>
 	tasks.filter((item) => item.projectName === projectSelectedName);
 
-export { projectList, createProjectTask, filterProjectTasks };
+export { projectList, createProjectTask, filterProjectTasks, getProjectId };
