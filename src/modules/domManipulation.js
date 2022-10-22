@@ -169,7 +169,7 @@ const taskModal = (function () {
 
 		taskTitle.textContent = taskProp.title;
 		taskDescription.textContent = taskProp.description;
-		taskDueDate.textContent = taskProp.dueDate;
+		taskDueDate.textContent = formatDate(taskProp.dueDate);
 
 		taskPriority.classList.remove(taskPriority.value);
 		taskPriority.classList.add(taskProp.priority);
