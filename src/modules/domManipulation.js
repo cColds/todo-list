@@ -427,17 +427,20 @@ export const taskCard = (function () {
 
 	const getTaskArray = () => {
 		const taskIndex = getTaskNameIndex();
-		const selectedTask = document.querySelector(".task-selected");
-		const projectSelected = selectedTask.classList.contains("project-item");
-
+		const selectedTaskName = document.querySelector(
+			".task-selected .project-name"
+		);
+		let projectSelected = null;
+		if (selectedTaskName) {
+			projectSelected = selectedTaskName.closest(".project-item");
+		}
 		if (taskIndex === 0 && !projectSelected) return tasks;
 		if (taskIndex === 1 && !projectSelected) return filterTodayTasks();
 		if (taskIndex === 2 && !projectSelected) return filterUpcomingTasks();
 
-		const projectDataSetId = selectedTask.dataset.projectId;
-		const projectTask =
-			selectedTask.children[1].textContent + projectDataSetId;
-
+		const projectDataSetId = projectSelected.closest(`[data-project-id]`);
+		const projectTask = selectedTaskName.textContent + projectDataSetId;
+		console.log(filterProjectTasks(projectTask), projectTask);
 		return filterProjectTasks(projectTask);
 	};
 
@@ -540,6 +543,7 @@ export const taskCard = (function () {
 
 		taskCardContainer.classList.add("task", task.priority);
 		taskCardContainer.dataset.taskId = `task${task.id}`;
+		taskCardContainer.dataset.projectTask = "";
 
 		taskInfo.append(taskTitle, taskDate, taskDescription);
 		taskCardContainer.appendChild(taskInfo);
@@ -653,7 +657,9 @@ const displayProjectTasks = (function () {
 		taskCard.deleteAllDomTasks();
 		const projectSelected = document.querySelector(".task-selected");
 		const projectDataSetId = projectSelected.dataset.projectId;
-		const projectName = document.querySelector(".task-selected div");
+		const projectName = document.querySelector(
+			".task-selected .project-name"
+		);
 
 		const projectNameAndId = projectName.textContent + projectDataSetId;
 
@@ -834,8 +840,12 @@ const editProject = (function () {
 		const projectName = document.querySelector(
 			".task-selected .project-name"
 		);
+		const projectHeaderName = document.querySelector(
+			".task-selected-header"
+		);
 
 		projectName.textContent = projectList[id].name;
+		projectHeaderName.textContent = projectList[id].name;
 	};
 
 	return { render };

@@ -22,17 +22,24 @@ pubSub.subscribe("task-created", createProjectTask);
 function getProjectId() {
 	const projectSelected = document.querySelector(".task-selected");
 	const projectDataSetId = projectSelected.dataset.projectId;
-	console.log(projectSelected, projectDataSetId);
 	return projectDataSetId;
 }
 
 function createProjectTask(task) {
-	console.log(getProjectId());
+	console.log(task);
 	const isProjectSelected = document.querySelector(".task-selected");
 	if (!isProjectSelected.classList.contains("project-item")) return;
 
-	const projectSelectedName = document.querySelector(".task-selected div");
+	const projectSelectedName = document.querySelector(
+		".task-selected .project-name"
+	);
+
 	const projectTask = tasks[task.id];
+	// console.log(task);
+	// const
+	// .dataset.projectTask = `project${task.projectName}`;
+
+	// const projectTaskDataset = document.querySelector(`[data-project-task='${}']`)
 
 	projectTask.projectName = projectSelectedName.textContent + getProjectId();
 }
@@ -41,7 +48,6 @@ pubSub.subscribe("edited-project", updateProject);
 
 function updateProject(newName) {
 	projectList[getProjectId()].name = newName;
-	console.log(projectList);
 	pubSub.publish("updated-project-name", getProjectId());
 }
 
