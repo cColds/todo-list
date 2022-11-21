@@ -1,0 +1,64 @@
+@import url(main.css);
+
+nav {
+	width: 250px;
+	height: calc(100% - 70px);
+	box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 5px 0px,
+		rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+}
+
+#main-projects-heading {
+	color: var(--dark-green);
+	font-weight: 900;
+	font-size: 1.3rem;
+	display: flex;
+	justify-content: space-between;
+	padding: 15px 15px 5px 15px;
+}
+
+#hamburger-menu {
+	cursor: pointer;
+}
+
+#main-projects {
+	display: flex;
+	flex-direction: column;
+	padding: 10px 0px 10px 0px;
+}
+
+#main-projects > li {
+	padding-left: 15px;
+	height: 50px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+}
+
+#main-projects > li > button {
+	color: grey;
+}
+
+#main-projects > li:hover {
+	transition: ease-in-out 150ms;
+	background-color: #f1efef;
+	border-left: 5px solid var(--dark-green);
+}
+
+#main-projects > li:hover > button {
+	color: var(--dark-green);
+	font-weight: bold;
+}
+
+#main-projects > li > button {
+	font-size: 1.3rem;
+}
+
+#nav-border-container {
+	display: flex;
+	justify-content: center;
+}
+
+#nav-border {
+	border: 1px solid #e1dfdd;
+	width: 90%;
+}
