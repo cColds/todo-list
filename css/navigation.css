@@ -1,4 +1,4 @@
-@import url(main.css);
+@import url(colors.css);
 
 nav {
 	width: 250px;
@@ -16,38 +16,47 @@ nav {
 	padding: 15px 15px 5px 15px;
 }
 
-#hamburger-menu {
+svg,
+li {
 	cursor: pointer;
 }
 
-#main-projects {
+#hamburger-menu:hover,
+#nav-add-project:hover {
+	transition: ease-in-out 150ms;
+	background-color: #e5e7eb;
+	border-radius: 5px;
+}
+
+#main-projects-list {
 	display: flex;
 	flex-direction: column;
 	padding: 10px 0px 10px 0px;
 }
 
-#main-projects > li {
+.main-projects-item {
 	padding-left: 15px;
 	height: 50px;
-	cursor: pointer;
+
 	display: flex;
 	gap: 5px;
 	align-items: center;
 }
 
-#main-projects > li > button {
+.main-projects-item-name,
+.projects-item-name {
 	font-size: 1.3rem;
 	color: grey;
 }
 
-#main-projects > li:hover {
+.main-projects-item:hover {
 	transition: ease-in-out 150ms;
 	background-color: #f1efef;
 	border-left: 5px solid var(--dark-green);
 }
 
-#main-projects > li:hover > button,
-#main-projects > li:hover > svg {
+.main-projects-item:hover .main-projects-item-name,
+.main-projects-item:hover > svg {
 	color: var(--dark-green);
 	font-weight: bold;
 }
@@ -60,4 +69,36 @@ nav {
 #nav-border {
 	border: 1px solid #e1dfdd;
 	width: 90%;
+}
+
+/* PROJECTS */
+
+#projects-heading {
+	display: flex;
+	align-items: center;
+	font-weight: 900;
+	font-size: 1.3rem;
+	justify-content: space-between;
+	padding: 15px 15px 15px 15px;
+	color: var(--light-blue);
+}
+
+.projects-item {
+	display: flex;
+	align-items: center;
+	padding-left: 15px;
+	height: 50px;
+	gap: 5px;
+}
+
+.projects-item:hover {
+	transition: ease-in-out 150ms;
+	background-color: #f1efef;
+	border-left: 5px solid var(--light-blue);
+}
+
+.projects-item:hover > .projects-item-name,
+.projects-item:hover > .projects-list-svg {
+	color: var(--light-blue);
+	font-weight: bold;
 }
