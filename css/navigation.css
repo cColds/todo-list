@@ -31,10 +31,12 @@ nav {
 	height: 50px;
 	cursor: pointer;
 	display: flex;
+	gap: 5px;
 	align-items: center;
 }
 
 #main-projects > li > button {
+	font-size: 1.3rem;
 	color: grey;
 }
 
@@ -44,13 +46,10 @@ nav {
 	border-left: 5px solid var(--dark-green);
 }
 
-#main-projects > li:hover > button {
+#main-projects > li:hover > button,
+#main-projects > li:hover > svg {
 	color: var(--dark-green);
 	font-weight: bold;
-}
-
-#main-projects > li > button {
-	font-size: 1.3rem;
 }
 
 #nav-border-container {
