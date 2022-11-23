@@ -21,7 +21,11 @@ li {
 	cursor: pointer;
 }
 
-#hamburger-menu:hover,
+.hide {
+	display: none;
+}
+
+.hamburger-menu:hover,
 #nav-add-project:hover {
 	transition: ease-in-out 150ms;
 	background-color: #e5e7eb;
@@ -101,4 +105,8 @@ li {
 .projects-item:hover > .projects-list-svg {
 	color: var(--light-blue);
 	font-weight: bold;
+}
+
+#main-hamburger-menu {
+	color: var(--dark-green);
 }
