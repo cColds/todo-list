@@ -24,4 +24,8 @@ const updateTaskId = () => {
 	});
 };
 
-export { addTask, completeTask };
+const editTask = (title, description, dueDate, priority, id) => {
+	taskList[id] = taskProperties(title, description, dueDate, priority, id);
+};
+
+export { addTask, completeTask, editTask };
