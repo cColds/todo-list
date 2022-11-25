@@ -9,4 +9,11 @@ const addProject = (title, id) => {
 	console.log(projectList);
 };
 
-export { addProject };
+const deleteProject = (id) => {
+	projectList.splice(id, 1);
+	console.log({ projectList });
+
+	console.log({ projectList });
+};
+
+export { addProject, deleteProject };
