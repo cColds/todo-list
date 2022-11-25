@@ -12,6 +12,16 @@ const addTask = (title, description, dueDate, priority, id) => {
 const completeTask = (id) => {
 	taskList.splice(id, 1);
 	console.log({ taskList });
+	updateTaskId();
+	console.log({ taskList });
+};
+
+const updateTaskId = () => {
+	let updatedId = 0;
+	taskList.forEach((task) => {
+		task.id = updatedId;
+		updatedId++;
+	});
 };
 
 export { addTask, completeTask };
