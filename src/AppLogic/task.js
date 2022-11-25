@@ -9,4 +9,9 @@ const addTask = (title, description, dueDate, priority, id) => {
 	console.log(taskList);
 };
 
-export { addTask };
+const completeTask = (id) => {
+	taskList.splice(id, 1);
+	console.log({ taskList });
+};
+
+export { addTask, completeTask };
