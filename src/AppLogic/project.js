@@ -12,8 +12,16 @@ const addProject = (title, id) => {
 const deleteProject = (id) => {
 	projectList.splice(id, 1);
 	console.log({ projectList });
-
+	updateProjectId();
 	console.log({ projectList });
+};
+
+const updateProjectId = () => {
+	let updatedId = 0;
+	projectList.forEach((project) => {
+		project.id = updatedId;
+		updatedId++;
+	});
 };
 
 export { addProject, deleteProject };
