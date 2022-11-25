@@ -24,4 +24,9 @@ const updateProjectId = () => {
 	});
 };
 
-export { addProject, deleteProject };
+const editProject = (title, id) => {
+	projectList[id] = projectProperties(title, id);
+	console.log(projectList);
+};
+
+export { addProject, deleteProject, editProject };
