@@ -10,6 +10,36 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./src/AppLogic/helperFunction.js":
+/*!****************************************!*\
+  !*** ./src/AppLogic/helperFunction.js ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"updateId\": () => (/* binding */ updateId)\n/* harmony export */ });\nconst updateId = (arr) => {\n\tlet updatedId = 0;\n\tarr.forEach((item) => {\n\t\titem.id = updatedId;\n\t\tupdatedId++;\n\t});\n};\n\n\n\n\n//# sourceURL=webpack://todo-list/./src/AppLogic/helperFunction.js?");
+
+/***/ }),
+
+/***/ "./src/AppLogic/project.js":
+/*!*********************************!*\
+  !*** ./src/AppLogic/project.js ***!
+  \*********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"addProject\": () => (/* binding */ addProject),\n/* harmony export */   \"deleteProject\": () => (/* binding */ deleteProject),\n/* harmony export */   \"editProject\": () => (/* binding */ editProject)\n/* harmony export */ });\n/* harmony import */ var _helperFunction__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./helperFunction */ \"./src/AppLogic/helperFunction.js\");\n\n\nconst projectList = [];\n\nconst projectProperties = (title, id) => {\n\treturn { title, id };\n};\n\nconst addProject = (title, id) => {\n\tprojectList.push(projectProperties(title, id));\n\tconsole.log(projectList);\n};\n\nconst deleteProject = (id) => {\n\tprojectList.splice(id, 1);\n\t(0,_helperFunction__WEBPACK_IMPORTED_MODULE_0__.updateId)(projectList);\n\tconsole.log(projectList);\n};\n\nconst editProject = (title, id) => {\n\tprojectList[id] = projectProperties(title, id);\n};\n\n\n\n\n//# sourceURL=webpack://todo-list/./src/AppLogic/project.js?");
+
+/***/ }),
+
+/***/ "./src/AppLogic/task.js":
+/*!******************************!*\
+  !*** ./src/AppLogic/task.js ***!
+  \******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"addTask\": () => (/* binding */ addTask),\n/* harmony export */   \"completeTask\": () => (/* binding */ completeTask),\n/* harmony export */   \"editTask\": () => (/* binding */ editTask)\n/* harmony export */ });\n/* harmony import */ var _helperFunction__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./helperFunction */ \"./src/AppLogic/helperFunction.js\");\n\n\nconst taskList = [];\n\nconst taskProperties = (title, description, dueDate, priority, id) => {\n\treturn { title, description, dueDate, priority, id };\n};\n\nconst addTask = (title, description, dueDate, priority, id) => {\n\ttaskList.push(taskProperties(title, description, dueDate, priority, id));\n};\n\nconst completeTask = (id) => {\n\ttaskList.splice(id, 1);\n\t(0,_helperFunction__WEBPACK_IMPORTED_MODULE_0__.updateId)(taskList);\n};\n\nconst editTask = (title, description, dueDate, priority, id) => {\n\ttaskList[id] = taskProperties(title, description, dueDate, priority, id);\n};\n\n\n\n\n//# sourceURL=webpack://todo-list/./src/AppLogic/task.js?");
+
+/***/ }),
+
 /***/ "./src/UI/toggleNavigation.js":
 /*!************************************!*\
   !*** ./src/UI/toggleNavigation.js ***!
@@ -26,7 +56,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
   \**********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _UI_toggleNavigation__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./UI/toggleNavigation */ \"./src/UI/toggleNavigation.js\");\n\nconsole.log(\"hii lxxol\");\n\n\n//# sourceURL=webpack://todo-list/./src/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _UI_toggleNavigation__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./UI/toggleNavigation */ \"./src/UI/toggleNavigation.js\");\n/* harmony import */ var _AppLogic_task__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AppLogic/task */ \"./src/AppLogic/task.js\");\n/* harmony import */ var _AppLogic_project__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./AppLogic/project */ \"./src/AppLogic/project.js\");\n\n\n\n\n(0,_AppLogic_project__WEBPACK_IMPORTED_MODULE_2__.addProject)(\"oe\", 0);\n(0,_AppLogic_project__WEBPACK_IMPORTED_MODULE_2__.addProject)(\"ji\", 1);\n(0,_AppLogic_project__WEBPACK_IMPORTED_MODULE_2__.deleteProject)(0);\n\n\n//# sourceURL=webpack://todo-list/./src/index.js?");
 
 /***/ })
 
