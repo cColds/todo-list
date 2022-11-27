@@ -28,6 +28,25 @@ li {
 	background-color: rgba(96, 125, 139, 0.15);
 }
 
+.selected .selected-caret {
+	opacity: 1;
+	transform: rotate(270deg);
+}
+
+.selected-caret {
+	opacity: 0;
+}
+
+.selected {
+	display: flex;
+	justify-content: space-between;
+}
+
+.svg-title-container {
+	display: flex;
+	gap: 5px;
+}
+
 .selected .main-projects-list-svg,
 .selected .main-projects-item-name,
 .selected .projects-list-svg,
