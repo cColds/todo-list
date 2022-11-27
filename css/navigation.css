@@ -9,7 +9,7 @@ nav {
 #projects-heading {
 	color: var(--dark-green);
 	font-weight: 900;
-	font-size: 1.1rem;
+	font-size: 1rem;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -28,6 +28,14 @@ li {
 #main-projects-list .selected,
 #projects-list .selected {
 	background-color: rgba(96, 125, 139, 0.15);
+}
+
+.projects-item {
+	display: flex;
+	align-items: center;
+	padding-left: 15px;
+	height: 45px;
+	gap: 5px;
 }
 
 .selected .selected-caret {
@@ -68,7 +76,7 @@ li {
 }
 
 .projects-item-name {
-	font-size: 1.3rem;
+	font-size: 0.9rem;
 	color: grey;
 }
 
@@ -84,11 +92,3 @@ li {
 }
 
 /* PROJECTS */
-
-.projects-item {
-	display: flex;
-	align-items: center;
-	padding-left: 15px;
-	height: 50px;
-	gap: 5px;
-}
