@@ -5,13 +5,15 @@ nav {
 		rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
 }
 
-#main-projects-heading {
+#main-projects-heading,
+#projects-heading {
 	color: var(--dark-green);
 	font-weight: 900;
-	font-size: 1.3rem;
+	font-size: 1.2rem;
 	display: flex;
+	align-items: center;
 	justify-content: space-between;
-	padding: 15px 15px 5px 15px;
+	padding: 15px 15px 15px 15px;
 }
 
 svg,
@@ -71,7 +73,7 @@ li {
 #main-projects-list {
 	display: flex;
 	flex-direction: column;
-	padding: 10px 0px 10px 0px;
+	padding: 0px 0px 10px 0px;
 }
 
 .main-projects-item {
@@ -100,16 +102,6 @@ li {
 }
 
 /* PROJECTS */
-
-#projects-heading {
-	display: flex;
-	align-items: center;
-	font-weight: 900;
-	font-size: 1.3rem;
-	justify-content: space-between;
-	padding: 15px 15px 15px 15px;
-	color: var(--dark-green);
-}
 
 .projects-item {
 	display: flex;
