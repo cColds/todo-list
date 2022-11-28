@@ -123,23 +123,31 @@
                     <div class="modal-content">
                         <form class="modal-form" action="">
                             <div class="input-container-1">
-                                <label for="title">Title</label>
-                                <input type="text" id="title" class="modal-title" placeholder="Title">
-
-                                <label for="dueDate" class="modal-due-date">Due Date</label>
-                                <input type="date" id="dueDate">
+                                <div class="title-container ">
+                                    <label for="add-task-title" class="label-title">Title</label>
+                                    <input type="text" id="add-task-title" class="modal-title" placeholder="Title">
+                                    <div class="title-error">Title can't be empty.</div>
+                                </div>
+                                <div class="due-date-container">
+                                    <label for="add-task-due-date" class="label-due-date">Due Date</label>
+                                    <input type="date" id="add-task-due-date">
+                                    <div class="due-date-error">Date Format is incorrect.</div>
+                                </div>
                             </div>
                             <div class="input-container-2">
-                                <label for="description">Description</label>
-                                <input type="text" id="description" class="modal-description" placeholder="Description">
-
-                                <label for="priority">Priority</label>
-                                <select id="priority" class="modal-priority">
-                                    <option value="Low" selected>Low</option>
-                                    <option value="Medium">Medium</option>
-                                    <option value="High">High</option>
-                                </select>
-
+                                <div class="description-container">
+                                    <label for="add-task-description">Description</label>
+                                    <input type="text" id="add-task-description" class="modal-description"
+                                        placeholder="Description">
+                                </div>
+                                <div class="priority-container">
+                                    <label for="priority">Priority</label>
+                                    <select id="add-task-priority" class="modal-priority">
+                                        <option value="Low" selected>Low</option>
+                                        <option value="Medium">Medium</option>
+                                        <option value="High">High</option>
+                                    </select>
+                                </div>
                             </div>
                         </form>
 

@@ -11,7 +11,6 @@
 	height: 300px;
 	border-radius: 5px;
 	z-index: 1;
-	background-color: white;
 	opacity: 0;
 }
 
@@ -33,9 +32,12 @@
 	opacity: 0;
 }
 
+/* MODAL HEADER */
+
 .modal-header-container {
 	background-color: var(--dark-green);
-	border-radius: 5px 5px 0px 0px;
+	border-top-left-radius: inherit;
+	border-top-right-radius: inherit;
 	height: 50px;
 	color: white;
 	font-weight: bold;
@@ -44,6 +46,8 @@
 	align-items: center;
 	justify-content: space-between;
 }
+
+/* MODAL INPUTS */
 
 .modal-content {
 	height: calc(100% - 50px);
@@ -67,6 +71,8 @@
 	justify-content: space-between;
 	gap: 10px;
 	padding: 15px;
+	background-color: rgb(255 255 255);
+	height: 100%;
 }
 
 .input-container-1,
@@ -74,15 +80,25 @@
 	display: flex;
 	flex-direction: column;
 	width: 100%;
+	gap: 10px;
 }
 
-.modal-form label {
-	margin-bottom: 5px;
+.input-container-1 > div,
+.input-container-2 > div {
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
 }
 
-.modal-title,
-.modal-description {
-	margin-bottom: 15px;
+.input-container-2 {
+	gap: 30px;
+}
+
+.label-title::after,
+.label-due-date.required::after {
+	content: "*";
+	margin-left: 3px;
+	color: red;
 }
 
 .modal-form input,
@@ -95,6 +111,42 @@
 	border-radius: 2px;
 }
 
+.modal-form input:focus,
+.modal-form select:focus,
+button:focus {
+	outline: 1px solid var(--dark-green);
+	box-shadow: 0 0 10px #607d8b;
+}
+
+.title-error,
+.due-date-error {
+	font-size: 0.8rem;
+	opacity: 0;
+	color: red;
+	-webkit-user-select: none; /* Safari */
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* IE10+/Edge */
+	user-select: none; /* Standard */
+}
+
+.title-error.active,
+.due-date-error.active {
+	opacity: 1;
+}
+
+.title-container input.active,
+.due-date-container input.active {
+	outline: 1px solid red;
+}
+
+.title-container input.active:focus,
+.due-date-container input.active:focus {
+	box-shadow: 0px 0px 10px red;
+	outline: 1px solid red;
+}
+
+/* MODAL BUTTONS */
+
 .modal-button-container {
 	background-color: #f1f5f9;
 	padding: 10px;
@@ -104,7 +156,7 @@
 	gap: 10px;
 	justify-content: flex-end;
 	width: 100%;
-	border-radius: 5px;
+	border-radius: 0px 0px 5px 5px;
 }
 
 .modal-button-container > button {
