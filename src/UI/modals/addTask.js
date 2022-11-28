@@ -7,6 +7,22 @@ const add = document.querySelector("#add-task-add");
 
 const title = document.querySelector("#add-task-title");
 const titleError = document.querySelector(".title-error");
+const dueDate = document.querySelector("#add-task-due-date");
+const dueDateError = document.querySelector(".due-date-error");
+const description = document.querySelector("#add-task-description");
+const priority = document.querySelector("#add-task-priority");
+
+const clearModal = () => {
+	title.value = "";
+	dueDate.value = "";
+	description.value = "";
+	priority.value = "Low";
+
+	title.classList.remove("active");
+	titleError.classList.remove("active");
+	dueDate.classList.remove("active");
+	dueDateError.classList.remove("active");
+};
 
 const toggleError = () => {
 	if (title.value) {
@@ -27,7 +43,10 @@ const toggleModal = () => {
 	overlayModal.classList.toggle("active");
 };
 
-openModal.addEventListener("click", toggleModal);
+openModal.addEventListener("click", () => {
+	clearModal();
+	toggleModal();
+});
 cancelBtn.addEventListener("click", toggleModal);
 closeBtn.addEventListener("click", toggleModal);
 add.addEventListener("click", () => {
