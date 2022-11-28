@@ -40,6 +40,16 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
 /***/ }),
 
+/***/ "./src/UI/modals/addTask.js":
+/*!**********************************!*\
+  !*** ./src/UI/modals/addTask.js ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"egg\": () => (/* binding */ egg)\n/* harmony export */ });\nconst modal = document.querySelector(\".modal\");\nconst modalOverlay = document.querySelector(\".modal-overlay\");\nconst openModal = document.querySelector(\"#add-task\");\nconst cancelModal = document.querySelector(\"#add-task-cancel\");\nconst addModal = document.querySelector(\"#add-task-add\");\n\nopenModal.addEventListener(\"click\", () => {\n\tmodal.classList.toggle(\"active\");\n\tmodalOverlay.classList.toggle(\"active\");\n});\n\nlet egg = 1;\n\n\n\n//# sourceURL=webpack://todo-list/./src/UI/modals/addTask.js?");
+
+/***/ }),
+
 /***/ "./src/UI/toggleNavigation.js":
 /*!************************************!*\
   !*** ./src/UI/toggleNavigation.js ***!
@@ -56,7 +66,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
   \**********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _UI_toggleNavigation__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./UI/toggleNavigation */ \"./src/UI/toggleNavigation.js\");\n/* harmony import */ var _AppLogic_task__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AppLogic/task */ \"./src/AppLogic/task.js\");\n/* harmony import */ var _AppLogic_project__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./AppLogic/project */ \"./src/AppLogic/project.js\");\n\n\n\n\n(0,_AppLogic_project__WEBPACK_IMPORTED_MODULE_2__.addProject)(\"oe\", 0);\n(0,_AppLogic_project__WEBPACK_IMPORTED_MODULE_2__.addProject)(\"ji\", 1);\n(0,_AppLogic_project__WEBPACK_IMPORTED_MODULE_2__.deleteProject)(0);\n\n\n//# sourceURL=webpack://todo-list/./src/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _UI_toggleNavigation__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./UI/toggleNavigation */ \"./src/UI/toggleNavigation.js\");\n/* harmony import */ var _AppLogic_task__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AppLogic/task */ \"./src/AppLogic/task.js\");\n/* harmony import */ var _AppLogic_project__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./AppLogic/project */ \"./src/AppLogic/project.js\");\n/* harmony import */ var _UI_modals_addTask_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./UI/modals/addTask.js */ \"./src/UI/modals/addTask.js\");\n\n\n\n\n\n(0,_AppLogic_project__WEBPACK_IMPORTED_MODULE_2__.addProject)(\"oe\", 0);\n(0,_AppLogic_project__WEBPACK_IMPORTED_MODULE_2__.addProject)(\"ji\", 1);\n(0,_AppLogic_project__WEBPACK_IMPORTED_MODULE_2__.deleteProject)(0);\n\n\n//# sourceURL=webpack://todo-list/./src/index.js?");
 
 /***/ })
 

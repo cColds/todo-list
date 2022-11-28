@@ -11,6 +11,7 @@
         <link rel="stylesheet" href="css/header.css">
         <link rel="stylesheet" href="css/navigation.css">
         <link rel="stylesheet" href="css/universal.css">
+        <link rel="stylesheet" href="css/modals.css">
         <link rel="shortcut icon" href="icons/todo.svg">
 
     </head>
@@ -108,9 +109,48 @@
                     viewBox="0 0 24 24">
                     <path fill="currentColor" d="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z" />
                 </svg>
-                <div id="main-task-section">
-                    <div id="projects-item-name">Inbox</div>
+
+                <div id="main-title">
+                    Inbox
                 </div>
+                <button id="add-task">Add Task</button>
+                <div class="modal">
+
+                    <div class="modal-header-container">
+                        <div class="modal-header-title">Add Task</div>
+                        <div class="modal-header-cancel">&times;</div>
+                    </div>
+                    <div class="modal-content">
+                        <form class="modal-form" action="">
+                            <div class="input-container-1">
+                                <label for="title">Title</label>
+                                <input type="text" id="title" class="modal-title" placeholder="Title">
+
+                                <label for="dueDate" class="modal-due-date">Due Date</label>
+                                <input type="date" id="dueDate">
+                            </div>
+                            <div class="input-container-2">
+                                <label for="description">Description</label>
+                                <input type="text" id="description" class="modal-description" placeholder="Description">
+
+                                <label for="priority">Priority</label>
+                                <select id="priority" class="modal-priority">
+                                    <option value="Low" selected>Low</option>
+                                    <option value="Medium">Medium</option>
+                                    <option value="High">High</option>
+                                </select>
+
+                            </div>
+                        </form>
+
+                        <div class="modal-button-container">
+                            <button id="add-task-cancel" class="cancel-modal">Cancel</button>
+                            <button id="add-task-add" class="save-modal">Add</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-overlay"></div>
+
             </main>
         </div>
     </body>

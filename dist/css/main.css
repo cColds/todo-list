@@ -1,5 +1,4 @@
-body {
-}
+@import url(colors.css);
 
 #grid-layout {
 	height: 100%;
@@ -16,14 +15,32 @@ nav {
 }
 
 main {
-	padding: 15px 15px 5px 15px;
-	border: 1px solid black;
-}
-
-main > * {
+	padding: 25px;
 	border: 1px solid black;
 }
 
 #main-hamburger-menu {
 	color: var(--dark-green);
+}
+
+#main-title {
+	font-size: 1.5rem;
+	color: var(--dark-green);
+}
+
+#add-task {
+	border: 1px solid black;
+	width: 150px;
+	height: 40px;
+	background-color: var(--dark-green);
+	color: white;
+	font-weight: bold;
+	border: none;
+	margin-top: 15px;
+	border-radius: 5px;
+}
+
+#add-task:hover {
+	transition: 0.3s;
+	background-color: #769aac;
 }
