@@ -12,7 +12,7 @@ const dueDateError = document.querySelector(".due-date-error");
 const description = document.querySelector("#add-task-description");
 const priority = document.querySelector("#add-task-priority");
 
-const clearModal = () => {
+const clearModalValues = () => {
 	title.value = "";
 	dueDate.value = "";
 	description.value = "";
@@ -44,7 +44,7 @@ const toggleModal = () => {
 };
 
 openModal.addEventListener("click", () => {
-	clearModal();
+	clearModalValues();
 	toggleModal();
 });
 cancelBtn.addEventListener("click", toggleModal);
