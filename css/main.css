@@ -2,9 +2,14 @@
 
 #grid-layout {
 	height: 100%;
+	width: 100%;
 	display: grid;
 	grid-template-columns: minmax(200px, 300px) minmax(350px, 4fr);
 	grid-template-rows: 70px;
+}
+
+#grid-layout[data-nav-opened="false"] {
+	grid-template-columns: 1fr;
 }
 
 header {
@@ -16,7 +21,10 @@ nav {
 
 main {
 	padding: 25px;
-	border: 1px solid black;
+
+	display: flex;
+	gap: 15px;
+	width: 100%;
 }
 
 #main-hamburger-menu {
@@ -43,4 +51,50 @@ main {
 #add-task:hover {
 	transition: 0.3s;
 	background-color: #769aac;
+}
+
+#task-section {
+	display: flex;
+	flex-direction: column;
+
+	width: 100%;
+}
+
+.task {
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	width: 100%;
+	height: 50px;
+	cursor: pointer;
+	display: flex;
+	gap: 15px;
+	align-items: center;
+	padding: 0px 10px 0px 10px;
+}
+
+.task:hover {
+	background-color: rgba(134, 239, 172, 0.15);
+	transition: 1s;
+}
+
+.complete-task {
+	border: 2px solid black;
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+}
+
+.text-task {
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+}
+
+.description-task {
+	color: rgb(0, 0, 0, 0.6);
+	font-size: 0.95rem;
+}
+
+.edit-task {
+	margin-left: auto;
 }
