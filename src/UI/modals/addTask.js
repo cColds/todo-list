@@ -1,3 +1,6 @@
+import { taskList } from "../../AppLogic/task";
+import { pubSub } from "../../pubsub";
+
 const modal = document.querySelector(".modal");
 const overlayModal = document.querySelector(".modal-overlay");
 const openModal = document.querySelector("#add-task");
@@ -47,14 +50,26 @@ openModal.addEventListener("click", () => {
 	clearModalValues();
 	toggleModal();
 });
+
 cancelBtn.addEventListener("click", toggleModal);
 closeBtn.addEventListener("click", toggleModal);
+
 add.addEventListener("click", () => {
-	if (title.value) {
-		toggleModal();
-	} else {
+	if (!title.value) {
 		toggleError();
+		return;
 	}
+	toggleModal();
+
+	const taskValues = {
+		title: title.value,
+		dueDate: dueDate.value,
+		description: description.value,
+		priority: priority.value,
+		id: taskList.length,
+	};
+
+	pubSub.publish("task-submitted", taskValues);
 });
 
 let egg = 1;

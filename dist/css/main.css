@@ -130,6 +130,6 @@ main {
 }
 
 .edit-task:hover {
-	color: #6b7280;
+	color: rgba(107, 114, 128, 0.7);
 	transition: 0.5s;
 }

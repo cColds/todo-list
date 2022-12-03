@@ -1,3 +1,4 @@
+import { pubSub } from "../pubsub";
 import { updateId } from "./helperFunction";
 
 const taskList = [];
@@ -15,8 +16,15 @@ const completeTask = (id) => {
 	updateId(taskList);
 };
 
+pubSub.subscribe("task-submitted", (task) => {
+	const taskId = taskList.length;
+	taskList.push(task);
+	console.log(taskList);
+	pubSub.publish("task-pushed");
+});
+
 const editTask = (title, description, dueDate, priority, id) => {
 	taskList[id] = taskProperties(title, description, dueDate, priority, id);
 };
 
-export { addTask, completeTask, editTask };
+export { addTask, completeTask, editTask, taskList };
