@@ -1,4 +1,6 @@
+import { format, isToday } from "date-fns";
 import { pubSub } from "../pubsub";
+import { selectedProject as selectedProjectFn } from "../UI/switchProject";
 import { updateId } from "./helperFunction";
 
 const taskList = [];
@@ -16,15 +18,39 @@ const completeTask = (id) => {
 	updateId(taskList);
 };
 
-pubSub.subscribe("task-submitted", (task) => {
-	const taskId = taskList.length;
-	taskList.push(task);
-	console.log(taskList);
-	pubSub.publish("task-pushed");
-});
-
 const editTask = (title, description, dueDate, priority, id) => {
 	taskList[id] = taskProperties(title, description, dueDate, priority, id);
+};
+
+pubSub.subscribe("task-submitted", (task) => {
+	taskList.push(task);
+	pubSub.publish("task-pushed", task);
+});
+
+pubSub.subscribe("switch-main-project", checkProjectToFilter);
+pubSub.subscribe("task-pushed", checkProjectToFilter);
+
+function checkProjectToFilter() {
+	const selectedProject = selectedProjectFn();
+	if (selectedProject === "Inbox") filterInbox();
+	else if (selectedProject === "Today") filterTodayTask();
+	else if (selectedProject === "Week") console.log("c");
+	else console.log("filter regular projects");
+}
+
+const filterInbox = () => {
+	console.log("populate with dom");
+};
+
+const filterTodayTask = () => {
+	const todayTaskList = [];
+
+	taskList.forEach((task) => {
+		if (isToday(task.dueDate)) todayTaskList.push(task);
+		console.log(todayTaskList);
+	});
+
+	console.log("populate with dom");
 };
 
 export { addTask, completeTask, editTask, taskList };

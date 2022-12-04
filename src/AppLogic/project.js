@@ -8,13 +8,11 @@ const projectProperties = (title, id) => {
 
 const addProject = (title, id) => {
 	projectList.push(projectProperties(title, id));
-	console.log(projectList);
 };
 
 const deleteProject = (id) => {
 	projectList.splice(id, 1);
 	updateId(projectList);
-	console.log(projectList);
 };
 
 const editProject = (title, id) => {

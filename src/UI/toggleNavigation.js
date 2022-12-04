@@ -11,7 +11,6 @@ const setNavValue = () => {
 	const isNavOpen = gridLayout.dataset.navOpened === "true";
 	if (isNavOpen) gridLayout.dataset.navOpened = "false";
 	else gridLayout.dataset.navOpened = "true";
-	console.log(gridLayout.dataset.navOpened);
 };
 
 const navHamburgerMenu = document.querySelector("#nav-hamburger-menu");
