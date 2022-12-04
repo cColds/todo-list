@@ -78,6 +78,7 @@ li {
 .projects-item-name {
 	font-size: 0.9rem;
 	color: grey;
+	pointer-events: none;
 }
 
 #nav-border-container {
