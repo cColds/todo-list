@@ -124,6 +124,10 @@ main {
 	font-size: 0.95rem;
 }
 
+.edit-task-container {
+	margin-left: auto;
+}
+
 .edit-task {
 	margin-left: auto;
 	color: #6b7280;
