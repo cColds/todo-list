@@ -17,12 +17,12 @@ const populateTask = () => {
 	const descriptionTask = document.createElement("div");
 	const editTaskContainer = document.createElement("div");
 
-	task.classList.add("task");
+	helperFunction(task, ["task", "medium"]);
 	completeTask.classList.add("complete-task");
 	editTaskContainer.classList.add("edit-task-container");
 	titleDescriptionContainer.classList.add("text-task");
-	helperFunction(titleTask, "title-task", "title");
-	helperFunction(descriptionTask, "description-task", "description");
+	helperFunction(titleTask, ["title-task"], "title");
+	helperFunction(descriptionTask, ["description-task"], "description");
 	editTaskContainer.innerHTML += editTaskIcon();
 
 	titleDescriptionContainer.append(titleTask, descriptionTask);
@@ -39,7 +39,7 @@ const editTaskIcon = () => {
 };
 
 const helperFunction = (element, classAttribute, text) => {
-	element.classList.add(classAttribute);
+	classAttribute.forEach((attr) => element.classList.add(attr));
 	element.textContent = text;
 };
 
