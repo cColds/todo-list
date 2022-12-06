@@ -79,15 +79,15 @@ main {
 	gap: 5px;
 }
 
-.task.low {
+.task.Low {
 	border-left: 5px solid #4ade80;
 }
 
-.task.medium {
+.task.Medium {
 	border-left: 5px solid #fde047;
 }
 
-.task.high {
+.task.High {
 	border-left: 5px solid #ef4444;
 }
 

@@ -26,10 +26,10 @@ pubSub.subscribe("task-submitted", (task) => {
 	pubSub.publish("task-pushed", task);
 });
 
-pubSub.subscribe("switch-main-project", checkProjectToFilter);
-pubSub.subscribe("task-pushed", checkProjectToFilter);
+pubSub.subscribe("switch-main-project", filterTasks);
+pubSub.subscribe("task-pushed", filterTasks);
 
-function checkProjectToFilter() {
+function filterTasks() {
 	const selectedProjectName = getProjectName();
 	if (selectedProjectName === "Inbox") filterInbox();
 	else if (selectedProjectName === "Today") filterTodayTask();
@@ -38,8 +38,8 @@ function checkProjectToFilter() {
 }
 
 const filterInbox = () => {
+	pubSub.publish("filter-task", taskList);
 	console.log("inbox");
-	pubSub.publish("inbox-task-selected");
 };
 
 const filterTodayTask = () => {
@@ -48,9 +48,8 @@ const filterTodayTask = () => {
 		if (isToday(task.dueDate)) todayTaskList.push(task);
 		console.log(todayTaskList);
 	});
-
 	console.log("today");
-	pubSub.publish("today-task-selected", todayTaskList);
+	pubSub.publish("filter-task", todayTaskList);
 };
 
 const updateId = (arr) => {
