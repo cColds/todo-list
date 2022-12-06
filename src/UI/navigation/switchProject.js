@@ -1,8 +1,7 @@
-import { pubSub } from "../pubsub";
+import { pubSub } from "../../pubsub";
 
-const selectedProject = () => {
-	console.log(document.querySelector(".selected"));
-};
+const getProjectName = () =>
+	document.querySelector(".selected .projects-item-name").textContent;
 
 const mainProjects = document.querySelector("#main-projects-list");
 
@@ -21,4 +20,4 @@ mainProjects.addEventListener("click", (e) => {
 	pubSub.publish("switch-main-project");
 });
 
-export { mainProjects, selectedProject };
+export { mainProjects, getProjectName };

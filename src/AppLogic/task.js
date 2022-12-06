@@ -1,6 +1,6 @@
 import { format, isToday } from "date-fns";
 import { pubSub } from "../pubsub";
-import { selectedProjectName } from "../UI/switchProject";
+import { getProjectName } from "../UI/navigation/switchProject.js";
 import { updateId } from "./helperFunction";
 
 const taskList = [];
@@ -31,16 +31,15 @@ pubSub.subscribe("switch-main-project", checkProjectToFilter);
 pubSub.subscribe("task-pushed", checkProjectToFilter);
 
 function checkProjectToFilter() {
-	const selectedProject = selectedProjectName();
-	console.log(selectedProject);
-	if (selectedProject === "Inbox") filterInbox();
-	else if (selectedProject === "Today") filterTodayTask();
-	else if (selectedProject === "Week") console.log("week");
+	const selectedProjectName = getProjectName();
+	if (selectedProjectName === "Inbox") filterInbox();
+	else if (selectedProjectName === "Today") filterTodayTask();
+	else if (selectedProjectName === "Week") console.log("week");
 	else console.log("filter regular projects");
 }
 
 const filterInbox = () => {
-	console.log("populate with dom");
+	console.log("inbox");
 };
 
 const filterTodayTask = () => {
@@ -51,7 +50,7 @@ const filterTodayTask = () => {
 		console.log(todayTaskList);
 	});
 
-	console.log("populate with dom");
+	console.log("today");
 };
 
 export { addTask, completeTask, editTask, taskList };
