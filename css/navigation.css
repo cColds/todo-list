@@ -5,6 +5,13 @@ nav {
 		rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
 }
 
+/* @media screen and (max-width: 1500px) {
+	nav {
+		display: none;
+		 
+	}
+} */
+
 #main-projects-heading,
 #projects-heading {
 	color: var(--dark-green);
