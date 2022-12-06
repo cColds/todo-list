@@ -1,4 +1,4 @@
-import { updateId } from "./helperFunction";
+import { updateId } from "./task.js";
 
 const projectList = [];
 

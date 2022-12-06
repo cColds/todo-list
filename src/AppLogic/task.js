@@ -1,7 +1,6 @@
 import { format, isToday } from "date-fns";
 import { pubSub } from "../pubsub";
 import { getProjectName } from "../UI/navigation/switchProject.js";
-import { updateId } from "./helperFunction";
 
 const taskList = [];
 
@@ -40,17 +39,26 @@ function checkProjectToFilter() {
 
 const filterInbox = () => {
 	console.log("inbox");
+	pubSub.publish("inbox-task-selected");
 };
 
 const filterTodayTask = () => {
 	const todayTaskList = [];
-
 	taskList.forEach((task) => {
 		if (isToday(task.dueDate)) todayTaskList.push(task);
 		console.log(todayTaskList);
 	});
 
 	console.log("today");
+	pubSub.publish("today-task-selected", todayTaskList);
 };
 
-export { addTask, completeTask, editTask, taskList };
+const updateId = (arr) => {
+	let updatedId = 0;
+	arr.forEach((item) => {
+		item.id = updatedId;
+		updatedId++;
+	});
+};
+
+export { addTask, completeTask, editTask, taskList, updateId };
