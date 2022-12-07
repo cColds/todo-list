@@ -2,6 +2,7 @@ import { pubSub } from "../../pubsub";
 import { removeAllTasks } from "./removeAllTasks";
 
 pubSub.subscribe("filter-task", (arr) => {
+	console.log(arr);
 	removeAllTasks();
 	arr.forEach((task) => populateTask(task));
 });
@@ -27,6 +28,7 @@ const populateTask = (task) => {
 	editTaskContainer.classList.add("edit-task-container");
 	titleDescriptionContainer.classList.add("text-task");
 	dueDateTask.classList.add("due-date-task");
+	taskContainer.dataset.taskId = task.id;
 
 	helperFunction(taskContainer, ["task", task.priority]);
 	helperFunction(titleTask, ["title-task"], task.title);
@@ -43,8 +45,12 @@ const populateTask = (task) => {
 	taskContentLeft.append(completeTask, titleDescriptionContainer);
 	taskContentRight.append(dueDateTask, editTaskContainer);
 	taskContainer.append(taskContentLeft, taskContentRight);
-
 	allTasks.appendChild(taskContainer);
+
+	completeTask.addEventListener("click", (e) => {
+		const taskIdAttribute = e.target.closest(".task").dataset.taskId;
+		pubSub.publish("complete-task-clicked", taskIdAttribute);
+	});
 };
 
 const editTaskIcon = () => {
@@ -52,30 +58,6 @@ const editTaskIcon = () => {
     <path fill="currentColor" d="M21.7 13.35L20.7 14.35L18.65 12.35L19.65 11.35C19.85 11.14 20.19 11.13 20.42 11.35L21.7 12.63C21.89 12.83 21.89 13.15 21.7 13.35M12 18.94V21H14.06L20.12 14.88L18.07 12.88L12 18.94M5 19H10V21H5C3.9 21 3 20.11 3 19V5C3 3.9 3.9 3 5 3H6V1H8V3H16V1H18V3H19C20.11 3 21 3.9 21 5V9H5V19M5 5V7H19V5H5Z" />
 </svg>`;
 };
-
-{
-	/* <div class="task">
-
-<!-- <div class="complete-task"></div> -->
-
-<div class="task-content-left">
-    <div class="complete-task"></div>
-    <div class="text-task">
-        <div class="title-task">Title test</div>
-        <div class="description-task">Apples are red</div>
-    </div>
-</div>
-<div class="task-content-right">
-    <div class="due-date-task">December 1st, 2022</div>
-    <div class="edit-task-container">
-        <svg class="edit-task" style="width:24px;height:24px" viewBox="0 0 24 24">
-            <path fill="currentColor"
-                d="M21.7 13.35L20.7 14.35L18.65 12.35L19.65 11.35C19.85 11.14 20.19 11.13 20.42 11.35L21.7 12.63C21.89 12.83 21.89 13.15 21.7 13.35M12 18.94V21H14.06L20.12 14.88L18.07 12.88L12 18.94M5 19H10V21H5C3.9 21 3 20.11 3 19V5C3 3.9 3.9 3 5 3H6V1H8V3H16V1H18V3H19C20.11 3 21 3.9 21 5V9H5V19M5 5V7H19V5H5Z" />
-        </svg>
-    </div>
-</div>
-</div> */
-}
 
 const helperFunction = (element, classAttribute, text) => {
 	classAttribute.forEach((attr) => element.classList.add(attr));

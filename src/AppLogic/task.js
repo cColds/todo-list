@@ -15,7 +15,11 @@ const addTask = (title, description, dueDate, priority, id) => {
 const completeTask = (id) => {
 	taskList.splice(id, 1);
 	updateId(taskList);
+	console.log(taskList);
+	filterTasks();
 };
+
+pubSub.subscribe("complete-task-clicked", completeTask);
 
 const editTask = (title, description, dueDate, priority, id) => {
 	taskList[id] = taskProperties(title, description, dueDate, priority, id);
