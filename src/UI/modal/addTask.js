@@ -1,66 +1,50 @@
 import { taskList } from "../../AppLogic/task";
 import { pubSub } from "../../pubsub";
+import {
+	clearModalValues,
+	toggleModal,
+	toggleError,
+} from "./modalFunctionality";
 
-const modal = document.querySelector(".modal");
-const overlayModal = document.querySelector(".modal-overlay");
+const modal = document.querySelector("#add-task-modal");
+const overlayModal = document.querySelector("#add-task-modal-overlay");
 const openModal = document.querySelector("#add-task");
 const cancelBtn = document.querySelector("#add-task-cancel");
-const closeBtn = document.querySelector(".modal-header-cancel");
+const closeBtn = document.querySelector("#add-task-modal-header-cancel");
 const add = document.querySelector("#add-task-add");
 
 const title = document.querySelector("#add-task-title");
-const titleError = document.querySelector(".title-error");
+const titleError = document.querySelector("#add-task-title-error");
 const dueDate = document.querySelector("#add-task-due-date");
-const dueDateError = document.querySelector(".due-date-error");
+const dueDateError = document.querySelector("#add-task-due-date-error");
 const description = document.querySelector("#add-task-description");
 const priority = document.querySelector("#add-task-priority");
 
-const clearModalValues = () => {
-	title.value = "";
-	dueDate.value = "";
-	description.value = "";
-	priority.value = "Low";
-
-	title.classList.remove("active");
-	titleError.classList.remove("active");
-	dueDate.classList.remove("active");
-	dueDateError.classList.remove("active");
-};
-
-const toggleError = () => {
-	if (title.value) {
-		title.classList.remove("active");
-		titleError.classList.remove("active");
-	} else {
-		title.classList.add("active");
-		titleError.classList.add("active");
-	}
-};
-
-title.addEventListener("keyup", () => {
-	toggleError();
-});
-
-const toggleModal = () => {
-	modal.classList.toggle("active");
-	overlayModal.classList.toggle("active");
-};
+title.addEventListener("keyup", () => toggleError(title, titleError));
+cancelBtn.addEventListener("click", () => toggleModal(modal, overlayModal));
+closeBtn.addEventListener("click", () => toggleModal(modal, overlayModal));
 
 openModal.addEventListener("click", () => {
-	clearModalValues();
-	toggleModal();
+	clearModalValues(taskProperties);
+	toggleModal(modal, overlayModal);
 });
 
-cancelBtn.addEventListener("click", toggleModal);
-closeBtn.addEventListener("click", toggleModal);
+const taskProperties = {
+	title,
+	dueDate,
+	description,
+	priority,
+	titleError,
+	dueDateError,
+};
 
 add.addEventListener("click", () => {
 	if (!title.value) {
-		toggleError();
+		toggleError(title, titleError);
 		return;
 	}
-	toggleModal();
 
+	toggleModal(modal, overlayModal);
 	const taskValues = {
 		title: title.value,
 		dueDate: new Date(dueDate.value),

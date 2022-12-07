@@ -53,6 +53,8 @@ const populateTask = (task) => {
 		const taskIdAttribute = e.target.closest(".task").dataset.taskId;
 		pubSub.publish("complete-task-clicked", taskIdAttribute);
 	});
+
+	editTaskContainer.addEventListener("click", () => console.log("a"));
 };
 
 const editTaskIcon = () => {
