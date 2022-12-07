@@ -64,4 +64,14 @@ const updateId = (arr) => {
 	});
 };
 
+//Wed Dec 07 2022 00:22:58 GMT-0600 (Central Standard Time)
+// let defaultDate = new Date();
+
+// console.log(format(defaultDate, "EEE, LLLL do, y"));
+
+//2022-12-07T03:28
+// let defaultDate = new Date("2022-12-07T03:28");
+
+// console.log(format(defaultDate, "EEE, LLLL do, y p"));
+
 export { addTask, completeTask, editTask, taskList, updateId };

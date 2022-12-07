@@ -61,11 +61,9 @@ add.addEventListener("click", () => {
 	}
 	toggleModal();
 
-	const dueDateFormatted = dueDate.value.replaceAll("-", "/");
-
 	const taskValues = {
 		title: title.value,
-		dueDate: new Date(dueDateFormatted),
+		dueDate: new Date(dueDate.value),
 		description: description.value,
 		priority: priority.value,
 		id: taskList.length,

@@ -1,11 +1,14 @@
 import { pubSub } from "../../pubsub";
 import { removeAllTasks } from "./removeAllTasks";
+import { format } from "date-fns";
 
 pubSub.subscribe("filter-task", (arr) => {
 	console.log(arr);
 	removeAllTasks();
 	arr.forEach((task) => populateTask(task));
 });
+
+const formatDueDate = (dueDate) => format(dueDate, "EEEE, LLLL do, y, p");
 
 const populateTask = (task) => {
 	console.log(task);
@@ -36,7 +39,7 @@ const populateTask = (task) => {
 
 	dueDateTask.textContent =
 		task.dueDate.toString() !== "Invalid Date"
-			? task.dueDate
+			? formatDueDate(task.dueDate)
 			: "No Due Date";
 
 	editTaskContainer.innerHTML += editTaskIcon();
