@@ -11,7 +11,6 @@ pubSub.subscribe("filter-task", (arr) => {
 const formatDueDate = (dueDate) => format(dueDate, "EEEE, LLLL do, y, p");
 
 const populateTask = (task) => {
-	console.log(task);
 	const allTasks = document.querySelector(".all-tasks");
 
 	const taskContainer = document.createElement("div");
