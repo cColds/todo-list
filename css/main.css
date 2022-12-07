@@ -151,7 +151,6 @@ main {
 
 .edit-task:hover {
 	border-radius: 5px;
-	background-color: #d9e3f1;
-
+	color: #14b8a6;
 	transition: 0.5s;
 }
