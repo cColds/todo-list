@@ -25,18 +25,17 @@ cancelBtn.addEventListener("click", () => toggleModal(modal, overlayModal));
 closeBtn.addEventListener("click", () => toggleModal(modal, overlayModal));
 
 openModal.addEventListener("click", () => {
+	const taskProperties = {
+		title,
+		dueDate,
+		description,
+		priority,
+		titleError,
+		dueDateError,
+	};
 	clearModalValues(taskProperties);
 	toggleModal(modal, overlayModal);
 });
-
-const taskProperties = {
-	title,
-	dueDate,
-	description,
-	priority,
-	titleError,
-	dueDateError,
-};
 
 add.addEventListener("click", () => {
 	if (!title.value) {

@@ -50,12 +50,17 @@ const populateTask = (task) => {
 	allTasks.appendChild(taskContainer);
 
 	completeTask.addEventListener("click", (e) => {
-		const taskIdAttribute = e.target.closest(".task").dataset.taskId;
-		pubSub.publish("complete-task-clicked", taskIdAttribute);
+		pubSub.publish("complete-task-clicked", () => getCurrentTaskId(e));
 	});
 
-	editTaskContainer.addEventListener("click", () => console.log("a"));
+	pubSub.publish("get-task-values", task);
+
+	editTaskContainer.addEventListener("click", (e) => {
+		pubSub.publish("edit-task-clicked", () => getCurrentTaskId(e));
+	});
 };
+
+const getCurrentTaskId = (e) => e.target.closest(".task").dataset.taskId;
 
 const editTaskIcon = () => {
 	return `<svg class="edit edit-task" style="width:24px;height:24px" viewBox="0 0 24 24">
@@ -69,4 +74,4 @@ const helperFunction = (element, classAttribute, text) => {
 };
 
 let joe;
-export { joe };
+export { joe, getCurrentTaskId };

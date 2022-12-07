@@ -13,7 +13,7 @@ const addTask = (title, description, dueDate, priority, id) => {
 };
 
 const completeTask = (id) => {
-	taskList.splice(id, 1);
+	taskList.splice(Number(id()), 1);
 	updateId(taskList);
 	console.log(taskList);
 	filterTasks();
