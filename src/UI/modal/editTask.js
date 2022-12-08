@@ -36,11 +36,9 @@ saveBtn.addEventListener("click", () => {
 	pubSub.publish("task-edited");
 });
 
-// const formatDateTimeLocal = (date) => format(date,'yyyy-II-MM')
-
-// // '2018-06-07T00:00'
 const setEditTaskValues = (task) => {
-	// if (task.dueDate)
+	title.classList.remove("active");
+	titleError.classList.remove("active");
 	title.value = task.title;
 	dueDate.value =
 		task.dueDate !== "Invalid Date"
@@ -63,12 +61,11 @@ const updateTaskValues = (newTask) => {
 	console.log("new", currentTask);
 };
 
-pubSub.subscribe("get-task-values", setEditTaskValues);
-
 let currentTaskId = null;
 pubSub.subscribe("edit-task-clicked", (getCurrentTaskId) => {
 	toggleModal(modal, overlayModal);
 	currentTaskId = getCurrentTaskId();
+	setEditTaskValues(taskList[currentTaskId]);
 });
 
 let john;

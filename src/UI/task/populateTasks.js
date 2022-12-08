@@ -54,8 +54,6 @@ const populateTask = (task) => {
 		pubSub.publish("complete-task-clicked", () => getCurrentTaskId(e));
 	});
 
-	pubSub.publish("get-task-values", task);
-
 	editTaskContainer.addEventListener("click", (e) => {
 		pubSub.publish("edit-task-clicked", () => getCurrentTaskId(e));
 	});
