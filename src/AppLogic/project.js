@@ -17,10 +17,10 @@ function deleteProject(id) {
 	updateId(projectList);
 }
 
-pubSub.subscribe("project-edited", editProjectName);
+pubSub.subscribe("project-edited", editProjectTitle);
 
-function editProjectName(project) {
+function editProjectTitle(project) {
 	projectList[project.id].title = project.title;
 }
 
-export { addProject, deleteProject, editProjectName, projectList };
+export { addProject, deleteProject, editProjectTitle, projectList };
