@@ -58,11 +58,6 @@ li {
 	justify-content: space-between;
 }
 
-.svg-title-container {
-	display: flex;
-	gap: 5px;
-}
-
 .selected .projects-item-icon,
 .selected .projects-item-name {
 	color: var(--dark-green);
@@ -100,6 +95,7 @@ li {
 
 /* PROJECTS */
 
+.project-content-left,
 .project-content-right {
 	display: flex;
 	align-items: center;
