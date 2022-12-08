@@ -27,9 +27,14 @@ const completeTask = (id) => {
 
 pubSub.subscribe("complete-task-clicked", completeTask);
 
-const editTask = (title, description, dueDate, priority, id) => {
-	taskList[id] = taskProperties(title, description, dueDate, priority, id);
+const editTask = (updatedProps) => {
+	taskList[updatedProps.id].title = updatedProps.title;
+	taskList[updatedProps.id].description = updatedProps.description;
+	taskList[updatedProps.id].dueDate = updatedProps.dueDate;
+	taskList[updatedProps.id].priority = updatedProps.priority;
+	filterTasks();
 };
+pubSub.subscribe("task-edited", editTask);
 
 pubSub.subscribe("task-submitted", (task) => {
 	taskList.push(task);
@@ -38,7 +43,6 @@ pubSub.subscribe("task-submitted", (task) => {
 
 pubSub.subscribe("switch-main-project", filterTasks);
 pubSub.subscribe("task-pushed", filterTasks);
-pubSub.subscribe("task-edited", filterTasks);
 
 function filterTasks() {
 	const selectedProjectName = getProjectName();
@@ -73,7 +77,6 @@ const filterWeek = () => {
 	taskList.forEach((task) => {
 		const currentTime = new Date();
 		const week = differenceInDays(new Date(task.dueDate), currentTime);
-
 		if (week <= 7 && week >= 0) weekTaskList.push(task);
 	});
 	pubSub.publish("filter-task", weekTaskList);

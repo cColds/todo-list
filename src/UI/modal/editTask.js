@@ -25,46 +25,32 @@ saveBtn.addEventListener("click", () => {
 		return;
 	}
 	toggleModal(modal, overlayModal);
-	const newTaskProperties = {
-		title,
-		dueDate,
-		description,
-		priority,
-	};
-	updateTaskValues(newTaskProperties);
 
-	pubSub.publish("task-edited");
+	pubSub.publish("task-edited", {
+		title: title.value,
+		dueDate: new Date(dueDate.value).toString(),
+		description: description.value,
+		priority: priority.value,
+		id: currentTaskId,
+	});
 });
 
-const setEditTaskValues = (task) => {
+const setEditInputValues = (task) => {
 	title.classList.remove("active");
 	titleError.classList.remove("active");
 	title.value = task.title;
-	if (task.dueDate !== "Invalid Date")
-		dueDate.value = formatISO9075(new Date(task.dueDate));
+	console.log(task.dueDate);
+	if (task.dueDate !== "Invalid Date") formatISO9075(new Date(task.dueDate));
 
 	description.value = task.description;
 	priority.value = task.priority;
-};
-
-const updateTaskValues = (newTask) => {
-	const currentTask = taskList[currentTaskId];
-	const newDueDate = new Date(newTask.dueDate.value).toString();
-
-	currentTask.title = newTask.title.value;
-	currentTask.dueDate =
-		newDueDate !== "Invalid Date" ? newDueDate : "Invalid Date";
-
-	currentTask.description = newTask.description.value;
-	currentTask.priority = newTask.priority.value;
-	console.log("new", currentTask);
 };
 
 let currentTaskId = null;
 pubSub.subscribe("edit-task-clicked", (getCurrentTaskId) => {
 	toggleModal(modal, overlayModal);
 	currentTaskId = getCurrentTaskId();
-	setEditTaskValues(taskList[currentTaskId]);
+	setEditInputValues(taskList[currentTaskId]);
 });
 
 let john;
