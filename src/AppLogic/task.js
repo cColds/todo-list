@@ -10,6 +10,7 @@ import {
 	getProjectId,
 	getMainProjectId,
 } from "../UI/navigation/switchProject.js";
+import { projectList } from "./project";
 
 const taskList = [];
 
@@ -53,7 +54,7 @@ function filterMainProjectTasks() {
 pubSub.subscribe("project-switched", filterProjectTasks);
 
 function filterProjectTasks() {
-	// getProjectId()
+	pubSub.publish("filter-task", projectList[getProjectId()].task);
 }
 
 const filterInbox = () => {

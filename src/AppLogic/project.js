@@ -23,4 +23,4 @@ function editProjectName(project) {
 	projectList[project.id].title = project.title;
 }
 
-export { addProject, deleteProject, editProjectName };
+export { addProject, deleteProject, editProjectName, projectList };
