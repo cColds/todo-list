@@ -19,7 +19,7 @@ mainProjects.addEventListener("click", (e) => {
 	);
 	const mainTitle = document.querySelector("#main-title");
 	mainTitle.textContent = currentSelectedTitle.textContent;
-	pubSub.publish("switch-main-project");
+	pubSub.publish("main-project-switched");
 });
 
 export { mainProjects, getProjectId, getMainProjectId };

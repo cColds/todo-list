@@ -23,7 +23,7 @@ function completeTask(id) {
 	taskList.splice(id(), 1);
 	updateId(taskList);
 	console.log(taskList);
-	filterTasks();
+	filterMainProjectTasks();
 }
 
 pubSub.subscribe("task-edited", editTask);
@@ -33,26 +33,27 @@ function editTask(updatedProps) {
 	taskList[updatedProps.id].description = updatedProps.description;
 	taskList[updatedProps.id].dueDate = updatedProps.dueDate;
 	taskList[updatedProps.id].priority = updatedProps.priority;
-	filterTasks();
+	filterMainProjectTasks();
 }
 
 pubSub.subscribe("task-submitted", (task) => {
 	taskList.push(task);
-	filterTasks();
+	filterMainProjectTasks();
 });
 
-pubSub.subscribe("switch-main-project", filterTasks);
+pubSub.subscribe("main-project-switched", filterMainProjectTasks);
 
-function filterTasks() {
-	if (getProjectId()) {
-		("filter projects");
-		return;
-	}
-
+function filterMainProjectTasks() {
 	const mainProjectId = getMainProjectId();
 	if (mainProjectId === 0) filterInbox();
 	else if (mainProjectId === 1) filterToday();
 	else filterWeek();
+}
+
+pubSub.subscribe("project-switched", filterProjectTasks);
+
+function filterProjectTasks() {
+	// getProjectId()
 }
 
 const filterInbox = () => {

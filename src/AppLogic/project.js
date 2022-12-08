@@ -7,16 +7,20 @@ const projectList = [];
 pubSub.subscribe("project-submitted", addProject);
 
 function addProject(title, id) {
-	projectList.push(projectProperties({ title, id, task: [] }));
+	projectList.push({ title, id, task: [] });
 }
+
+pubSub.subscribe("project-deleted", deleteProject);
 
 function deleteProject(id) {
 	projectList.splice(id(), 1);
 	updateId(projectList);
 }
 
-function editProject(title, id) {
-	projectList[id] = projectProperties(title, id);
+pubSub.subscribe("project-edited", editProjectName);
+
+function editProjectName(project) {
+	projectList[project.id].title = project.title;
 }
 
-export { addProject, deleteProject, editProject };
+export { addProject, deleteProject, editProjectName };
