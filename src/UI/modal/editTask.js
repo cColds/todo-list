@@ -40,10 +40,9 @@ const setEditTaskValues = (task) => {
 	title.classList.remove("active");
 	titleError.classList.remove("active");
 	title.value = task.title;
-	dueDate.value =
-		task.dueDate !== "Invalid Date"
-			? formatISO9075(new Date(task.dueDate))
-			: "Invalid Date";
+	if (task.dueDate !== "Invalid Date")
+		dueDate.value = formatISO9075(new Date(task.dueDate));
+
 	description.value = task.description;
 	priority.value = task.priority;
 };
