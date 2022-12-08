@@ -1,6 +1,7 @@
 import { updateId } from "./task.js";
 
 const projectList = [];
+// i.e. [{projectName: "The Incredibles", projectId: 0, projectTasks: [{title:'cool'},{title:'epic'}]}]
 
 const projectProperties = (title, id) => {
 	return { title, id };
@@ -11,7 +12,7 @@ const addProject = (title, id) => {
 };
 
 const deleteProject = (id) => {
-	projectList.splice(id, 1);
+	projectList.splice(id(), 1);
 	updateId(projectList);
 };
 
