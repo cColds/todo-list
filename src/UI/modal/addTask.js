@@ -46,7 +46,7 @@ add.addEventListener("click", () => {
 	toggleModal(modal, overlayModal);
 	const taskValues = {
 		title: title.value,
-		dueDate: new Date(dueDate.value),
+		dueDate: new Date(dueDate.value).toString(),
 		description: description.value,
 		priority: priority.value,
 		id: taskList.length,

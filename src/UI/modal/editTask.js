@@ -2,11 +2,12 @@ import { taskList } from "../../AppLogic/task";
 import { pubSub } from "../../pubsub";
 import { toggleModal, toggleError } from "./modalFunctionality";
 import { getCurrentTaskId } from "../task/populateTasks";
+import { format, formatISO9075 } from "date-fns";
 const modal = document.querySelector("#edit-task-modal");
 const overlayModal = document.querySelector("#edit-task-modal-overlay");
 const cancelBtn = document.querySelector("#edit-task-cancel");
 const closeBtn = document.querySelector("#edit-task-modal-header-cancel");
-const saveBtn = document.querySelector("#edit-task-edit");
+const saveBtn = document.querySelector("#edit-task-save");
 
 const title = document.querySelector("#edit-task-title");
 const titleError = document.querySelector("#edit-task-title-error");
@@ -18,35 +19,56 @@ const priority = document.querySelector("#edit-task-priority");
 title.addEventListener("keyup", () => toggleError(title, titleError));
 cancelBtn.addEventListener("click", () => toggleModal(modal, overlayModal));
 closeBtn.addEventListener("click", () => toggleModal(modal, overlayModal));
-// saveBtn.addEventListener("click", () => {
-// 	if (!title.value) {
-// 		toggleError(title, titleError);
-// 		return;
-// 	}
+saveBtn.addEventListener("click", () => {
+	if (!title.value) {
+		toggleError(title, titleError);
+		return;
+	}
+	toggleModal(modal, overlayModal);
+	const newTaskProperties = {
+		title,
+		dueDate,
+		description,
+		priority,
+	};
+	updateTaskValues(newTaskProperties);
 
-// 	toggleModal(modal, overlayModal);
-// 	const taskValues = {
-// 		title: title.value,
-// 		dueDate: new Date(dueDate.value),
-// 		description: description.value,
-// 		priority: priority.value,
-// 		id: taskList.length,
-// 	};
-// });
+	pubSub.publish("task-edited");
+});
 
-let currentTaskId = [];
-getCurrentTaskId;
+// const formatDateTimeLocal = (date) => format(date,'yyyy-II-MM')
 
+// // '2018-06-07T00:00'
 const setEditTaskValues = (task) => {
+	// if (task.dueDate)
 	title.value = task.title;
-	dueDate.value = task.dueDate;
+	dueDate.value =
+		task.dueDate !== "Invalid Date"
+			? formatISO9075(new Date(task.dueDate))
+			: "Invalid Date";
 	description.value = task.description;
 	priority.value = task.priority;
 };
+
+const updateTaskValues = (newTask) => {
+	const currentTask = taskList[currentTaskId];
+	const newDueDate = new Date(newTask.dueDate.value).toString();
+
+	currentTask.title = newTask.title.value;
+	currentTask.dueDate =
+		newDueDate !== "Invalid Date" ? newDueDate : "Invalid Date";
+
+	currentTask.description = newTask.description.value;
+	currentTask.priority = newTask.priority.value;
+	console.log("new", currentTask);
+};
+
 pubSub.subscribe("get-task-values", setEditTaskValues);
-pubSub.subscribe("edit-task-clicked", (e) => {
+
+let currentTaskId = null;
+pubSub.subscribe("edit-task-clicked", (getCurrentTaskId) => {
 	toggleModal(modal, overlayModal);
-	console.log(e);
+	currentTaskId = getCurrentTaskId();
 });
 
 let john;

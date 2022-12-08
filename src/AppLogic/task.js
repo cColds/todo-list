@@ -1,4 +1,10 @@
-import { format, isToday, differenceInDays, isYesterday } from "date-fns";
+import {
+	format,
+	isToday,
+	differenceInDays,
+	formatISO,
+	formatISO9075,
+} from "date-fns";
 import { pubSub } from "../pubsub";
 import { getProjectName } from "../UI/navigation/switchProject.js";
 
@@ -13,7 +19,7 @@ const addTask = (title, description, dueDate, priority, id) => {
 };
 
 const completeTask = (id) => {
-	taskList.splice(Number(id()), 1);
+	taskList.splice(id(), 1);
 	updateId(taskList);
 	console.log(taskList);
 	filterTasks();
@@ -32,6 +38,7 @@ pubSub.subscribe("task-submitted", (task) => {
 
 pubSub.subscribe("switch-main-project", filterTasks);
 pubSub.subscribe("task-pushed", filterTasks);
+pubSub.subscribe("task-edited", filterTasks);
 
 function filterTasks() {
 	const selectedProjectName = getProjectName();
@@ -71,5 +78,12 @@ const filterWeek = () => {
 	});
 	pubSub.publish("filter-task", weekTaskList);
 };
+
+// // const formatDateTimeLocal = (date) => format(date,'yyyy-II-MM')
+// let cool = new Date();
+
+// console.log(formatISO9075(cool));
+
+// // // '2018-06-07T00:00'
 
 export { addTask, completeTask, editTask, taskList, updateId };
