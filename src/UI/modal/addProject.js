@@ -33,13 +33,7 @@ addBtn.addEventListener("click", () => {
 	}
 
 	toggleModal(modal, overlayModal);
-	// const project = {
-	// 	title: title.value,
-	// 	dueDate: new Date(dueDate.value).toString(),
-	// 	description: description.value,
-	// 	priority: priority.value,
-	// 	id: taskList.length,
-	// };
+	pubSub.publish("project-submitted", title.value);
 });
 
 let egg2 = 1;

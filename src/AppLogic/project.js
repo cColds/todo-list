@@ -6,8 +6,9 @@ const projectList = [];
 
 pubSub.subscribe("project-submitted", addProject);
 
-function addProject(title, id) {
-	projectList.push({ title, id, task: [] });
+function addProject(title) {
+	projectList.push({ title, id: projectList.length, task: [] });
+	console.log(projectList);
 }
 
 pubSub.subscribe("project-deleted", deleteProject);
