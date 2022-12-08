@@ -33,7 +33,7 @@ addBtn.addEventListener("click", () => {
 	}
 
 	toggleModal(modal, overlayModal);
-	pubSub.publish("project-submitted", title.value);
+	pubSub.publish("project-submitted");
 });
 
 let egg2 = 1;
