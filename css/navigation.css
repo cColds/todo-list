@@ -100,13 +100,16 @@ li {
 
 /* PROJECTS */
 
-.project-settings-container {
+.project-content-right {
 	display: flex;
-
+	align-items: center;
 	padding-right: 10px;
+	gap: 5px;
 }
 
-.project-settings-icon {
+.project-delete-icon:hover {
+	transition: 0.3s;
+	color: #ef4444;
 }
 
 .project-settings-icon:hover {
