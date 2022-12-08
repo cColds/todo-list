@@ -21,31 +21,31 @@ const addTask = (title, description, dueDate, priority, id) => {
 	taskList.push(taskProperties(title, description, dueDate, priority, id));
 };
 
-const completeTask = (id) => {
+pubSub.subscribe("complete-task-clicked", completeTask);
+
+function completeTask(id) {
 	taskList.splice(id(), 1);
 	updateId(taskList);
 	console.log(taskList);
 	filterTasks();
-};
+}
 
-pubSub.subscribe("complete-task-clicked", completeTask);
+pubSub.subscribe("task-edited", editTask);
 
-const editTask = (updatedProps) => {
+function editTask(updatedProps) {
 	taskList[updatedProps.id].title = updatedProps.title;
 	taskList[updatedProps.id].description = updatedProps.description;
 	taskList[updatedProps.id].dueDate = updatedProps.dueDate;
 	taskList[updatedProps.id].priority = updatedProps.priority;
 	filterTasks();
-};
-pubSub.subscribe("task-edited", editTask);
+}
 
 pubSub.subscribe("task-submitted", (task) => {
 	taskList.push(task);
-	pubSub.publish("task-pushed", task);
+	filterTasks();
 });
 
 pubSub.subscribe("switch-main-project", filterTasks);
-pubSub.subscribe("task-pushed", filterTasks);
 
 function filterTasks() {
 	if (getProjectId()) {
@@ -54,7 +54,6 @@ function filterTasks() {
 	}
 
 	const mainProjectId = getMainProjectId();
-
 	if (mainProjectId === 0) filterInbox();
 	else if (mainProjectId === 1) filterToday();
 	else filterWeek();

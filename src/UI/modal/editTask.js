@@ -1,8 +1,7 @@
 import { taskList } from "../../AppLogic/task";
 import { pubSub } from "../../pubsub";
 import { toggleModal, toggleError } from "./modalFunctionality";
-import { getCurrentTaskId } from "../task/populateTasks";
-import { format, formatISO9075 } from "date-fns";
+import { formatISO9075 } from "date-fns";
 const modal = document.querySelector("#edit-task-modal");
 const overlayModal = document.querySelector("#edit-task-modal-overlay");
 const cancelBtn = document.querySelector("#edit-task-cancel");
@@ -12,7 +11,7 @@ const saveBtn = document.querySelector("#edit-task-save");
 const title = document.querySelector("#edit-task-title");
 const titleError = document.querySelector("#edit-task-title-error");
 const dueDate = document.querySelector("#edit-task-due-date");
-const dueDateError = document.querySelector("#edit-task-due-date-error");
+// const dueDateError = document.querySelector("#edit-task-due-date-error");
 const description = document.querySelector("#edit-task-description");
 const priority = document.querySelector("#edit-task-priority");
 
