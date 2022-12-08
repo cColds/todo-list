@@ -57,3 +57,27 @@ addBtn.addEventListener("click", () => {
 
 let egg = 1;
 export { egg };
+
+//  <div class="modal active" id="add-project-modal">
+//  <div class="modal-header-container">
+//      <div class="modal-header-title">Add Project</div>
+//      <div class="modal-header-cancel" id="add-project-modal-header-cancel">&times;</div>
+//  </div>
+//  <div class="modal-content">
+//      <form class="modal-form" id="add-project-form" action="">
+//          <div class="input-container-1">
+//              <div class="title-container">
+//                  <label for="add-project-title" class="label-title">Title</label>
+//                  <input type="text" id="add-project-title" class="modal-title" placeholder="Title">
+//                  <div class="title-error" id="add-project-title-error">Title can't be empty.</div>
+//              </div>
+//          </div>
+//      </form>
+
+//      <div class="modal-button-container">
+//          <button id="add-project-cancel" class="cancel-modal">Cancel</button>
+//          <button id="add-project-add" class="save-modal">Add</button>
+//      </div>
+//  </div>
+// </div>
+// <div class="modal-overlay active" id="add-project-modal-overlay"></div>
