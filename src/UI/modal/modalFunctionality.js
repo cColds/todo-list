@@ -1,11 +1,12 @@
 const clearModalValues = (task) => {
 	task.title.value = "";
+	task.title.classList.remove("active");
+	task.titleError.classList.remove("active");
+	if (task.isAddProject) return;
+
 	task.dueDate.value = "";
 	task.description.value = "";
 	task.priority.value = "Low";
-
-	task.title.classList.remove("active");
-	task.titleError.classList.remove("active");
 	task.dueDate.classList.remove("active");
 	task.dueDateError.classList.remove("active");
 };

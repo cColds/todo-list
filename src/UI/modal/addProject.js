@@ -6,34 +6,23 @@ import {
 	toggleError,
 } from "./modalFunctionality";
 
-const modal = document.querySelector("#add-task-modal");
-const overlayModal = document.querySelector("#add-task-modal-overlay");
-const openModal = document.querySelector("#add-task");
-const cancelBtn = document.querySelector("#add-task-cancel");
-const closeBtn = document.querySelector("#add-task-modal-header-cancel");
-const addBtn = document.querySelector("#add-task-add");
+const modal = document.querySelector("#add-project-modal");
+const overlayModal = document.querySelector("#add-project-modal-overlay");
+const openModal = document.querySelector("#nav-add-project");
+const cancelBtn = document.querySelector("#add-project-cancel");
+const closeBtn = document.querySelector("#add-project-modal-header-cancel");
+const addBtn = document.querySelector("#add-project-add");
 
-const title = document.querySelector("#add-task-title");
-const titleError = document.querySelector("#add-task-title-error");
-const dueDate = document.querySelector("#add-task-due-date");
-const dueDateError = document.querySelector("#add-task-due-date-error");
-const description = document.querySelector("#add-task-description");
-const priority = document.querySelector("#add-task-priority");
+const title = document.querySelector("#add-project-title");
+const titleError = document.querySelector("#add-project-title-error");
 
 title.addEventListener("keyup", () => toggleError(title, titleError));
 cancelBtn.addEventListener("click", () => toggleModal(modal, overlayModal));
 closeBtn.addEventListener("click", () => toggleModal(modal, overlayModal));
 
 openModal.addEventListener("click", () => {
-	const taskProperties = {
-		title,
-		dueDate,
-		description,
-		priority,
-		titleError,
-		dueDateError,
-	};
-	clearModalValues(taskProperties);
+	const isAddProject = true;
+	clearModalValues({ title, titleError, isAddProject });
 	toggleModal(modal, overlayModal);
 });
 
@@ -44,19 +33,17 @@ addBtn.addEventListener("click", () => {
 	}
 
 	toggleModal(modal, overlayModal);
-	const taskValues = {
-		title: title.value,
-		dueDate: new Date(dueDate.value).toString(),
-		description: description.value,
-		priority: priority.value,
-		id: taskList.length,
-	};
-
-	pubSub.publish("task-submitted", taskValues);
+	// const project = {
+	// 	title: title.value,
+	// 	dueDate: new Date(dueDate.value).toString(),
+	// 	description: description.value,
+	// 	priority: priority.value,
+	// 	id: taskList.length,
+	// };
 });
 
-let egg = 1;
-export { egg };
+let egg2 = 1;
+export { egg2 };
 
 //  <div class="modal active" id="add-project-modal">
 //  <div class="modal-header-container">
