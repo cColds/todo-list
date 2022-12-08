@@ -13,12 +13,8 @@ import {
 
 const taskList = [];
 
-const taskProperties = (title, description, dueDate, priority, id) => {
-	return { title, description, dueDate, priority, id };
-};
-
 const addTask = (title, description, dueDate, priority, id) => {
-	taskList.push(taskProperties(title, description, dueDate, priority, id));
+	taskList.push({ title, description, dueDate, priority, id });
 };
 
 pubSub.subscribe("complete-task-clicked", completeTask);
