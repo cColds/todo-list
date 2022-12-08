@@ -55,7 +55,7 @@ const filterInbox = () => {
 const filterToday = () => {
 	const todayTaskList = [];
 	taskList.forEach((task) => {
-		if (isToday(task.dueDate)) todayTaskList.push(task);
+		if (isToday(new Date(task.dueDate))) todayTaskList.push(task);
 	});
 	pubSub.publish("filter-task", todayTaskList);
 };
@@ -72,18 +72,11 @@ const filterWeek = () => {
 	const weekTaskList = [];
 	taskList.forEach((task) => {
 		const currentTime = new Date();
-		const week = differenceInDays(task.dueDate, currentTime);
+		const week = differenceInDays(new Date(task.dueDate), currentTime);
 
 		if (week <= 7 && week >= 0) weekTaskList.push(task);
 	});
 	pubSub.publish("filter-task", weekTaskList);
 };
-
-// // const formatDateTimeLocal = (date) => format(date,'yyyy-II-MM')
-// let cool = new Date();
-
-// console.log(formatISO9075(cool));
-
-// // // '2018-06-07T00:00'
 
 export { addTask, completeTask, editTask, taskList, updateId };
