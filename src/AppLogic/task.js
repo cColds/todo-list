@@ -6,7 +6,10 @@ import {
 	formatISO9075,
 } from "date-fns";
 import { pubSub } from "../pubsub";
-import { getProjectName } from "../UI/navigation/switchProject.js";
+import {
+	getProjectId,
+	getMainProjectId,
+} from "../UI/navigation/switchProject.js";
 
 const taskList = [];
 
@@ -45,11 +48,16 @@ pubSub.subscribe("switch-main-project", filterTasks);
 pubSub.subscribe("task-pushed", filterTasks);
 
 function filterTasks() {
-	const selectedProjectName = getProjectName();
-	if (selectedProjectName === "Inbox") filterInbox();
-	else if (selectedProjectName === "Today") filterToday();
-	else if (selectedProjectName === "Week") filterWeek();
-	else console.log("filter regular projects");
+	if (getProjectId()) {
+		("filter projects");
+		return;
+	}
+
+	const mainProjectId = getMainProjectId();
+
+	if (mainProjectId === 0) filterInbox();
+	else if (mainProjectId === 1) filterToday();
+	else filterWeek();
 }
 
 const filterInbox = () => {

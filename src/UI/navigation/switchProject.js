@@ -1,8 +1,11 @@
 import { pubSub } from "../../pubsub";
 
-const getProjectName = () =>
-	document.querySelector(".selected .projects-item-name").textContent;
-
+const getProjectId = () => {
+	return +document.querySelector(".selected").dataset.projectId;
+};
+const getMainProjectId = () => {
+	return +document.querySelector(".selected").dataset.mainProjectId;
+};
 const mainProjects = document.querySelector("#main-projects-list");
 
 mainProjects.addEventListener("click", (e) => {
@@ -20,4 +23,4 @@ mainProjects.addEventListener("click", (e) => {
 	pubSub.publish("switch-main-project");
 });
 
-export { mainProjects, getProjectName };
+export { mainProjects, getProjectId, getMainProjectId };
