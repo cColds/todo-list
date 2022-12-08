@@ -6,3 +6,4 @@ import { mainProjects } from "./UI/navigation/switchProject";
 import { joe } from "./UI/task/populateTasks";
 import { john } from "./UI/modal/editTask";
 import { egg2 } from "./UI/modal/addProject";
+import { joem } from "./UI/projects/populateProjects";
