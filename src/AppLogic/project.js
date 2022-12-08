@@ -8,7 +8,8 @@ pubSub.subscribe("project-submitted", addProject);
 
 function addProject(title) {
 	projectList.push({ title, id: projectList.length, task: [] });
-	pubSub.publish("project-pushed");
+	console.log(title);
+	pubSub.publish("project-pushed", title);
 }
 
 pubSub.subscribe("project-deleted", deleteProject);
