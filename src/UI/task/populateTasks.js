@@ -36,7 +36,7 @@ const populateTask = (task) => {
 
 	taskContainer.dataset.taskId = task.id;
 	titleTask.textContent = task.title;
-	descriptionTask.textContent = task.descriptionTask;
+	descriptionTask.textContent = task.description;
 	dueDateTask.textContent =
 		task.dueDate !== "Invalid Date"
 			? formatDueDate(new Date(task.dueDate))
