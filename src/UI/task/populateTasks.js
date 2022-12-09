@@ -52,11 +52,11 @@ const populateTask = (task) => {
 	allTasks.appendChild(taskContainer);
 
 	completeTask.addEventListener("click", (e) => {
-		pubSub.publish("complete-task-clicked", () => getCurrentTaskId(e));
+		pubSub.publish("complete-task-clicked", getCurrentTaskId(e));
 	});
 
 	editTaskContainer.addEventListener("click", (e) => {
-		pubSub.publish("edit-task-clicked", () => getCurrentTaskId(e));
+		pubSub.publish("edit-task-clicked", getCurrentTaskId(e));
 	});
 };
 

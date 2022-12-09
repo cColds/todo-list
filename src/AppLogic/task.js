@@ -22,11 +22,23 @@ const addTask = (title, description, dueDate, priority, id) => {
 pubSub.subscribe("complete-task-clicked", completeTask);
 
 function completeTask(id) {
-	taskList.splice(id(), 1);
+	taskList.splice(id, 1);
 	updateId(taskList);
 	console.log(taskList);
-	filterMainProjectTasks();
+	isMainProjectSelected() ? filterMainProjectTasks() : filterProjectTasks();
 }
+// Get id of project that was just deleted
+// for each task list delete each one that matches then rerender
+// pubSub.subscribe("project-deleted", removeDeletedProjectTasks);
+
+// function removeDeletedProjectTasks(id) {
+// 	console.log(taskList);
+// 	taskList.forEach((task) => {
+// 		task.projectId === id;
+// 		taskList.splice(task.id, 1);
+// 	});
+// 	console.log(taskList);
+// }
 
 pubSub.subscribe("task-edited", editTask);
 

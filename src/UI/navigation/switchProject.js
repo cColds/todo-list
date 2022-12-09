@@ -67,4 +67,5 @@ export {
 	getMainProjectId,
 	isMainProjectSelected,
 	projectIdStored,
+	getSelectedProject,
 };
