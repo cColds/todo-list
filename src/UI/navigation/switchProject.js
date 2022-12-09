@@ -5,16 +5,16 @@ const mainProjects = document.querySelector("#main-projects-list");
 mainProjects.addEventListener("click", (e) => switchProject(e));
 
 const getProjectId = () => {
-	return +getSelected().dataset.projectId;
+	return +getSelectedProject().dataset.projectId;
 };
 
 const getMainProjectId = () => {
-	return +getSelected().dataset.mainProjectId;
+	return +getSelectedProject().dataset.mainProjectId;
 };
 
 pubSub.subscribe("project-clicked", switchProject);
 
-const getSelected = () => document.querySelector(".selected");
+const getSelectedProject = () => document.querySelector(".selected");
 
 function switchProject(e) {
 	unselectPreviousProject();
@@ -26,6 +26,14 @@ function switchProject(e) {
 	);
 }
 
+pubSub.subscribe("no-projects-selected", defaultToInboxProject);
+
+function defaultToInboxProject() {
+	const inbox = document.querySelector("[data-main-project-id='0'");
+	inbox.classList.add("selected");
+	updateMainTitle();
+}
+
 pubSub.subscribe("store-project-selected-id", storeProjectSelectedId);
 
 let projectIdStored = null;
@@ -34,11 +42,11 @@ function storeProjectSelectedId() {
 }
 
 const isMainProjectSelected = () => {
-	return getSelected().classList.toString().includes("main-project");
+	return getSelectedProject().classList.toString().includes("main-project");
 };
 
 const unselectPreviousProject = () => {
-	if (getSelected()) getSelected().classList.remove("selected");
+	if (getSelectedProject()) getSelectedProject().classList.remove("selected");
 };
 
 const selectCurrentProject = (e) => {

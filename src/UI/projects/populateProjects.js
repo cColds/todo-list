@@ -4,7 +4,7 @@ import { format } from "date-fns";
 import { projectList } from "../../AppLogic/project";
 import { removeAllProjects } from "./removeAllProjects";
 import {
-	getProjectSelected,
+	getSelectedProject,
 	projectIdStored,
 	isMainProjectSelected,
 } from "../navigation/switchProject";
@@ -53,6 +53,9 @@ const populateProjects = (project) => {
 		const projectId = e.target.closest("[data-project-id]").value;
 
 		pubSub.publish("project-deleted", projectId);
+		if (!getSelectedProject()) {
+			pubSub.publish("no-projects-selected");
+		}
 	});
 };
 
