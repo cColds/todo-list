@@ -48,7 +48,7 @@ const setEditInputValues = (task) => {
 let currentTaskId = null;
 pubSub.subscribe("edit-task-clicked", (getCurrentTaskId) => {
 	toggleModal(modal, overlayModal);
-	currentTaskId = getCurrentTaskId();
+	currentTaskId = getCurrentTaskId;
 	setEditInputValues(taskList[currentTaskId]);
 });
 

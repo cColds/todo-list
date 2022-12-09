@@ -23,6 +23,7 @@ const addTask = (title, description, dueDate, priority, id) => {
 const projectToFilter = () => {
 	isMainProjectSelected() ? filterMainProjectTasks() : filterProjectTasks();
 };
+
 pubSub.subscribe("complete-task-clicked", completeTask);
 
 function completeTask(id) {
@@ -30,8 +31,7 @@ function completeTask(id) {
 	updateId(taskList);
 	projectToFilter();
 }
-// Get id of project that was just deleted
-// for each task list delete each one that matches then rerender
+
 pubSub.subscribe("project-deleted", (projectId) => {
 	removeDeletedProjectTasks(projectId);
 	if (getSelectedProject()) {
@@ -54,7 +54,7 @@ function editTask(updatedProps) {
 	taskList[updatedProps.id].description = updatedProps.description;
 	taskList[updatedProps.id].dueDate = updatedProps.dueDate;
 	taskList[updatedProps.id].priority = updatedProps.priority;
-	filterMainProjectTasks();
+	projectToFilter();
 }
 
 pubSub.subscribe("task-submitted", (task) => {
@@ -105,6 +105,7 @@ const updateId = (arr) => {
 };
 
 const filterWeek = () => {
+	// change to isWeek date fns later
 	const weekTaskList = [];
 	taskList.forEach((task) => {
 		const currentTime = new Date();
