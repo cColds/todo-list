@@ -6,6 +6,8 @@ import {
 	toggleError,
 } from "./modalFunctionality";
 
+import { getProjectId } from "../navigation/switchProject";
+
 const modal = document.querySelector("#add-task-modal");
 const overlayModal = document.querySelector("#add-task-modal-overlay");
 const openModal = document.querySelector("#add-task");
@@ -50,6 +52,7 @@ addBtn.addEventListener("click", () => {
 		description: description.value,
 		priority: priority.value,
 		id: taskList.length,
+		projectId: !isNaN(getProjectId()) ? getProjectId() : "",
 	};
 
 	pubSub.publish("task-submitted", taskValues);
