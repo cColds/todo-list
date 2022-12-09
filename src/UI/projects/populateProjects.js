@@ -16,7 +16,7 @@ const populateProjects = (project) => {
 	const projectContentRight = document.createElement("div");
 
 	projectItem.classList.add("projects-item");
-	projectItem.dataset.projectId = projectList.length;
+	projectItem.dataset.projectId = projectList.length - 1;
 
 	projectContentLeft.classList.add("project-content-left");
 	projectName.classList.add("projects-item-name");
