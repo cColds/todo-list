@@ -33,7 +33,7 @@ const getProjectType = () => {
 };
 
 const unselectPreviousProject = () => {
-	getSelected().classList.remove("selected");
+	if (getSelected()) getSelected().classList.remove("selected");
 };
 
 const selectCurrentProject = (e) => {
