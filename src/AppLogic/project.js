@@ -15,8 +15,8 @@ function addProject(title) {
 pubSub.subscribe("project-deleted", deleteProject);
 
 function deleteProject(id) {
-	projectList.splice(id(), 1);
-	updateId(projectList);
+	// projectList.splice(id, 1);
+	// updateId(projectList);
 }
 
 pubSub.subscribe("project-edited", editProjectTitle);

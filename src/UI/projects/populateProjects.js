@@ -46,6 +46,16 @@ const populateProjects = (project) => {
 	projectItem.addEventListener("click", (e) => {
 		pubSub.publish("project-clicked", e);
 	});
+	const projectDelete = projectContentRight.children[0];
+
+	projectDelete.addEventListener("click", (e) => {
+		e.stopPropagation();
+		const projectId = e.target.closest("[data-project-id]").value;
+		console.log(e.target, "yes");
+		console.log();
+		// console.log;
+		// pubSub.publish("project-deleted", projectId);
+	});
 };
 
 const getProjectListIcon = () => {

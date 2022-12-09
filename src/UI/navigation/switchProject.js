@@ -17,7 +17,6 @@ pubSub.subscribe("project-clicked", switchProject);
 const getSelected = () => document.querySelector(".selected");
 
 function switchProject(e) {
-	console.log(e.target);
 	unselectPreviousProject();
 	selectCurrentProject(e);
 
