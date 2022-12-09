@@ -8,9 +8,8 @@ export const toggleNavigationBar = () => {
 };
 
 const setNavValue = () => {
-	const isNavOpen = gridLayout.dataset.navOpened === "true";
-	if (isNavOpen) gridLayout.dataset.navOpened = "false";
-	else gridLayout.dataset.navOpened = "true";
+	let { navOpened } = gridLayout.dataset;
+	navOpened = navOpened === "true" ? "false" : "true";
 };
 
 const navHamburgerMenu = document.querySelector("#nav-hamburger-menu");
