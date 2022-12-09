@@ -20,15 +20,15 @@ function switchProject(e) {
 	selectCurrentProject(e);
 
 	updateMainTitle();
-	pubSub.publish(getProjectType());
+
+	pubSub.publish(
+		getProjectType() ? "main-project-switched" : "project-switched"
+	);
 }
 
 const getProjectType = () => {
 	const selectedProject = document.querySelector(".selected");
-	const isMain = selectedProject.classList
-		.toString()
-		.includes("main-project");
-	return isMain ? "main-project-switched" : "project-switched";
+	return selectedProject.classList.toString().includes("main-project");
 };
 
 const unselectPreviousProject = () => {
