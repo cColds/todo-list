@@ -9,6 +9,7 @@ import { pubSub } from "../pubsub";
 import {
 	getProjectId,
 	getMainProjectId,
+	getProjectType,
 } from "../UI/navigation/switchProject.js";
 import { projectList } from "./project";
 
@@ -39,7 +40,7 @@ function editTask(updatedProps) {
 
 pubSub.subscribe("task-submitted", (task) => {
 	taskList.push(task);
-	filterMainProjectTasks();
+	getProjectType() ? filterMainProjectTasks() : filterProjectTasks();
 });
 
 pubSub.subscribe("main-project-switched", filterMainProjectTasks);
@@ -49,12 +50,15 @@ function filterMainProjectTasks() {
 	if (mainProjectId === 0) filterInbox();
 	else if (mainProjectId === 1) filterToday();
 	else filterWeek();
+	console.log(taskList);
 }
 
 pubSub.subscribe("project-switched", filterProjectTasks);
 
 function filterProjectTasks() {
-	pubSub.publish("filter-task", projectList[getProjectId()].task);
+	projectList[getProjectId()].task.length = 0;
+
+	// pubSub.publish("filter-task", projectList[getProjectId()].task);
 }
 
 const filterInbox = () => {

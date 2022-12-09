@@ -5,14 +5,16 @@ const mainProjects = document.querySelector("#main-projects-list");
 mainProjects.addEventListener("click", (e) => switchProject(e));
 
 const getProjectId = () => {
-	return +document.querySelector(".selected").dataset.projectId;
+	return +getSelected().dataset.projectId;
 };
 
 const getMainProjectId = () => {
-	return +document.querySelector(".selected").dataset.mainProjectId;
+	return +getSelected().dataset.mainProjectId;
 };
 
 pubSub.subscribe("project-clicked", switchProject);
+
+const getSelected = () => document.querySelector(".selected");
 
 function switchProject(e) {
 	console.log(e.target);
@@ -27,13 +29,11 @@ function switchProject(e) {
 }
 
 const getProjectType = () => {
-	const selectedProject = document.querySelector(".selected");
-	return selectedProject.classList.toString().includes("main-project");
+	return getSelected().classList.toString().includes("main-project");
 };
 
 const unselectPreviousProject = () => {
-	const previousProject = document.querySelector(".selected");
-	previousProject.classList.remove("selected");
+	getSelected().classList.remove("selected");
 };
 
 const selectCurrentProject = (e) => {
@@ -48,4 +48,4 @@ const updateMainTitle = () => {
 	mainTitle.textContent = currentSelectedTitle.textContent;
 };
 
-export { mainProjects, getProjectId, getMainProjectId, switchProject };
+export { mainProjects, getProjectId, getMainProjectId, getProjectType };
