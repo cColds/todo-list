@@ -28,6 +28,13 @@ function switchProject(e) {
 	);
 }
 
+pubSub.subscribe("store-project-selected-id", storeProjectSelectedId);
+
+let projectIdStored = null;
+function storeProjectSelectedId() {
+	projectIdStored = getProjectId();
+}
+
 const getProjectType = () => {
 	return getSelected().classList.toString().includes("main-project");
 };
@@ -48,4 +55,10 @@ const updateMainTitle = () => {
 	mainTitle.textContent = currentSelectedTitle.textContent;
 };
 
-export { mainProjects, getProjectId, getMainProjectId, getProjectType };
+export {
+	mainProjects,
+	getProjectId,
+	getMainProjectId,
+	getProjectType,
+	projectIdStored,
+};

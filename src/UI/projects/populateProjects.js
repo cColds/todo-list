@@ -3,10 +3,18 @@ import { removeAllTasks } from "../task/removeAllTasks";
 import { format } from "date-fns";
 import { projectList } from "../../AppLogic/project";
 import { removeAllProjects } from "./removeAllProjects";
+import {
+	getProjectSelected,
+	projectIdStored,
+} from "../navigation/switchProject";
 
 pubSub.subscribe("project-pushed", () => {
+	if (projectList.length !== 1) {
+		pubSub.publish("store-project-selected-id");
+	}
 	removeAllProjects();
 	projectList.forEach((project) => populateProjects(project));
+	console.log(projectIdStored);
 });
 
 const populateProjects = (project) => {
@@ -18,7 +26,7 @@ const populateProjects = (project) => {
 	const projectContentRight = document.createElement("div");
 
 	projectItem.classList.add("projects-item");
-	projectItem.dataset.projectId = projectList.length - 1;
+	projectItem.dataset.projectId = project.id;
 
 	projectContentLeft.classList.add("project-content-left");
 	projectName.classList.add("projects-item-name");
@@ -27,6 +35,9 @@ const populateProjects = (project) => {
 
 	projectContentRight.classList.add("project-content-right");
 	projectContentRight.innerHTML += getTrashBinAndEditIcon();
+	if (project.id - 1 === projectIdStored) {
+		projectItem.classList.add("selected");
+	}
 
 	projectContentLeft.appendChild(projectName);
 	projectItem.append(projectContentLeft, projectContentRight);
