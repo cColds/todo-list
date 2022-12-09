@@ -1,5 +1,9 @@
 import { pubSub } from "../../pubsub";
 
+const mainProjects = document.querySelector("#main-projects-list");
+
+mainProjects.addEventListener("click", (e) => switchProject(e));
+
 const getProjectId = () => {
 	return +document.querySelector(".selected").dataset.projectId;
 };
@@ -8,18 +12,16 @@ const getMainProjectId = () => {
 	return +document.querySelector(".selected").dataset.mainProjectId;
 };
 
-const mainProjects = document.querySelector("#main-projects-list");
+pubSub.subscribe("project-clicked", switchProject);
 
-mainProjects.addEventListener("click", (e) => switchProject(e));
-
-const switchProject = (e) => {
+function switchProject(e) {
 	console.log(e.target);
 	unselectPreviousProject();
 	selectCurrentProject(e);
 
 	updateMainTitle();
 	pubSub.publish(getProjectType());
-};
+}
 
 const getProjectType = () => {
 	const selectedProject = document.querySelector(".selected");
@@ -36,7 +38,6 @@ const unselectPreviousProject = () => {
 
 const selectCurrentProject = (e) => {
 	e.target.closest(".projects-item").classList.add("selected");
-	console.log(e.target.closest(".projects-item"));
 };
 
 const updateMainTitle = () => {
@@ -47,6 +48,4 @@ const updateMainTitle = () => {
 	mainTitle.textContent = currentSelectedTitle.textContent;
 };
 
-export { mainProjects, getProjectId, getMainProjectId };
-
-// make project nav work
+export { mainProjects, getProjectId, getMainProjectId, switchProject };
