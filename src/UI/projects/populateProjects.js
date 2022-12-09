@@ -2,8 +2,10 @@ import { pubSub } from "../../pubsub";
 import { removeAllTasks } from "../task/removeAllTasks";
 import { format } from "date-fns";
 import { projectList } from "../../AppLogic/project";
+import { removeAllProjects } from "./removeAllProjects";
 
 pubSub.subscribe("project-pushed", () => {
+	removeAllProjects();
 	projectList.forEach((project) => populateProjects(project));
 });
 
