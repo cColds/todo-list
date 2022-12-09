@@ -9,7 +9,7 @@ import {
 	isMainProjectSelected,
 } from "../navigation/switchProject";
 
-pubSub.subscribe("project-pushed", () => {
+pubSub.subscribe("project-updated", () => {
 	pubSub.publish("store-project-selected-id");
 
 	removeAllProjects();
@@ -51,10 +51,8 @@ const populateProjects = (project) => {
 	projectDelete.addEventListener("click", (e) => {
 		e.stopPropagation();
 		const projectId = e.target.closest("[data-project-id]").value;
-		console.log(e.target, "yes");
-		console.log();
-		// console.log;
-		// pubSub.publish("project-deleted", projectId);
+
+		pubSub.publish("project-deleted", projectId);
 	});
 };
 

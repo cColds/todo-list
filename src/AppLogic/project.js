@@ -9,14 +9,15 @@ pubSub.subscribe("project-submitted", addProject);
 function addProject(title) {
 	projectList.push({ title, id: projectList.length, task: [] });
 
-	pubSub.publish("project-pushed", title);
+	pubSub.publish("project-updated");
 }
 
 pubSub.subscribe("project-deleted", deleteProject);
 
 function deleteProject(id) {
-	// projectList.splice(id, 1);
-	// updateId(projectList);
+	projectList.splice(id, 1);
+	updateId(projectList);
+	pubSub.publish("project-updated");
 }
 
 pubSub.subscribe("project-edited", editProjectTitle);

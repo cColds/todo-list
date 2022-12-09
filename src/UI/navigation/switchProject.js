@@ -19,7 +19,6 @@ const getSelected = () => document.querySelector(".selected");
 function switchProject(e) {
 	unselectPreviousProject();
 	selectCurrentProject(e);
-
 	updateMainTitle();
 
 	pubSub.publish(
