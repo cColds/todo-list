@@ -4,6 +4,7 @@ import { format } from "date-fns";
 import { taskList } from "../../AppLogic/task";
 
 pubSub.subscribe("filter-task", (arr) => {
+	// console.log(taskList);
 	removeAllTasks();
 	arr.forEach((task) => populateTask(task));
 });

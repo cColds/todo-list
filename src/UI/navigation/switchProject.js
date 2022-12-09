@@ -1,5 +1,9 @@
+import {
+	filterMainProjectTasks,
+	removeDeletedProjectTasks,
+} from "../../AppLogic/task";
 import { pubSub } from "../../pubsub";
-
+import { taskList } from "../../AppLogic/task";
 const mainProjects = document.querySelector("#main-projects-list");
 
 mainProjects.addEventListener("click", (e) => switchProject(e));
@@ -28,10 +32,12 @@ function switchProject(e) {
 
 pubSub.subscribe("no-projects-selected", defaultToInboxProject);
 
-function defaultToInboxProject() {
+function defaultToInboxProject(projectId) {
 	const inbox = document.querySelector("[data-main-project-id='0'");
 	inbox.classList.add("selected");
 	updateMainTitle();
+	removeDeletedProjectTasks(projectId);
+	filterMainProjectTasks();
 }
 
 pubSub.subscribe("store-project-selected-id", storeProjectSelectedId);

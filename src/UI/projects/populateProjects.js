@@ -7,6 +7,7 @@ import {
 	getSelectedProject,
 	projectIdStored,
 	isMainProjectSelected,
+	getMainProjectId,
 } from "../navigation/switchProject";
 
 pubSub.subscribe("project-updated", () => {
@@ -14,7 +15,6 @@ pubSub.subscribe("project-updated", () => {
 
 	removeAllProjects();
 	projectList.forEach((project) => populateProjects(project));
-	console.log(projectIdStored);
 });
 
 const populateProjects = (project) => {
@@ -53,8 +53,9 @@ const populateProjects = (project) => {
 		const projectId = e.target.closest("[data-project-id]").value;
 
 		pubSub.publish("project-deleted", projectId);
+
 		if (!getSelectedProject()) {
-			pubSub.publish("no-projects-selected");
+			pubSub.publish("no-projects-selected", projectId);
 		}
 	});
 };

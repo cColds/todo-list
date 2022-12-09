@@ -10,6 +10,7 @@ import {
 	getProjectId,
 	getMainProjectId,
 	isMainProjectSelected,
+	getSelectedProject,
 } from "../UI/navigation/switchProject.js";
 import { projectList } from "./project";
 
@@ -19,26 +20,32 @@ const addTask = (title, description, dueDate, priority, id) => {
 	taskList.push({ title, description, dueDate, priority, id });
 };
 
+const projectToFilter = () => {
+	isMainProjectSelected() ? filterMainProjectTasks() : filterProjectTasks();
+};
 pubSub.subscribe("complete-task-clicked", completeTask);
 
 function completeTask(id) {
 	taskList.splice(id, 1);
 	updateId(taskList);
-	console.log(taskList);
-	isMainProjectSelected() ? filterMainProjectTasks() : filterProjectTasks();
+	projectToFilter();
 }
 // Get id of project that was just deleted
 // for each task list delete each one that matches then rerender
-// pubSub.subscribe("project-deleted", removeDeletedProjectTasks);
+pubSub.subscribe("project-deleted", (projectId) => {
+	removeDeletedProjectTasks(projectId);
+	if (getSelectedProject()) {
+		projectToFilter();
+	}
+});
 
-// function removeDeletedProjectTasks(id) {
-// 	console.log(taskList);
-// 	taskList.forEach((task) => {
-// 		task.projectId === id;
-// 		taskList.splice(task.id, 1);
-// 	});
-// 	console.log(taskList);
-// }
+const removeDeletedProjectTasks = (projectId) => {
+	for (let i = taskList.length - 1; i >= 0; i--) {
+		if (taskList[i].projectId === projectId) {
+			taskList.splice(i, 1);
+		}
+	}
+};
 
 pubSub.subscribe("task-edited", editTask);
 
@@ -53,7 +60,7 @@ function editTask(updatedProps) {
 pubSub.subscribe("task-submitted", (task) => {
 	taskList.push(task);
 	console.log(taskList);
-	isMainProjectSelected() ? filterMainProjectTasks() : filterProjectTasks();
+	projectToFilter();
 });
 
 pubSub.subscribe("main-project-switched", filterMainProjectTasks);
@@ -107,4 +114,12 @@ const filterWeek = () => {
 	pubSub.publish("filter-task", weekTaskList);
 };
 
-export { addTask, completeTask, editTask, taskList, updateId };
+export {
+	addTask,
+	completeTask,
+	editTask,
+	taskList,
+	updateId,
+	filterMainProjectTasks,
+	removeDeletedProjectTasks,
+};
