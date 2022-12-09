@@ -56,9 +56,13 @@ function filterMainProjectTasks() {
 pubSub.subscribe("project-switched", filterProjectTasks);
 
 function filterProjectTasks() {
-	projectList[getProjectId()].task.length = 0;
-
-	// pubSub.publish("filter-task", projectList[getProjectId()].task);
+	const projectId = getProjectId();
+	const projectTask = projectList[projectId].task;
+	projectTask.length = 0;
+	taskList.forEach((task) => {
+		if (task.projectId === projectId) projectTask.push(task);
+	});
+	pubSub.publish("filter-task", projectTask);
 }
 
 const filterInbox = () => {
