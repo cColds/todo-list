@@ -12,7 +12,7 @@ import {
 
 pubSub.subscribe("project-updated", () => {
 	pubSub.publish("store-project-selected-id");
-
+	console.log(projectList);
 	removeAllProjects();
 	projectList.forEach((project) => populateProjects(project));
 });
@@ -50,7 +50,8 @@ const populateProjects = (project) => {
 
 	projectDelete.addEventListener("click", (e) => {
 		e.stopPropagation();
-		const projectId = e.target.closest("[data-project-id]").value;
+		const projectId =
+			+e.target.closest("[data-project-id]").dataset.projectId;
 
 		pubSub.publish("project-deleted", projectId);
 
