@@ -9,7 +9,7 @@ import { pubSub } from "../pubsub";
 import {
 	getProjectId,
 	getMainProjectId,
-	getProjectType,
+	isMainProjectSelected,
 } from "../UI/navigation/switchProject.js";
 import { projectList } from "./project";
 
@@ -41,7 +41,7 @@ function editTask(updatedProps) {
 pubSub.subscribe("task-submitted", (task) => {
 	taskList.push(task);
 	console.log(taskList);
-	getProjectType() ? filterMainProjectTasks() : filterProjectTasks();
+	isMainProjectSelected() ? filterMainProjectTasks() : filterProjectTasks();
 });
 
 pubSub.subscribe("main-project-switched", filterMainProjectTasks);

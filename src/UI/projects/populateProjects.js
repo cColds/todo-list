@@ -6,12 +6,13 @@ import { removeAllProjects } from "./removeAllProjects";
 import {
 	getProjectSelected,
 	projectIdStored,
+	getProjectType,
 } from "../navigation/switchProject";
 
 pubSub.subscribe("project-pushed", () => {
-	if (projectList.length !== 1) {
-		pubSub.publish("store-project-selected-id");
-	}
+	// if (!getProjectType()) {
+	// 	pubSub.publish("store-project-selected-id");
+	// }
 	removeAllProjects();
 	projectList.forEach((project) => populateProjects(project));
 	console.log(projectIdStored);
@@ -35,9 +36,9 @@ const populateProjects = (project) => {
 
 	projectContentRight.classList.add("project-content-right");
 	projectContentRight.innerHTML += getTrashBinAndEditIcon();
-	if (project.id - 1 === projectIdStored) {
-		projectItem.classList.add("selected");
-	}
+	// if (project.id - 1 === projectIdStored) {
+	// 	projectItem.classList.add("selected");
+	// }
 
 	projectContentLeft.appendChild(projectName);
 	projectItem.append(projectContentLeft, projectContentRight);

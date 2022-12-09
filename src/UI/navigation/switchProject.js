@@ -24,7 +24,7 @@ function switchProject(e) {
 	updateMainTitle();
 
 	pubSub.publish(
-		getProjectType() ? "main-project-switched" : "project-switched"
+		isMainProjectSelected() ? "main-project-switched" : "project-switched"
 	);
 }
 
@@ -35,7 +35,7 @@ function storeProjectSelectedId() {
 	projectIdStored = getProjectId();
 }
 
-const getProjectType = () => {
+const isMainProjectSelected = () => {
 	return getSelected().classList.toString().includes("main-project");
 };
 
@@ -59,6 +59,6 @@ export {
 	mainProjects,
 	getProjectId,
 	getMainProjectId,
-	getProjectType,
+	isMainProjectSelected,
 	projectIdStored,
 };
