@@ -4,6 +4,7 @@ import {
 } from "../../AppLogic/task";
 import { pubSub } from "../../pubsub";
 import { taskList } from "../../AppLogic/task";
+import { projectList } from "../../AppLogic/project";
 const mainProjects = document.querySelector("#main-projects-list");
 
 mainProjects.addEventListener("click", (e) => switchProject(e));
@@ -55,6 +56,8 @@ const unselectPreviousProject = () => {
 	if (getSelectedProject()) getSelectedProject().classList.remove("selected");
 };
 
+// maybe toggle more efficient
+
 const selectCurrentProject = (e) => {
 	e.target.closest(".projects-item").classList.add("selected");
 };
@@ -63,9 +66,22 @@ const updateMainTitle = () => {
 	const currentSelectedTitle = document.querySelector(
 		".selected .projects-item-name"
 	);
-	const mainTitle = document.querySelector("#main-title");
-	mainTitle.textContent = currentSelectedTitle.textContent;
+	getMainTitle().textContent = currentSelectedTitle.textContent;
 };
+
+const getMainTitle = () => document.querySelector("#main-title");
+
+pubSub.subscribe("project-edited", changeEditedTitle);
+
+function changeEditedTitle(id) {
+	const projectTitle = document.querySelector(
+		`[data-project-id='${id}'] .projects-item-name`
+	);
+	projectTitle.textContent = projectList[id].title;
+	if (getProjectId() === id) {
+		getMainTitle().textContent = projectList[id].title;
+	}
+}
 
 export {
 	mainProjects,

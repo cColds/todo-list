@@ -24,9 +24,11 @@ saveBtn.addEventListener("click", () => {
 		toggleError(title, titleError);
 		return;
 	}
-
 	toggleModal(modal, overlayModal);
-	pubSub.publish("project-submitted", title.value);
+	pubSub.publish("project-edit-submitted", {
+		title: title.value,
+		id: currentProjectId,
+	});
 });
 
 let currentProjectId = null;
@@ -40,32 +42,6 @@ const setEditInputValues = (task) => {
 	title.value = task.title;
 	toggleError(title, titleError);
 };
-
-/*	pubSub.publish("task-edited", {
-		title: title.value,
-		dueDate: new Date(dueDate.value).toString(),
-		description: description.value,
-		priority: priority.value,
-		id: currentTaskId,
-	});
-});
-
-const setEditInputValues = (task) => {
-	title.classList.remove("active");
-	titleError.classList.remove("active");
-	title.value = task.title;
-	console.log(task.dueDate);
-	if (task.dueDate !== "Invalid Date") formatISO9075(new Date(task.dueDate));
-
-	description.value = task.description;
-	priority.value = task.priority;
-};
-
-let currentTaskId = null;
-pubSub.subscribe("edit-task-clicked", (getCurrentTaskId) => {
-	toggleModal(modal, overlayModal);
-	currentTaskId = getCurrentTaskId;
-	setEditInputValues(taskList[currentTaskId]); */
 
 let testtt;
 export { testtt };
