@@ -1,4 +1,3 @@
-import { taskList } from "../../AppLogic/task";
 import { pubSub } from "../../pubsub";
 import {
 	clearModalValues,

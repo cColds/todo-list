@@ -7,8 +7,6 @@ const clearModalValues = (task) => {
 	task.dueDate.value = "";
 	task.description.value = "";
 	task.priority.value = "Low";
-	task.dueDate.classList.remove("active");
-	task.dueDateError.classList.remove("active");
 };
 
 const toggleModal = (modal, overlayModal) => {

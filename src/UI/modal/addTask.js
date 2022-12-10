@@ -18,7 +18,6 @@ const addBtn = document.querySelector("#add-task-add");
 const title = document.querySelector("#add-task-title");
 const titleError = document.querySelector("#add-task-title-error");
 const dueDate = document.querySelector("#add-task-due-date");
-const dueDateError = document.querySelector("#add-task-due-date-error");
 const description = document.querySelector("#add-task-description");
 const priority = document.querySelector("#add-task-priority");
 
@@ -33,7 +32,6 @@ openModal.addEventListener("click", () => {
 		description,
 		priority,
 		titleError,
-		dueDateError,
 	});
 	toggleModal(modal, overlayModal);
 });

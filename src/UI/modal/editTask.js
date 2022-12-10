@@ -11,7 +11,6 @@ const saveBtn = document.querySelector("#edit-task-save");
 const title = document.querySelector("#edit-task-title");
 const titleError = document.querySelector("#edit-task-title-error");
 const dueDate = document.querySelector("#edit-task-due-date");
-// const dueDateError = document.querySelector("#edit-task-due-date-error");
 const description = document.querySelector("#edit-task-description");
 const priority = document.querySelector("#edit-task-priority");
 

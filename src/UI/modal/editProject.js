@@ -1,9 +1,5 @@
 import { pubSub } from "../../pubsub";
-import {
-	clearModalValues,
-	toggleModal,
-	toggleError,
-} from "./modalFunctionality";
+import { toggleModal, toggleError } from "./modalFunctionality";
 import { projectList } from "../../AppLogic/project";
 
 const modal = document.querySelector("#edit-project-modal");

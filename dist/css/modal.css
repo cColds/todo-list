@@ -120,8 +120,7 @@ button:focus {
 	box-shadow: 0 0 10px #607d8b;
 }
 
-.title-error,
-.due-date-error {
+.title-error {
 	font-size: 0.8rem;
 	opacity: 0;
 	color: red;
@@ -131,8 +130,7 @@ button:focus {
 	user-select: none; /* Standard */
 }
 
-.title-error.active,
-.due-date-error.active {
+.title-error.active {
 	opacity: 1;
 }
 
