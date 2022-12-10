@@ -1,4 +1,6 @@
-@import url(colors.css);
+:root {
+	--dark-green: #607d8b;
+}
 
 #grid-layout {
 	height: 100%;
