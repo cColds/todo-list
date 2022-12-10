@@ -1,4 +1,4 @@
-import { isToday, differenceInDays } from "date-fns";
+import { isToday, differenceInDays, isThisWeek, isWeekend } from "date-fns";
 import { pubSub } from "../pubsub";
 import {
 	getSelectedProjectId,
@@ -100,9 +100,7 @@ const updateId = (arr) => {
 const filterWeek = () => {
 	const weekTaskList = [];
 	taskList.forEach((task) => {
-		const currentTime = new Date();
-		const week = differenceInDays(new Date(task.dueDate), currentTime);
-		if (week <= 7 && week >= 0) weekTaskList.push(task);
+		if (isThisWeek(new Date(task.dueDate))) weekTaskList.push(task);
 	});
 	pubSub.publish("filter-task", weekTaskList);
 };
