@@ -6,7 +6,7 @@ import {
 	toggleError,
 } from "./modalFunctionality";
 
-import { getProjectId } from "../navigation/switchProject";
+import { getSelectedProjectId } from "../navigation/switchProject";
 
 const modal = document.querySelector("#add-task-modal");
 const overlayModal = document.querySelector("#add-task-modal-overlay");
@@ -27,15 +27,14 @@ cancelBtn.addEventListener("click", () => toggleModal(modal, overlayModal));
 closeBtn.addEventListener("click", () => toggleModal(modal, overlayModal));
 
 openModal.addEventListener("click", () => {
-	const taskProperties = {
+	clearModalValues({
 		title,
 		dueDate,
 		description,
 		priority,
 		titleError,
 		dueDateError,
-	};
-	clearModalValues(taskProperties);
+	});
 	toggleModal(modal, overlayModal);
 });
 
@@ -46,16 +45,15 @@ addBtn.addEventListener("click", () => {
 	}
 
 	toggleModal(modal, overlayModal);
-	const taskValues = {
+
+	pubSub.publish("task-submitted", {
 		title: title.value,
 		dueDate: new Date(dueDate.value).toString(),
 		description: description.value,
 		priority: priority.value,
 		id: taskList.length,
-		projectId: !isNaN(getProjectId()) ? getProjectId() : "",
-	};
-
-	pubSub.publish("task-submitted", taskValues);
+		projectId: !isNaN(getSelectedProjectId()) ? getSelectedProjectId() : "",
+	});
 });
 
 let egg = 1;

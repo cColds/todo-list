@@ -3,17 +3,16 @@ import {
 	removeDeletedProjectTasks,
 } from "../../AppLogic/task";
 import { pubSub } from "../../pubsub";
-import { taskList } from "../../AppLogic/task";
 import { projectList } from "../../AppLogic/project";
 const mainProjects = document.querySelector("#main-projects-list");
 
 mainProjects.addEventListener("click", (e) => switchProject(e));
 
-const getProjectId = () => {
+const getSelectedProjectId = () => {
 	return +getSelectedProject().dataset.projectId;
 };
 
-const getMainProjectId = () => {
+const getSelectedMainProjectId = () => {
 	return +getSelectedProject().dataset.mainProjectId;
 };
 
@@ -22,8 +21,7 @@ pubSub.subscribe("project-clicked", switchProject);
 const getSelectedProject = () => document.querySelector(".selected");
 
 function switchProject(e) {
-	unselectPreviousProject();
-	selectCurrentProject(e);
+	selectProject(e);
 	updateMainTitle();
 
 	pubSub.publish(
@@ -45,20 +43,18 @@ pubSub.subscribe("store-project-selected-id", storeProjectSelectedId);
 
 let projectIdStored = null;
 function storeProjectSelectedId() {
-	projectIdStored = getProjectId();
+	projectIdStored = getSelectedProjectId();
 }
 
 const isMainProjectSelected = () => {
 	return getSelectedProject().classList.toString().includes("main-project");
 };
 
-const unselectPreviousProject = () => {
-	if (getSelectedProject()) getSelectedProject().classList.remove("selected");
-};
+const selectProject = (e) => {
+	if (getSelectedProject()) {
+		getSelectedProject().classList.remove("selected");
+	}
 
-// maybe toggle more efficient
-
-const selectCurrentProject = (e) => {
 	e.target.closest(".projects-item").classList.add("selected");
 };
 
@@ -78,15 +74,15 @@ function changeEditedTitle(id) {
 		`[data-project-id='${id}'] .projects-item-name`
 	);
 	projectTitle.textContent = projectList[id].title;
-	if (getProjectId() === id) {
+	if (getSelectedProjectId() === id) {
 		getMainTitle().textContent = projectList[id].title;
 	}
 }
 
 export {
 	mainProjects,
-	getProjectId,
-	getMainProjectId,
+	getSelectedProjectId,
+	getSelectedMainProjectId,
 	isMainProjectSelected,
 	projectIdStored,
 	getSelectedProject,

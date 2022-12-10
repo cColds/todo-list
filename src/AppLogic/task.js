@@ -1,14 +1,8 @@
-import {
-	format,
-	isToday,
-	differenceInDays,
-	formatISO,
-	formatISO9075,
-} from "date-fns";
+import { isToday, differenceInDays } from "date-fns";
 import { pubSub } from "../pubsub";
 import {
-	getProjectId,
-	getMainProjectId,
+	getSelectedProjectId,
+	getSelectedMainProjectId,
 	isMainProjectSelected,
 	getSelectedProject,
 } from "../UI/navigation/switchProject.js";
@@ -59,14 +53,13 @@ function editTask(updatedProps) {
 
 pubSub.subscribe("task-submitted", (task) => {
 	taskList.push(task);
-	console.log(taskList);
 	projectToFilter();
 });
 
 pubSub.subscribe("main-project-switched", filterMainProjectTasks);
 
 function filterMainProjectTasks() {
-	const mainProjectId = getMainProjectId();
+	const mainProjectId = getSelectedMainProjectId();
 	if (mainProjectId === 0) filterInbox();
 	else if (mainProjectId === 1) filterToday();
 	else filterWeek();
@@ -75,7 +68,7 @@ function filterMainProjectTasks() {
 pubSub.subscribe("project-switched", filterProjectTasks);
 
 function filterProjectTasks() {
-	const projectId = getProjectId();
+	const projectId = getSelectedProjectId();
 	const projectTask = projectList[projectId].task;
 	projectTask.length = 0;
 	taskList.forEach((task) => {
@@ -105,7 +98,6 @@ const updateId = (arr) => {
 };
 
 const filterWeek = () => {
-	// change to isWeek date fns later
 	const weekTaskList = [];
 	taskList.forEach((task) => {
 		const currentTime = new Date();
