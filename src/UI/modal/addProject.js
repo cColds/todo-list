@@ -21,8 +21,7 @@ cancelBtn.addEventListener("click", () => toggleModal(modal, overlayModal));
 closeBtn.addEventListener("click", () => toggleModal(modal, overlayModal));
 
 openModal.addEventListener("click", () => {
-	const isAddProject = true;
-	clearModalValues({ title, titleError, isAddProject });
+	clearModalValues({ title, titleError, isAddProject: true });
 	toggleModal(modal, overlayModal);
 });
 

@@ -46,19 +46,29 @@ const populateProjects = (project) => {
 	projectItem.addEventListener("click", (e) => {
 		pubSub.publish("project-clicked", e);
 	});
+
 	const projectDelete = projectContentRight.children[0];
 
 	projectDelete.addEventListener("click", (e) => {
 		e.stopPropagation();
-		const projectId =
-			+e.target.closest("[data-project-id]").dataset.projectId;
 
-		pubSub.publish("project-deleted", projectId);
+		pubSub.publish("project-deleted", getProjectId(e));
 
 		if (!getSelectedProject()) {
-			pubSub.publish("no-projects-selected", projectId);
+			pubSub.publish("no-projects-selected", getProjectId(e));
 		}
 	});
+	// publish project edit modal clicked
+	const projectEdit = projectContentRight.children[1];
+	console.log(projectContentRight.children);
+	projectEdit.addEventListener("click", (e) => {
+		e.stopPropagation();
+		pubSub.publish("project-edit-clicked", getProjectId(e));
+	});
+};
+
+const getProjectId = (e) => {
+	return +e.target.closest("[data-project-id]").dataset.projectId;
 };
 
 const getProjectListIcon = () => {

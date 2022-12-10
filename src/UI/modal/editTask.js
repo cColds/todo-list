@@ -35,20 +35,17 @@ saveBtn.addEventListener("click", () => {
 });
 
 const setEditInputValues = (task) => {
-	title.classList.remove("active");
-	titleError.classList.remove("active");
 	title.value = task.title;
-	console.log(task.dueDate);
 	if (task.dueDate !== "Invalid Date") formatISO9075(new Date(task.dueDate));
-
 	description.value = task.description;
 	priority.value = task.priority;
+	toggleError(title, titleError);
 };
 
 let currentTaskId = null;
 pubSub.subscribe("edit-task-clicked", (getCurrentTaskId) => {
-	toggleModal(modal, overlayModal);
 	currentTaskId = getCurrentTaskId;
+	toggleModal(modal, overlayModal);
 	setEditInputValues(taskList[currentTaskId]);
 });
 

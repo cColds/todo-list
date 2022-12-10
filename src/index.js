@@ -7,3 +7,4 @@ import { joe } from "./UI/task/populateTasks";
 import { john } from "./UI/modal/editTask";
 import { egg2 } from "./UI/modal/addProject";
 import { joem } from "./UI/projects/populateProjects";
+import { testtt } from "./UI/modal/editProject";
