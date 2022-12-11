@@ -11,7 +11,7 @@
 }
 
 #grid-layout[data-nav-opened="false"] {
-	grid-template-columns: 1fr;
+	display: block;
 }
 
 header {
