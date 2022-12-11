@@ -29,10 +29,6 @@ main {
 	width: 100%;
 }
 
-#main-hamburger-menu {
-	color: var(--dark-green);
-}
-
 #main-title {
 	font-size: 1.5rem;
 	color: var(--dark-green);
@@ -80,6 +76,7 @@ main {
 	display: flex;
 	flex-direction: column;
 	gap: 5px;
+	width: 100%;
 }
 
 .task.Low {
