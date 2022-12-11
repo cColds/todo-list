@@ -38,6 +38,3 @@ const setEditInputValues = (task) => {
 	title.value = task.title;
 	toggleError(title, titleError);
 };
-
-let testtt;
-export { testtt };

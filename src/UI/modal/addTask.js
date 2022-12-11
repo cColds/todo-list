@@ -53,6 +53,3 @@ addBtn.addEventListener("click", () => {
 		projectId: !isNaN(getSelectedProjectId()) ? getSelectedProjectId() : "",
 	});
 });
-
-let egg = 1;
-export { egg };

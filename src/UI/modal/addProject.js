@@ -33,6 +33,3 @@ addBtn.addEventListener("click", () => {
 	toggleModal(modal, overlayModal);
 	pubSub.publish("project-submitted", title.value);
 });
-
-let egg2 = 1;
-export { egg2 };

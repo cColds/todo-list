@@ -49,7 +49,3 @@ pubSub.subscribe("edit-task-clicked", (getCurrentTaskId) => {
 	toggleModal(modal, overlayModal);
 	setEditInputValues(taskList[currentTaskId]);
 });
-
-let john;
-
-export { john };
