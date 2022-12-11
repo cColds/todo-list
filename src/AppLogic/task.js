@@ -1,4 +1,4 @@
-import { isToday, differenceInDays, isThisWeek, isWeekend } from "date-fns";
+import { isToday, isThisWeek } from "date-fns";
 import { pubSub } from "../pubsub";
 import {
 	getSelectedProjectId,
@@ -7,6 +7,13 @@ import {
 	getSelectedProject,
 } from "../UI/navigation/switchProject.js";
 import { projectList } from "./project";
+import { populateStoredTasks } from "./storage";
+
+addEventListener("load", () => {
+	populateStoredTasks();
+	if (!taskList.length) return;
+	projectToFilter();
+});
 
 const taskList = [];
 
@@ -59,6 +66,7 @@ pubSub.subscribe("task-submitted", (task) => {
 pubSub.subscribe("main-project-switched", filterMainProjectTasks);
 
 function filterMainProjectTasks() {
+	localStorage.setItem("task", JSON.stringify(taskList));
 	const mainProjectId = getSelectedMainProjectId();
 	if (mainProjectId === 0) filterInbox();
 	else if (mainProjectId === 1) filterToday();
@@ -68,6 +76,7 @@ function filterMainProjectTasks() {
 pubSub.subscribe("project-switched", filterProjectTasks);
 
 function filterProjectTasks() {
+	localStorage.setItem("task", JSON.stringify(taskList));
 	const projectId = getSelectedProjectId();
 	const projectTask = projectList[projectId].task;
 	projectTask.length = 0;
