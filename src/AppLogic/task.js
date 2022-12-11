@@ -7,10 +7,11 @@ import {
 	getSelectedProject,
 } from "../UI/navigation/switchProject.js";
 import { projectList } from "./project";
-import { populateStoredTasks, storedTaskCount } from "./storage";
+import { populateStoredTasks, checkTasksStored } from "./storage";
 
 addEventListener("load", () => {
-	if (!storedTaskCount()) return;
+	if (!checkTasksStored()) return;
+
 	populateStoredTasks();
 	projectToFilter();
 });

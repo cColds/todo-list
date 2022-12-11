@@ -7,8 +7,8 @@ const populateStoredTasks = () => {
 	storedTasks.forEach((task) => taskList.push(task));
 };
 
-const storedTaskCount = () => {
-	return JSON.parse(localStorage.getItem("task", taskList)).length;
+const checkTasksStored = () => {
+	return !!JSON.parse(localStorage.getItem("task", taskList));
 };
 
 const populateStoredProjects = () => {
@@ -19,8 +19,8 @@ const populateStoredProjects = () => {
 	storedProjects.forEach((project) => projectList.push(project));
 };
 
-const storedProjectCount = () => {
-	return JSON.parse(localStorage.getItem("project", projectList)).length;
+const checkProjectsStored = () => {
+	return !!JSON.parse(localStorage.getItem("project", projectList));
 };
 
 // saveSelectedProject
@@ -28,6 +28,6 @@ const storedProjectCount = () => {
 export {
 	populateStoredTasks,
 	populateStoredProjects,
-	storedTaskCount,
-	storedProjectCount,
+	checkTasksStored,
+	checkProjectsStored,
 };
