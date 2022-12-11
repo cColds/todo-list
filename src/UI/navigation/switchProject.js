@@ -4,6 +4,21 @@ import {
 } from "../../AppLogic/task";
 import { pubSub } from "../../pubsub";
 import { projectList } from "../../AppLogic/project";
+import {
+	getSelectedProjectIdStored,
+	getSelectedProjectAttributeStored,
+} from "../../AppLogic/storage";
+
+addEventListener("load", () => {
+	const selectedProjectStored = document.querySelector(
+		`[${getSelectedProjectAttributeStored()}='${getSelectedProjectIdStored()}']`
+	);
+	if (!selectedProjectStored) return;
+	getSelectedProject().classList.remove("selected");
+	selectedProjectStored.classList.add("selected");
+	getMainTitle().textContent = selectedProjectStored.textContent;
+});
+
 const mainProjects = document.querySelector("#main-projects-list");
 
 mainProjects.addEventListener("click", (e) => switchProject(e));
@@ -21,7 +36,7 @@ pubSub.subscribe("project-clicked", switchProject);
 const getSelectedProject = () => document.querySelector(".selected");
 
 function switchProject(e) {
-	selectProject(e);
+	styleSelectedProject(e);
 	updateMainTitle();
 
 	pubSub.publish(
@@ -50,12 +65,24 @@ const isMainProjectSelected = () => {
 	return getSelectedProject().classList.toString().includes("main-project");
 };
 
-const selectProject = (e) => {
+const styleSelectedProject = (e) => {
 	if (getSelectedProject()) {
 		getSelectedProject().classList.remove("selected");
 	}
+	const projectItem = e.target.closest(".projects-item");
+	projectItem.classList.add("selected");
+	localStorage.setItem(
+		"project-id",
+		JSON.stringify(projectItem.dataset[getDataset()])
+	);
+	localStorage.setItem(
+		"project-attribute",
+		projectItem.getAttributeNames()[1]
+	);
+};
 
-	e.target.closest(".projects-item").classList.add("selected");
+const getDataset = () => {
+	return isMainProjectSelected() ? "mainProjectId" : "projectId";
 };
 
 const updateMainTitle = () => {

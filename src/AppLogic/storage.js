@@ -23,11 +23,19 @@ const checkProjectsStored = () => {
 	return !!JSON.parse(localStorage.getItem("project", projectList));
 };
 
-// saveSelectedProject
+const getSelectedProjectIdStored = () => {
+	return +JSON.parse(localStorage.getItem("project-id"));
+};
+
+const getSelectedProjectAttributeStored = () => {
+	return localStorage.getItem("project-attribute");
+};
 
 export {
 	populateStoredTasks,
 	populateStoredProjects,
 	checkTasksStored,
 	checkProjectsStored,
+	getSelectedProjectIdStored,
+	getSelectedProjectAttributeStored,
 };
