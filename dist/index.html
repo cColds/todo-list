@@ -16,242 +16,238 @@
 
     </head>
 
-    <body>
-        <div id="grid-layout" data-nav-opened="true">
-            <header>
-                <div id="header-title-container">
-                    <img id="todo-icon" draggable="false" src="icons/todo.svg" alt="todo icon">
-                    <h1 id="header-title">Todo List</h1>
+    <body data-nav-opened="true">
+        <header>
+            <div id="header-title-container">
+                <img id="todo-icon" draggable="false" src="icons/todo.svg" alt="todo icon">
+                <h1 id="header-title">Todo List</h1>
+            </div>
+            <svg class="hamburger-menu" id="header-hamburger-menu" style="width:24px;height:24px" viewBox="0 0 24 24">
+                <path fill="currentColor" d="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z" />
+            </svg>
+
+        </header>
+        <nav>
+            <div id="main-projects-heading">
+                <div id="main-projects-title">
+                    MAIN PROJECTS
                 </div>
-                <svg class="hamburger-menu" id="header-hamburger-menu" style="width:24px;height:24px"
-                    viewBox="0 0 24 24">
+                <svg class="hamburger-menu" id="nav-hamburger-menu" style="width:24px;height:24px" viewBox="0 0 24 24">
                     <path fill="currentColor" d="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z" />
                 </svg>
+            </div>
 
-            </header>
-            <nav>
-                <div id="main-projects-heading">
-                    <div id="main-projects-title">
-                        MAIN PROJECTS
+            <ol id="main-projects-list">
+
+                <li class="projects-item selected main-project" data-main-project-id="0">
+                    <div class="project-content-left">
+                        <svg class="projects-item-icon" style="width:20px;height:20px" viewBox="0 0 24 24">
+                            <path fill="currentColor"
+                                d="M19,15H15A3,3 0 0,1 12,18A3,3 0 0,1 9,15H5V5H19M19,3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3Z" />
+                        </svg>
+
+                        <button class="projects-item-name">Inbox</button>
                     </div>
-                    <svg class="hamburger-menu" id="nav-hamburger-menu" style="width:24px;height:24px"
-                        viewBox="0 0 24 24">
-                        <path fill="currentColor" d="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z" />
-                    </svg>
+
+
+                </li>
+                <li class="projects-item main-project" data-main-project-id="1">
+                    <div class="project-content-left">
+                        <svg class="projects-item-icon" style="width:20px;height:20px" viewBox="0 0 24 24">
+                            <path fill="currentColor"
+                                d="M7,10H12V15H7M19,19H5V8H19M19,3H18V1H16V3H8V1H6V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3Z" />
+                        </svg>
+                        <button class="projects-item-name">Today</button>
+                    </div>
+
+                </li>
+                <li class="projects-item main-project" data-main-project-id="2">
+                    <div class="project-content-left">
+                        <svg class="projects-item-icon" style="width:20px;height:20px" viewBox="0 0 24 24">
+                            <path fill="currentColor"
+                                d="M6 1H8V3H16V1H18V3H19C20.11 3 21 3.9 21 5V19C21 20.11 20.11 21 19 21H5C3.89 21 3 20.1 3 19V5C3 3.89 3.89 3 5 3H6V1M5 8V19H19V8H5M7 10H17V12H7V10Z" />
+                        </svg>
+                        <button class="projects-item-name">Week</button>
+                    </div>
+
+                </li>
+            </ol>
+
+            <div id="nav-border-container">
+                <div id="nav-border"></div>
+            </div>
+
+            <div id="projects-heading">
+                <div id="projects-title">
+                    PROJECTS
                 </div>
+                <svg id="nav-add-project" style="width:24px;height:24px" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+                </svg>
+            </div>
 
-                <ol id="main-projects-list">
+            <ol id="projects-list">
+            </ol>
+        </nav>
 
-                    <li class="projects-item selected main-project" data-main-project-id="0">
-                        <div class="project-content-left">
-                            <svg class="projects-item-icon" style="width:20px;height:20px" viewBox="0 0 24 24">
-                                <path fill="currentColor"
-                                    d="M19,15H15A3,3 0 0,1 12,18A3,3 0 0,1 9,15H5V5H19M19,3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3Z" />
-                            </svg>
-
-                            <button class="projects-item-name">Inbox</button>
-                        </div>
+        <main>
 
 
-                    </li>
-                    <li class="projects-item main-project" data-main-project-id="1">
-                        <div class="project-content-left">
-                            <svg class="projects-item-icon" style="width:20px;height:20px" viewBox="0 0 24 24">
-                                <path fill="currentColor"
-                                    d="M7,10H12V15H7M19,19H5V8H19M19,3H18V1H16V3H8V1H6V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3Z" />
-                            </svg>
-                            <button class="projects-item-name">Today</button>
-                        </div>
+            <section id="task-section">
+                <h1 id="main-title">
+                    Inbox
+                </h1>
+                <button id="add-task">Add Task</button>
 
-                    </li>
-                    <li class="projects-item main-project" data-main-project-id="2">
-                        <div class="project-content-left">
-                            <svg class="projects-item-icon" style="width:20px;height:20px" viewBox="0 0 24 24">
-                                <path fill="currentColor"
-                                    d="M6 1H8V3H16V1H18V3H19C20.11 3 21 3.9 21 5V19C21 20.11 20.11 21 19 21H5C3.89 21 3 20.1 3 19V5C3 3.89 3.89 3 5 3H6V1M5 8V19H19V8H5M7 10H17V12H7V10Z" />
-                            </svg>
-                            <button class="projects-item-name">Week</button>
-                        </div>
-
-                    </li>
-                </ol>
-
-                <div id="nav-border-container">
-                    <div id="nav-border"></div>
+                <div class="all-tasks">
                 </div>
+            </section>
 
-                <div id="projects-heading">
-                    <div id="projects-title">
-                        PROJECTS
-                    </div>
-                    <svg id="nav-add-project" style="width:24px;height:24px" viewBox="0 0 24 24">
-                        <path fill="currentColor" d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
-                    </svg>
+            <!-- MODAL ADD TASK-->
+
+            <div class="modal" id="add-task-modal">
+
+                <div class="modal-header-container">
+                    <div class="modal-header-title">Add Task</div>
+                    <div class="modal-header-cancel" id="add-task-modal-header-cancel">&times;</div>
                 </div>
-
-                <ol id="projects-list">
-                </ol>
-            </nav>
-
-            <main>
-
-
-                <section id="task-section">
-                    <h1 id="main-title">
-                        Inbox
-                    </h1>
-                    <button id="add-task">Add Task</button>
-
-                    <div class="all-tasks">
-                    </div>
-                </section>
-
-                <!-- MODAL ADD TASK-->
-
-                <div class="modal" id="add-task-modal">
-
-                    <div class="modal-header-container">
-                        <div class="modal-header-title">Add Task</div>
-                        <div class="modal-header-cancel" id="add-task-modal-header-cancel">&times;</div>
-                    </div>
-                    <div class="modal-content">
-                        <form class="modal-form" id="add-task-form" action="">
-                            <div class="input-container-1">
-                                <div class="title-container">
-                                    <label for="add-task-title" class="label-title">Title</label>
-                                    <input type="text" id="add-task-title" class="modal-title" placeholder="Title">
-                                    <div class="title-error" id="add-task-title-error">Title can't be empty.</div>
-                                </div>
-                                <div class="due-date-container">
-                                    <label for="add-task-due-date" class="label-due-date">Due Date</label>
-                                    <input type="datetime-local" id="add-task-due-date">
-                                </div>
+                <div class="modal-content">
+                    <form class="modal-form" id="add-task-form" action="">
+                        <div class="input-container-1">
+                            <div class="title-container">
+                                <label for="add-task-title" class="label-title">Title</label>
+                                <input type="text" id="add-task-title" class="modal-title" placeholder="Title">
+                                <div class="title-error" id="add-task-title-error">Title can't be empty.</div>
                             </div>
-                            <div class="input-container-2">
-                                <div class="description-container">
-                                    <label for="add-task-description">Description</label>
-                                    <input type="text" id="add-task-description" class="modal-description"
-                                        placeholder="Description">
-                                </div>
-                                <div class="priority-container">
-                                    <label for="add-task-priority">Priority</label>
-                                    <select id="add-task-priority" class="modal-priority">
-                                        <option value="Low" selected>Low</option>
-                                        <option value="Medium">Medium</option>
-                                        <option value="High">High</option>
-                                    </select>
-                                </div>
+                            <div class="due-date-container">
+                                <label for="add-task-due-date" class="label-due-date">Due Date</label>
+                                <input type="datetime-local" id="add-task-due-date">
                             </div>
-                        </form>
-
-                        <div class="modal-button-container">
-                            <button id="add-task-cancel" class="cancel-modal">Cancel</button>
-                            <button id="add-task-add" class="save-modal">Add</button>
                         </div>
+                        <div class="input-container-2">
+                            <div class="description-container">
+                                <label for="add-task-description">Description</label>
+                                <input type="text" id="add-task-description" class="modal-description"
+                                    placeholder="Description">
+                            </div>
+                            <div class="priority-container">
+                                <label for="add-task-priority">Priority</label>
+                                <select id="add-task-priority" class="modal-priority">
+                                    <option value="Low" selected>Low</option>
+                                    <option value="Medium">Medium</option>
+                                    <option value="High">High</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="modal-button-container">
+                        <button id="add-task-cancel" class="cancel-modal">Cancel</button>
+                        <button id="add-task-add" class="save-modal">Add</button>
                     </div>
                 </div>
-                <div class="modal-overlay" id="add-task-modal-overlay"></div>
+            </div>
+            <div class="modal-overlay" id="add-task-modal-overlay"></div>
 
-                <!-- MODAL EDIT TASK-->
+            <!-- MODAL EDIT TASK-->
 
-                <div class="modal" id="edit-task-modal">
+            <div class="modal" id="edit-task-modal">
 
-                    <div class="modal-header-container">
-                        <div class="modal-header-title">Edit Task</div>
-                        <div class="modal-header-cancel" id="edit-task-modal-header-cancel">&times;</div>
-                    </div>
-                    <div class="modal-content">
-                        <form class="modal-form" id="edit-task-form" action="">
-                            <div class="input-container-1">
-                                <div class="title-container">
-                                    <label for="edit-task-title" class="label-title">Title</label>
-                                    <input type="text" id="edit-task-title" class="modal-title" placeholder="Title">
-                                    <div class="title-error" id="edit-task-title-error">Title can't be empty.</div>
-                                </div>
-                                <div class="due-date-container">
-                                    <label for="edit-task-due-date" class="label-due-date">Due Date</label>
-                                    <input type="datetime-local" id="edit-task-due-date">
-                                </div>
+                <div class="modal-header-container">
+                    <div class="modal-header-title">Edit Task</div>
+                    <div class="modal-header-cancel" id="edit-task-modal-header-cancel">&times;</div>
+                </div>
+                <div class="modal-content">
+                    <form class="modal-form" id="edit-task-form" action="">
+                        <div class="input-container-1">
+                            <div class="title-container">
+                                <label for="edit-task-title" class="label-title">Title</label>
+                                <input type="text" id="edit-task-title" class="modal-title" placeholder="Title">
+                                <div class="title-error" id="edit-task-title-error">Title can't be empty.</div>
                             </div>
-                            <div class="input-container-2">
-                                <div class="description-container">
-                                    <label for="edit-task-description">Description</label>
-                                    <input type="text" id="edit-task-description" class="modal-description"
-                                        placeholder="Description">
-                                </div>
-                                <div class="priority-container">
-                                    <label for="edit-task-priority">Priority</label>
-                                    <select id="edit-task-priority" class="modal-priority">
-                                        <option value="Low" selected>Low</option>
-                                        <option value="Medium">Medium</option>
-                                        <option value="High">High</option>
-                                    </select>
-                                </div>
+                            <div class="due-date-container">
+                                <label for="edit-task-due-date" class="label-due-date">Due Date</label>
+                                <input type="datetime-local" id="edit-task-due-date">
                             </div>
-                        </form>
-
-                        <div class="modal-button-container">
-                            <button id="edit-task-cancel" class="cancel-modal">Cancel</button>
-                            <button id="edit-task-save" class="save-modal">Save</button>
                         </div>
+                        <div class="input-container-2">
+                            <div class="description-container">
+                                <label for="edit-task-description">Description</label>
+                                <input type="text" id="edit-task-description" class="modal-description"
+                                    placeholder="Description">
+                            </div>
+                            <div class="priority-container">
+                                <label for="edit-task-priority">Priority</label>
+                                <select id="edit-task-priority" class="modal-priority">
+                                    <option value="Low" selected>Low</option>
+                                    <option value="Medium">Medium</option>
+                                    <option value="High">High</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="modal-button-container">
+                        <button id="edit-task-cancel" class="cancel-modal">Cancel</button>
+                        <button id="edit-task-save" class="save-modal">Save</button>
                     </div>
                 </div>
-                <div class="modal-overlay" id="edit-task-modal-overlay"></div>
+            </div>
+            <div class="modal-overlay" id="edit-task-modal-overlay"></div>
 
-                <!-- MODAL ADD PROJECT -->
+            <!-- MODAL ADD PROJECT -->
 
-                <div class="modal" id="add-project-modal">
-                    <div class="modal-header-container">
-                        <div class="modal-header-title">Add Project</div>
-                        <div class="modal-header-cancel" id="add-project-modal-header-cancel">&times;</div>
-                    </div>
-                    <div class="modal-content">
-                        <form class="modal-form" id="add-project-form" action="">
-                            <div class="input-container-1">
-                                <div class="title-container">
-                                    <label for="add-project-title" class="label-title">Title</label>
-                                    <input type="text" id="add-project-title" class="modal-title" placeholder="Title">
-                                    <div class="title-error" id="add-project-title-error">Title can't be empty.</div>
-                                </div>
+            <div class="modal" id="add-project-modal">
+                <div class="modal-header-container">
+                    <div class="modal-header-title">Add Project</div>
+                    <div class="modal-header-cancel" id="add-project-modal-header-cancel">&times;</div>
+                </div>
+                <div class="modal-content">
+                    <form class="modal-form" id="add-project-form" action="">
+                        <div class="input-container-1">
+                            <div class="title-container">
+                                <label for="add-project-title" class="label-title">Title</label>
+                                <input type="text" id="add-project-title" class="modal-title" placeholder="Title">
+                                <div class="title-error" id="add-project-title-error">Title can't be empty.</div>
                             </div>
-                        </form>
-
-                        <div class="modal-button-container">
-                            <button id="add-project-cancel" class="cancel-modal">Cancel</button>
-                            <button id="add-project-add" class="save-modal">Add</button>
                         </div>
+                    </form>
+
+                    <div class="modal-button-container">
+                        <button id="add-project-cancel" class="cancel-modal">Cancel</button>
+                        <button id="add-project-add" class="save-modal">Add</button>
                     </div>
                 </div>
-                <div class="modal-overlay" id="add-project-modal-overlay"></div>
+            </div>
+            <div class="modal-overlay" id="add-project-modal-overlay"></div>
 
-                <!-- MODAL EDIT PROJECT -->
+            <!-- MODAL EDIT PROJECT -->
 
-                <div class="modal" id="edit-project-modal">
-                    <div class="modal-header-container">
-                        <div class="modal-header-title">Edit Project</div>
-                        <div class="modal-header-cancel" id="edit-project-modal-header-cancel">&times;</div>
-                    </div>
-                    <div class="modal-content">
-                        <form class="modal-form" id="edit-project-form" action="">
-                            <div class="input-container-1">
-                                <div class="title-container">
-                                    <label for="edit-project-title" class="label-title">Title</label>
-                                    <input type="text" id="edit-project-title" class="modal-title" placeholder="Title">
-                                    <div class="title-error" id="edit-project-title-error">Title can't be empty.</div>
-                                </div>
+            <div class="modal" id="edit-project-modal">
+                <div class="modal-header-container">
+                    <div class="modal-header-title">Edit Project</div>
+                    <div class="modal-header-cancel" id="edit-project-modal-header-cancel">&times;</div>
+                </div>
+                <div class="modal-content">
+                    <form class="modal-form" id="edit-project-form" action="">
+                        <div class="input-container-1">
+                            <div class="title-container">
+                                <label for="edit-project-title" class="label-title">Title</label>
+                                <input type="text" id="edit-project-title" class="modal-title" placeholder="Title">
+                                <div class="title-error" id="edit-project-title-error">Title can't be empty.</div>
                             </div>
-                        </form>
-
-                        <div class="modal-button-container">
-                            <button id="edit-project-cancel" class="cancel-modal">Cancel</button>
-                            <button id="edit-project-save" class="save-modal">Save</button>
                         </div>
+                    </form>
+
+                    <div class="modal-button-container">
+                        <button id="edit-project-cancel" class="cancel-modal">Cancel</button>
+                        <button id="edit-project-save" class="save-modal">Save</button>
                     </div>
                 </div>
-                <div class="modal-overlay" id="edit-project-modal-overlay"></div>
+            </div>
+            <div class="modal-overlay" id="edit-project-modal-overlay"></div>
 
-            </main>
-        </div>
+        </main>
     </body>
 
 </html>

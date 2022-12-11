@@ -2,7 +2,7 @@
 	--dark-green: #607d8b;
 }
 
-#grid-layout {
+body {
 	height: 100%;
 	width: 100%;
 	display: grid;
@@ -10,7 +10,7 @@
 	grid-template-rows: 70px;
 }
 
-#grid-layout[data-nav-opened="false"] {
+body[data-nav-opened="false"] {
 	display: block;
 }
 

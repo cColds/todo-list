@@ -1,4 +1,4 @@
-const gridLayout = document.querySelector("#grid-layout");
+const body = document.querySelector("body");
 const nav = document.querySelector("nav");
 
 const toggleNavigationBar = () => {
@@ -7,9 +7,9 @@ const toggleNavigationBar = () => {
 };
 
 const setNavValue = () => {
-	let { navOpened } = gridLayout.dataset;
+	let { navOpened } = body.dataset;
 	navOpened = navOpened === "true" ? "false" : "true";
-	gridLayout.dataset.navOpened = navOpened;
+	body.dataset.navOpened = navOpened;
 };
 
 const navHamburgerMenu = document.querySelector("#nav-hamburger-menu");
