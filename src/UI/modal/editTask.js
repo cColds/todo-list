@@ -35,7 +35,9 @@ saveBtn.addEventListener("click", () => {
 
 const setEditInputValues = (task) => {
 	title.value = task.title;
-	if (task.dueDate !== "Invalid Date") formatISO9075(new Date(task.dueDate));
+	if (task.dueDate !== "Invalid Date") {
+		dueDate.value = formatISO9075(new Date(task.dueDate));
+	}
 	description.value = task.description;
 	priority.value = task.priority;
 	toggleError(title, titleError);
