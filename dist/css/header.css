@@ -2,8 +2,15 @@ header {
 	border-bottom: 1px solid #d9d9d9;
 	display: flex;
 	align-items: center;
-	padding-left: 15px;
+	padding: 15px;
 	background-color: #607d8b;
+	display: flex;
+	justify-content: space-between;
+}
+
+#header-title-container {
+	display: flex;
+	align-items: center;
 }
 
 #header-title {
@@ -15,4 +22,15 @@ header {
 #todo-icon {
 	width: 35px;
 	pointer-events: none;
+}
+
+#header-hamburger-menu {
+	border-radius: 5px;
+	color: white;
+}
+
+#header-hamburger-menu:hover {
+	transition: 0.3s;
+	background-color: #e2e8f0;
+	color: #64748b;
 }

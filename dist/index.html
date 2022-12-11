@@ -19,8 +19,15 @@
     <body>
         <div id="grid-layout" data-nav-opened="true">
             <header>
-                <img id="todo-icon" draggable="false" src="icons/todo.svg" alt="todo icon">
-                <h1 id="header-title">Todo List</h1>
+                <div id="header-title-container">
+                    <img id="todo-icon" draggable="false" src="icons/todo.svg" alt="todo icon">
+                    <h1 id="header-title">Todo List</h1>
+                </div>
+                <svg class="hamburger-menu" id="header-hamburger-menu" style="width:24px;height:24px"
+                    viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z" />
+                </svg>
+
             </header>
             <nav>
                 <div id="main-projects-heading">
@@ -88,10 +95,6 @@
 
             <main>
 
-                <svg class="hamburger-menu hide" id="main-hamburger-menu" style="width:24px;height:24px"
-                    viewBox="0 0 24 24">
-                    <path fill="currentColor" d="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z" />
-                </svg>
 
                 <section id="task-section">
                     <h1 id="main-title">
