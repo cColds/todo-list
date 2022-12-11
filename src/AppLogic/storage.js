@@ -11,8 +11,6 @@ const storedTaskCount = () => {
 	return JSON.parse(localStorage.getItem("task", taskList)).length;
 };
 
-// populateStoredProjects
-
 const populateStoredProjects = () => {
 	const storedProjects = JSON.parse(
 		localStorage.getItem("project", projectList)

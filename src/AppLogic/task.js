@@ -11,7 +11,6 @@ import { populateStoredTasks, storedTaskCount } from "./storage";
 
 addEventListener("load", () => {
 	if (!storedTaskCount()) return;
-
 	populateStoredTasks();
 	projectToFilter();
 });

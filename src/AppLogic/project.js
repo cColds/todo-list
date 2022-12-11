@@ -3,8 +3,8 @@ import { populateStoredProjects, storedProjectCount } from "./storage.js";
 import { updateId } from "./task.js";
 
 addEventListener("load", () => {
-	if (!storedProjectCount) return;
-
+	if (!storedProjectCount()) return;
+	console.log(JSON.parse(localStorage.getItem("project", projectList)));
 	populateStoredProjects();
 	pubSub.publish("project-updated");
 });
