@@ -3,6 +3,8 @@
 nav {
 	box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 5px 0px,
 		rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+	width: clamp(150px, 350px, 20%);
+	overflow: auto;
 }
 
 /* @media screen and (max-width: 750px) {
@@ -40,8 +42,7 @@ li {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	padding-left: 15px;
-	height: 45px;
+	padding: 1rem 0px 1rem 15px;
 	gap: 5px;
 }
 
@@ -88,6 +89,9 @@ li {
 	align-items: center;
 	padding-right: 10px;
 	gap: 5px;
+}
+.project-content-left {
+	overflow: hidden;
 }
 
 .project-delete-icon:hover {

@@ -2,17 +2,23 @@
 
 /* ADD TASK MODAL */
 
+/* @media screen and (max-width: 750px) {
+	nav {
+		display: none;
+	}
+} */
+
 .modal {
 	position: fixed;
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
-	width: 500px;
-	height: 300px;
 	border-radius: 5px;
 	z-index: 1;
 	opacity: 0;
 	pointer-events: none;
+	width: clamp(250px, 100%, 500px);
+	padding: 15px;
 }
 
 .modal.active {
@@ -21,7 +27,7 @@
 }
 
 .modal-overlay.active {
-	position: fixed;
+	position: absolute;
 	opacity: 1;
 	top: 0;
 	left: 0;
@@ -40,11 +46,11 @@
 	background-color: var(--dark-green);
 	border-top-left-radius: inherit;
 	border-top-right-radius: inherit;
-	height: 50px;
+
 	color: white;
 	font-weight: bold;
 	display: flex;
-	padding: 0px 15px 0px 15px;
+	padding: 0.9rem;
 	align-items: center;
 	justify-content: space-between;
 }
@@ -52,9 +58,7 @@
 /* MODAL INPUTS */
 
 .modal-content {
-	height: calc(100% - 50px);
 	display: flex;
-	justify-content: space-between;
 	flex-direction: column;
 }
 
@@ -70,19 +74,19 @@
 
 .modal-form {
 	display: flex;
-	justify-content: space-between;
 	gap: 10px;
 	padding: 15px;
 	background-color: rgb(255 255 255);
-	height: 100%;
+	flex-wrap: wrap;
+	justify-content: space-between;
 }
 
 .input-container-1,
 .input-container-2 {
 	display: flex;
 	flex-direction: column;
-	width: 100%;
 	gap: 10px;
+	flex-grow: 1;
 }
 
 .input-container-1 > div,
@@ -109,7 +113,6 @@
 	border: none;
 	background-color: #e2e8f0;
 	padding: 5px;
-	height: 35px;
 	border-radius: 2px;
 }
 
@@ -150,19 +153,18 @@ button:focus {
 .modal-button-container {
 	background-color: #f1f5f9;
 	padding: 10px;
-	height: 60px;
 	display: flex;
 	align-items: center;
 	gap: 10px;
 	justify-content: flex-end;
-	width: 100%;
 	border-radius: 0px 0px 5px 5px;
 }
 
 .modal-button-container > button {
+	display: flex;
+	justify-content: center;
 	border: none;
-	width: 80px;
-	height: 35px;
+	padding: 0.75rem 1.5rem;
 	border-radius: 5px;
 	border: none;
 	font-weight: bold;
