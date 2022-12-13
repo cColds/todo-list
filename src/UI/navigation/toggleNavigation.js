@@ -1,4 +1,4 @@
-const body = document.querySelector("body");
+const taskSection = document.querySelector("#task-section");
 const nav = document.querySelector("nav");
 
 const toggleNavigationBar = () => {
@@ -7,9 +7,9 @@ const toggleNavigationBar = () => {
 };
 
 const setNavValue = () => {
-	let { navOpened } = body.dataset;
+	let { navOpened } = taskSection.dataset;
 	navOpened = navOpened === "true" ? "false" : "true";
-	body.dataset.navOpened = navOpened;
+	taskSection.dataset.navOpened = navOpened;
 };
 
 const navHamburgerMenu = document.querySelector("#nav-hamburger-menu");

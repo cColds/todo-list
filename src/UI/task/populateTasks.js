@@ -67,5 +67,4 @@ const editTaskIcon = () => {
 </svg>`;
 };
 
-let joe;
-export { joe, getCurrentTaskId };
+export { getCurrentTaskId };
