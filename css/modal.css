@@ -191,3 +191,21 @@ button:focus {
 	background-color: #769aac;
 	transition: 0.3s;
 }
+
+.modal-warning {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	padding: 0.5em 0;
+	gap: 15px;
+	color: #585858;
+}
+
+#delete-project-confirm {
+	background-color: #dc2626;
+}
+
+#delete-project-confirm:hover {
+	transition: 0.3s;
+	background-color: #be2525;
+}
