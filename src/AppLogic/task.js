@@ -36,6 +36,8 @@ function completeTask(id) {
 
 pubSub.subscribe("project-delete-confirmed", (projectId) => {
 	removeDeletedProjectTasks(projectId);
+	updateId(taskList);
+	updateProjectId(projectId);
 	filterMainProjectTasks();
 });
 
@@ -47,13 +49,23 @@ const removeDeletedProjectTasks = (projectId) => {
 	}
 };
 
+// look for index/id spliced and re-adjust the id greater than it
+
+const updateProjectId = (projectId) => {
+	taskList.forEach((task) => {
+		if (task.projectId > projectId) {
+			task.projectId = task.projectId - 1;
+		}
+	});
+};
+
 pubSub.subscribe("task-edited", editTask);
 
-function editTask(updatedProps) {
-	taskList[updatedProps.id].title = updatedProps.title;
-	taskList[updatedProps.id].description = updatedProps.description;
-	taskList[updatedProps.id].dueDate = updatedProps.dueDate;
-	taskList[updatedProps.id].priority = updatedProps.priority;
+function editTask({ id, title, description, dueDate, priority }) {
+	taskList[id].title = title;
+	taskList[id].description = description;
+	taskList[id].dueDate = dueDate;
+	taskList[id].priority = priority;
 	projectToFilter();
 }
 
