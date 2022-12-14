@@ -8,13 +8,12 @@ const populateStoredTasks = () => {
 };
 
 const checkTasksStored = () => {
-	return !!JSON.parse(localStorage.getItem("task", taskList));
+	const storedTasks = localStorage.getItem("task");
+	return storedTasks !== "[]" && storedTasks ? true : false;
 };
 
 const populateStoredProjects = () => {
-	const storedProjects = JSON.parse(
-		localStorage.getItem("project", projectList)
-	);
+	const storedProjects = JSON.parse(localStorage.getItem("project"));
 
 	taskList.forEach((task) => {
 		if (task.projectId === project.id) {
@@ -29,7 +28,8 @@ const populateStoredProjects = () => {
 };
 
 const checkProjectsStored = () => {
-	return !!JSON.parse(localStorage.getItem("project", projectList));
+	const storedProjects = localStorage.getItem("project");
+	return storedProjects !== "[]" && storedProjects ? true : false;
 };
 
 const getSelectedProjectIdStored = () => {

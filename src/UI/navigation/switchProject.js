@@ -1,7 +1,3 @@
-import {
-	filterMainProjectTasks,
-	removeDeletedProjectTasks,
-} from "../../AppLogic/task";
 import { pubSub } from "../../pubsub";
 import { projectList } from "../../AppLogic/project";
 import {

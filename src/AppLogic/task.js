@@ -5,16 +5,7 @@ import {
 	getSelectedMainProjectId,
 	isMainProjectSelected,
 } from "../UI/navigation/switchProject.js";
-import { defaultTasks } from "./defaultTasks";
 import { projectList } from "./project";
-import { populateStoredTasks, checkTasksStored } from "./storage";
-addEventListener("load", () => {
-	if (!checkTasksStored()) {
-		localStorage.setItem("task", JSON.stringify(defaultTasks));
-	}
-	populateStoredTasks();
-	projectToFilter();
-});
 
 const taskList = [];
 
@@ -22,7 +13,7 @@ const addTask = (title, description, dueDate, priority, id) => {
 	taskList.push({ title, description, dueDate, priority, id });
 };
 
-const projectToFilter = () => {
+const projectTypeToFilter = () => {
 	isMainProjectSelected() ? filterMainProjectTasks() : filterProjectTasks();
 };
 
@@ -31,7 +22,8 @@ pubSub.subscribe("complete-task-clicked", completeTask);
 function completeTask(id) {
 	taskList.splice(id, 1);
 	updateId(taskList);
-	projectToFilter();
+	projectTypeToFilter();
+	localStorage.setItem("task", taskList);
 }
 
 pubSub.subscribe("project-delete-confirmed", (projectId) => {
@@ -66,12 +58,12 @@ function editTask({ id, title, description, dueDate, priority }) {
 	taskList[id].description = description;
 	taskList[id].dueDate = dueDate;
 	taskList[id].priority = priority;
-	projectToFilter();
+	projectTypeToFilter();
 }
 
 pubSub.subscribe("task-submitted", (task) => {
 	taskList.push(task);
-	projectToFilter();
+	projectTypeToFilter();
 });
 
 pubSub.subscribe("main-project-switched", filterMainProjectTasks);
@@ -134,4 +126,5 @@ export {
 	updateId,
 	filterMainProjectTasks,
 	removeDeletedProjectTasks,
+	projectTypeToFilter,
 };

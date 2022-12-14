@@ -1,17 +1,5 @@
 import { pubSub } from "../pubsub.js";
-import { defaultProjects } from "./defaultProjects.js";
-import { populateStoredProjects, checkProjectsStored } from "./storage.js";
 import { updateId } from "./task.js";
-
-addEventListener("load", () => {
-	if (!checkProjectsStored()) {
-		localStorage.setItem("project", JSON.stringify(defaultProjects));
-	}
-
-	populateStoredProjects();
-	pubSub.publish("project-updated");
-	console.log(projectList);
-});
 
 const projectList = [];
 

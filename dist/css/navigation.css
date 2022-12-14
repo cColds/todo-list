@@ -7,12 +7,6 @@ nav {
 	overflow: auto;
 }
 
-/* @media screen and (max-width: 750px) {
-	nav {
-		display: none;
-	}
-} */
-
 #main-projects-heading,
 #projects-heading {
 	color: var(--dark-green);
