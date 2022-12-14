@@ -4,14 +4,13 @@ import {
 	getSelectedProjectId,
 	getSelectedMainProjectId,
 	isMainProjectSelected,
-	getSelectedProject,
 } from "../UI/navigation/switchProject.js";
 import { defaultTasks } from "./defaultTasks";
 import { projectList } from "./project";
 import { populateStoredTasks, checkTasksStored } from "./storage";
 addEventListener("load", () => {
 	if (!checkTasksStored()) {
-		// localStorage.setItem("task", JSON.stringify(defaultTasks));
+		localStorage.setItem("task", JSON.stringify(defaultTasks));
 		return;
 	}
 
@@ -37,12 +36,10 @@ function completeTask(id) {
 	projectToFilter();
 }
 
-// pubSub.subscribe("project-deleted", (projectId) => {
-// 	removeDeletedProjectTasks(projectId);
-// 	if (getSelectedProject()) {
-// 		projectToFilter();
-// 	}
-// });
+pubSub.subscribe("project-delete-confirmed", (projectId) => {
+	removeDeletedProjectTasks(projectId);
+	filterMainProjectTasks();
+});
 
 const removeDeletedProjectTasks = (projectId) => {
 	for (let i = taskList.length - 1; i >= 0; i--) {

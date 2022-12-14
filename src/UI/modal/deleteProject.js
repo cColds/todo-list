@@ -12,10 +12,12 @@ cancelBtn.addEventListener("click", () => toggleModal(modal, overlayModal));
 closeBtn.addEventListener("click", () => toggleModal(modal, overlayModal));
 
 deleteBtn.addEventListener("click", () => {
+	pubSub.publish("project-delete-confirmed", currentProjectId);
 	toggleModal(modal, overlayModal);
 });
 
-pubSub.subscribe("project-delete-clicked", () => {
-	console.log("jim");
+let currentProjectId = null;
+pubSub.subscribe("project-delete-clicked", (id) => {
+	currentProjectId = id;
 	toggleModal(modal, overlayModal);
 });

@@ -5,7 +5,7 @@ import { updateId } from "./task.js";
 
 addEventListener("load", () => {
 	if (!checkProjectsStored()) {
-		// localStorage.setItem("project", JSON.stringify(defaultProjects));
+		localStorage.setItem("project", JSON.stringify(defaultProjects));
 		return;
 	}
 
@@ -24,7 +24,7 @@ function addProject(title) {
 	console.log(projectList);
 }
 
-pubSub.subscribe("project-deleted", deleteProject);
+pubSub.subscribe("project-delete-confirmed", deleteProject);
 
 function deleteProject(id) {
 	projectList.splice(id, 1);

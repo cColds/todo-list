@@ -44,14 +44,13 @@ function switchProject(e) {
 	);
 }
 
-// pubSub.subscribe("no-projects-selected", defaultToInboxProject);
+pubSub.subscribe("project-delete-confirmed", defaultToInboxProject);
 
-function defaultToInboxProject(projectId) {
-	const inbox = document.querySelector("[data-main-project-id='0'");
+function defaultToInboxProject() {
+	const inbox = document.querySelector("[data-main-project-id='0']");
+
 	inbox.classList.add("selected");
 	updateMainTitle();
-	removeDeletedProjectTasks(projectId);
-	filterMainProjectTasks();
 }
 
 const isMainProjectSelected = () => {
