@@ -42,7 +42,7 @@ const setEditInputValues = (task) => {
 	priority.value = task.priority;
 	toggleError(title, titleError);
 };
-
+// maybe improve later
 let currentTaskId = null;
 pubSub.subscribe("edit-task-clicked", (getCurrentTaskId) => {
 	currentTaskId = getCurrentTaskId;

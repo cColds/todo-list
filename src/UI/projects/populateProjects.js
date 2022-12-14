@@ -1,14 +1,8 @@
 import { pubSub } from "../../pubsub";
 import { projectList } from "../../AppLogic/project";
 import { removeAllProjects } from "./removeAllProjects";
-import {
-	getSelectedProject,
-	projectIdStored,
-} from "../navigation/switchProject";
 
 pubSub.subscribe("project-updated", () => {
-	pubSub.publish("store-project-selected-id");
-	console.log(projectList);
 	removeAllProjects();
 	projectList.forEach((project) => populateProjects(project));
 });
@@ -23,7 +17,6 @@ const populateProjects = (project) => {
 
 	projectItem.classList.add("projects-item");
 	projectItem.dataset.projectId = project.id;
-	if (project.id === projectIdStored) projectItem.classList.add("selected");
 
 	projectContentLeft.classList.add("project-content-left");
 	projectName.classList.add("projects-item-name");
@@ -48,7 +41,6 @@ const populateProjects = (project) => {
 
 	const projectEdit = projectContentRight.children[1];
 	projectEdit.addEventListener("click", (e) => {
-		e.stopPropagation();
 		pubSub.publish("project-edit-clicked", getSelectedProjectId(e));
 	});
 };

@@ -44,7 +44,7 @@ function switchProject(e) {
 	);
 }
 
-pubSub.subscribe("no-projects-selected", defaultToInboxProject);
+// pubSub.subscribe("no-projects-selected", defaultToInboxProject);
 
 function defaultToInboxProject(projectId) {
 	const inbox = document.querySelector("[data-main-project-id='0'");
@@ -52,13 +52,6 @@ function defaultToInboxProject(projectId) {
 	updateMainTitle();
 	removeDeletedProjectTasks(projectId);
 	filterMainProjectTasks();
-}
-
-pubSub.subscribe("store-project-selected-id", storeProjectSelectedId);
-
-let projectIdStored = null;
-function storeProjectSelectedId() {
-	projectIdStored = getSelectedProjectId();
 }
 
 const isMainProjectSelected = () => {
@@ -111,6 +104,5 @@ export {
 	getSelectedProjectId,
 	getSelectedMainProjectId,
 	isMainProjectSelected,
-	projectIdStored,
 	getSelectedProject,
 };

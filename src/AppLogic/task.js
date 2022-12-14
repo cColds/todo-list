@@ -37,12 +37,12 @@ function completeTask(id) {
 	projectToFilter();
 }
 
-pubSub.subscribe("project-deleted", (projectId) => {
-	removeDeletedProjectTasks(projectId);
-	if (getSelectedProject()) {
-		projectToFilter();
-	}
-});
+// pubSub.subscribe("project-deleted", (projectId) => {
+// 	removeDeletedProjectTasks(projectId);
+// 	if (getSelectedProject()) {
+// 		projectToFilter();
+// 	}
+// });
 
 const removeDeletedProjectTasks = (projectId) => {
 	for (let i = taskList.length - 1; i >= 0; i--) {
