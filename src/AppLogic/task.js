@@ -6,11 +6,13 @@ import {
 	isMainProjectSelected,
 	getSelectedProject,
 } from "../UI/navigation/switchProject.js";
+import { defaultTasks } from "./defaultTasks";
 import { projectList } from "./project";
 import { populateStoredTasks, checkTasksStored } from "./storage";
-
 addEventListener("load", () => {
-	if (!checkTasksStored()) return;
+	if (!checkTasksStored()) {
+		localStorage.setItem("task", JSON.stringify(defaultTasks));
+	}
 
 	populateStoredTasks();
 	projectToFilter();
@@ -72,6 +74,7 @@ function filterMainProjectTasks() {
 	if (mainProjectId === 0) filterInbox();
 	else if (mainProjectId === 1) filterToday();
 	else filterWeek();
+	console.log(taskList);
 }
 
 pubSub.subscribe("project-switched", filterProjectTasks);

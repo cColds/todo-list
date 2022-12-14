@@ -1,9 +1,12 @@
 import { pubSub } from "../pubsub.js";
+import { defaultProjects } from "./defaultProjects.js";
 import { populateStoredProjects, checkProjectsStored } from "./storage.js";
 import { updateId } from "./task.js";
 
 addEventListener("load", () => {
-	if (!checkProjectsStored()) return;
+	if (!checkProjectsStored()) {
+		localStorage.setItem("project", JSON.stringify(defaultProjects));
+	}
 
 	populateStoredProjects();
 	pubSub.publish("project-updated");
@@ -17,6 +20,7 @@ function addProject(title) {
 	projectList.push({ title, id: projectList.length, task: [] });
 	localStorage.setItem("project", JSON.stringify(projectList));
 	pubSub.publish("project-updated");
+	console.log(projectList);
 }
 
 pubSub.subscribe("project-deleted", deleteProject);
