@@ -112,9 +112,18 @@ main {
 	gap: 15px;
 }
 
+.task-content-right {
+	overflow: hidden;
+}
+
 .task-content-left {
 	max-width: 50%;
+}
+
+.title-task,
+.description-task {
 	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .text-task {
@@ -122,6 +131,7 @@ main {
 	flex-direction: column;
 	font-size: 0.9rem;
 	gap: 5px;
+	overflow: hidden;
 }
 
 .description-task {
@@ -133,6 +143,8 @@ main {
 	color: var(--dark-green);
 	font-weight: bold;
 	font-size: 0.8rem;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .edit-task-container {
