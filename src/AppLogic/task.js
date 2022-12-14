@@ -11,9 +11,7 @@ import { populateStoredTasks, checkTasksStored } from "./storage";
 addEventListener("load", () => {
 	if (!checkTasksStored()) {
 		localStorage.setItem("task", JSON.stringify(defaultTasks));
-		return;
 	}
-
 	populateStoredTasks();
 	projectToFilter();
 });

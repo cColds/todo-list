@@ -16,7 +16,16 @@ const populateStoredProjects = () => {
 		localStorage.getItem("project", projectList)
 	);
 
-	storedProjects.forEach((project) => projectList.push(project));
+	taskList.forEach((task) => {
+		if (task.projectId === project.id) {
+			console.log("f");
+		}
+	});
+
+	storedProjects.forEach((project) => {
+		console.log(project.task);
+		projectList.push(project);
+	});
 };
 
 const checkProjectsStored = () => {

@@ -6,11 +6,11 @@ import { updateId } from "./task.js";
 addEventListener("load", () => {
 	if (!checkProjectsStored()) {
 		localStorage.setItem("project", JSON.stringify(defaultProjects));
-		return;
 	}
 
 	populateStoredProjects();
 	pubSub.publish("project-updated");
+	console.log(projectList);
 });
 
 const projectList = [];
@@ -21,7 +21,6 @@ function addProject(title) {
 	projectList.push({ title, id: projectList.length, task: [] });
 	localStorage.setItem("project", JSON.stringify(projectList));
 	pubSub.publish("project-updated");
-	console.log(projectList);
 }
 
 pubSub.subscribe("project-delete-confirmed", deleteProject);
@@ -31,6 +30,7 @@ function deleteProject(id) {
 	updateId(projectList);
 	localStorage.setItem("project", JSON.stringify(projectList));
 	pubSub.publish("project-updated");
+	console.log(projectList);
 }
 
 pubSub.subscribe("project-edit-submitted", editProjectTitle);
