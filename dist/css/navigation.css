@@ -52,6 +52,11 @@ li {
 	font-weight: bold;
 }
 
+.projects-item-name {
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
 .projects-item:hover {
 	transition: ease-in-out 150ms;
 	background-color: #f1efef;
@@ -90,7 +95,10 @@ li {
 	padding-right: 10px;
 	gap: 5px;
 }
+
 .project-content-left {
+	white-space: nowrap;
+	text-overflow: ellipsis;
 	overflow: hidden;
 }
 
