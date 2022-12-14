@@ -5,7 +5,8 @@ import { updateId } from "./task.js";
 
 addEventListener("load", () => {
 	if (!checkProjectsStored()) {
-		localStorage.setItem("project", JSON.stringify(defaultProjects));
+		// localStorage.setItem("project", JSON.stringify(defaultProjects));
+		return;
 	}
 
 	populateStoredProjects();

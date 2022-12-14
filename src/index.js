@@ -8,3 +8,4 @@ import "./UI/modal/editTask";
 import "./UI/modal/addProject";
 import "./UI/projects/populateProjects";
 import "./UI/modal/editProject";
+import "./UI/modal/deleteProject";

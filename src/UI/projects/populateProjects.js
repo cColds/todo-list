@@ -43,11 +43,7 @@ const populateProjects = (project) => {
 
 	const projectDelete = projectContentRight.children[0];
 	projectDelete.addEventListener("click", (e) => {
-		e.stopPropagation();
-		pubSub.publish("project-deleted", getSelectedProjectId(e));
-		if (!getSelectedProject()) {
-			pubSub.publish("no-projects-selected", getSelectedProjectId(e));
-		}
+		pubSub.publish("project-delete-clicked", getSelectedProjectId(e));
 	});
 
 	const projectEdit = projectContentRight.children[1];
