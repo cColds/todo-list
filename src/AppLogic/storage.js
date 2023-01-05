@@ -2,24 +2,20 @@ import { projectList } from "./project";
 import { taskList } from "./task";
 
 const populateStoredTasks = () => {
-	const storedTasks = JSON.parse(localStorage.getItem("task", taskList));
+	const storedTasks = JSON.parse(localStorage.getItem("task"));
 
 	storedTasks.forEach((task) => taskList.push(task));
 };
 
 const checkTasksStored = () => {
 	const storedTasks = localStorage.getItem("task");
+	console.log(storedTasks);
+
 	return storedTasks !== "[]" && storedTasks ? true : false;
 };
 
 const populateStoredProjects = () => {
 	const storedProjects = JSON.parse(localStorage.getItem("project"));
-
-	taskList.forEach((task) => {
-		if (task.projectId === project.id) {
-			console.log("f");
-		}
-	});
 
 	storedProjects.forEach((project) => {
 		console.log(project.task);

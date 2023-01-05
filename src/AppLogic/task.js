@@ -23,7 +23,7 @@ function completeTask(id) {
 	taskList.splice(id, 1);
 	updateId(taskList);
 	projectTypeToFilter();
-	localStorage.setItem("task", taskList);
+	localStorage.setItem("task", JSON.stringify(taskList));
 }
 
 pubSub.subscribe("project-delete-confirmed", (projectId) => {
