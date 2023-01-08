@@ -1,5 +1,5 @@
 import pubSub from "../pubsub";
-import { updateId } from "./task.js";
+import { updateId } from "./task";
 
 const projectList = [];
 
