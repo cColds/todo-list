@@ -1,19 +1,19 @@
 const taskSection = document.querySelector("#task-section");
 const nav = document.querySelector("nav");
 
-const toggleNavigationBar = () => {
-	nav.classList.toggle("hide");
-	setNavValue();
-};
-
-const setNavValue = () => {
+function setNavValue() {
 	let { navOpened } = taskSection.dataset;
 	navOpened = navOpened === "true" ? "false" : "true";
 	taskSection.dataset.navOpened = navOpened;
-};
+}
+
+function toggleNavigationBar() {
+	nav.classList.toggle("hide");
+	setNavValue();
+}
 
 const navHamburgerMenu = document.querySelector("#nav-hamburger-menu");
-navHamburgerMenu.addEventListener("click", toggleNavigationBar);
-
 const headerHamburgerMenu = document.querySelector("#header-hamburger-menu");
+
+navHamburgerMenu.addEventListener("click", toggleNavigationBar);
 headerHamburgerMenu.addEventListener("click", toggleNavigationBar);

@@ -1,4 +1,4 @@
-export const defaultTasks = [
+const defaultTasks = [
 	{
 		title: "Complete Todo List",
 		description: "A project by The Odin Project.",
@@ -32,3 +32,5 @@ export const defaultTasks = [
 		projectId: 1,
 	},
 ];
+
+export default defaultTasks;

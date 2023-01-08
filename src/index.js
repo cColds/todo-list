@@ -1,5 +1,4 @@
 import "./UI/navigation/toggleNavigation";
-import "./AppLogic/task";
 import "./AppLogic/project";
 import "./UI/modal/addTask";
 import "./UI/navigation/switchProject";
@@ -15,12 +14,10 @@ import {
 	populateStoredProjects,
 	populateStoredTasks,
 } from "./AppLogic/storage";
-import { defaultProjects } from "./AppLogic/defaultProjects";
-import { defaultTasks } from "./AppLogic/defaultTasks";
+import defaultProjects from "./AppLogic/defaultProjects";
+import defaultTasks from "./AppLogic/defaultTasks";
 import { projectTypeToFilter } from "./AppLogic/task";
-import { pubSub } from "./pubsub.js";
-
-addEventListener("load", displayDefaultProjectsAndTasks);
+import pubSub from "./pubsub";
 
 function displayDefaultProjectsAndTasks() {
 	if (!checkTasksStored() && !checkProjectsStored()) {
@@ -33,3 +30,5 @@ function displayDefaultProjectsAndTasks() {
 	populateStoredTasks();
 	projectTypeToFilter();
 }
+
+window.addEventListener("load", displayDefaultProjectsAndTasks);

@@ -1,5 +1,5 @@
 import { taskList } from "../../AppLogic/task";
-import { pubSub } from "../../pubsub";
+import pubSub from "../../pubsub";
 import {
 	clearModalValues,
 	toggleModal,
@@ -50,6 +50,8 @@ addBtn.addEventListener("click", () => {
 		description: description.value,
 		priority: priority.value,
 		id: taskList.length,
-		projectId: !isNaN(getSelectedProjectId()) ? getSelectedProjectId() : "",
+		projectId: !Number.isNaN(getSelectedProjectId())
+			? getSelectedProjectId()
+			: "",
 	});
 });

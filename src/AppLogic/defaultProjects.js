@@ -1,6 +1,6 @@
-import { defaultTasks } from "./defaultTasks";
+import defaultTasks from "./defaultTasks";
 
-export const defaultProjects = [
+const defaultProjects = [
 	{
 		title: "Default Project 1",
 		id: 0,
@@ -12,3 +12,4 @@ export const defaultProjects = [
 		task: [defaultTasks[2], defaultTasks[3]],
 	},
 ];
+export default defaultProjects;

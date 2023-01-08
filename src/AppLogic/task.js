@@ -1,72 +1,45 @@
 import { isToday, isThisWeek } from "date-fns";
-import { pubSub } from "../pubsub";
+import pubSub from "../pubsub";
 import {
 	getSelectedProjectId,
 	getSelectedMainProjectId,
 	isMainProjectSelected,
 } from "../UI/navigation/switchProject.js";
 import { projectList } from "./project";
-
+// is using ui logic in task
 const taskList = [];
 
-const addTask = (title, description, dueDate, priority, id) => {
+function addTask(title, description, dueDate, priority, id) {
 	taskList.push({ title, description, dueDate, priority, id });
-};
-
-const projectTypeToFilter = () => {
-	isMainProjectSelected() ? filterMainProjectTasks() : filterProjectTasks();
-};
-
-pubSub.subscribe("complete-task-clicked", completeTask);
-
-function completeTask(id) {
-	taskList.splice(id, 1);
-	updateId(taskList);
-	projectTypeToFilter();
-	localStorage.setItem("task", JSON.stringify(taskList));
 }
 
-pubSub.subscribe("project-delete-confirmed", (projectId) => {
-	removeDeletedProjectTasks(projectId);
-	updateId(taskList);
-	updateProjectId(projectId);
-	filterMainProjectTasks();
-});
-
-const removeDeletedProjectTasks = (projectId) => {
-	for (let i = taskList.length - 1; i >= 0; i--) {
-		if (taskList[i].projectId === projectId) {
-			taskList.splice(i, 1);
-		}
-	}
-};
-
-// look for index/id spliced and re-adjust the id greater than it
-
-const updateProjectId = (projectId) => {
-	taskList.forEach((task) => {
-		if (task.projectId > projectId) {
-			task.projectId = task.projectId - 1;
-		}
+function updateId(arr) {
+	let updatedId = 0;
+	arr.forEach((item) => {
+		item.id = updatedId;
+		updatedId += 1;
 	});
-};
-
-pubSub.subscribe("task-edited", editTask);
-
-function editTask({ id, title, description, dueDate, priority }) {
-	taskList[id].title = title;
-	taskList[id].description = description;
-	taskList[id].dueDate = dueDate;
-	taskList[id].priority = priority;
-	projectTypeToFilter();
 }
 
-pubSub.subscribe("task-submitted", (task) => {
-	taskList.push(task);
-	projectTypeToFilter();
-});
+function filterInbox() {
+	pubSub.publish("filter-task", taskList);
+}
 
-pubSub.subscribe("main-project-switched", filterMainProjectTasks);
+function filterToday() {
+	const todayTaskList = [];
+	taskList.forEach((task) => {
+		if (isToday(new Date(task.dueDate))) todayTaskList.push(task);
+	});
+	pubSub.publish("filter-task", todayTaskList);
+}
+
+function filterWeek() {
+	const weekTaskList = [];
+	taskList.forEach((task) => {
+		if (isThisWeek(new Date(task.dueDate))) weekTaskList.push(task);
+	});
+	pubSub.publish("filter-task", weekTaskList);
+}
 
 function filterMainProjectTasks() {
 	localStorage.setItem("task", JSON.stringify(taskList));
@@ -75,8 +48,6 @@ function filterMainProjectTasks() {
 	else if (mainProjectId === 1) filterToday();
 	else filterWeek();
 }
-
-pubSub.subscribe("project-switched", filterProjectTasks);
 
 function filterProjectTasks() {
 	localStorage.setItem("task", JSON.stringify(taskList));
@@ -89,33 +60,56 @@ function filterProjectTasks() {
 	pubSub.publish("filter-task", projectTask);
 }
 
-const filterInbox = () => {
-	pubSub.publish("filter-task", taskList);
-};
+function projectTypeToFilter() {
+	if (isMainProjectSelected()) filterMainProjectTasks();
+	else filterProjectTasks();
+}
 
-const filterToday = () => {
-	const todayTaskList = [];
+function completeTask(id) {
+	taskList.splice(id, 1);
+	updateId(taskList);
+	projectTypeToFilter();
+	localStorage.setItem("task", JSON.stringify(taskList));
+}
+
+function removeDeletedProjectTasks(projectId) {
+	for (let i = taskList.length - 1; i >= 0; i -= 1) {
+		if (taskList[i].projectId === projectId) {
+			taskList.splice(i, 1);
+		}
+	}
+}
+
+function updateProjectId(projectId) {
 	taskList.forEach((task) => {
-		if (isToday(new Date(task.dueDate))) todayTaskList.push(task);
+		if (task.projectId > projectId) {
+			task.projectId = -1;
+		}
 	});
-	pubSub.publish("filter-task", todayTaskList);
-};
+}
 
-const updateId = (arr) => {
-	let updatedId = 0;
-	arr.forEach((item) => {
-		item.id = updatedId;
-		updatedId++;
-	});
-};
+function editTask({ id, title, description, dueDate, priority }) {
+	taskList[id].title = title;
+	taskList[id].description = description;
+	taskList[id].dueDate = dueDate;
+	taskList[id].priority = priority;
+	projectTypeToFilter();
+}
 
-const filterWeek = () => {
-	const weekTaskList = [];
-	taskList.forEach((task) => {
-		if (isThisWeek(new Date(task.dueDate))) weekTaskList.push(task);
-	});
-	pubSub.publish("filter-task", weekTaskList);
-};
+pubSub.subscribe("project-switched", filterProjectTasks);
+pubSub.subscribe("task-edited", editTask);
+pubSub.subscribe("complete-task-clicked", completeTask);
+pubSub.subscribe("main-project-switched", filterMainProjectTasks);
+pubSub.subscribe("task-submitted", (task) => {
+	taskList.push(task);
+	projectTypeToFilter();
+});
+pubSub.subscribe("project-delete-confirmed", (projectId) => {
+	removeDeletedProjectTasks(projectId);
+	updateId(taskList);
+	updateProjectId(projectId);
+	filterMainProjectTasks();
+});
 
 export {
 	addTask,

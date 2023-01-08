@@ -18,6 +18,10 @@
   },
   "homepage": "https://github.com/cColds/todo-list#readme",
   "devDependencies": {
+    "eslint": "^8.31.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-import": "^2.26.0",
     "webpack": "^5.75.0",
     "webpack-cli": "^5.0.0"
   },

@@ -1,46 +1,27 @@
-import { pubSub } from "../../pubsub";
+import pubSub from "../../pubsub";
 import { projectList } from "../../AppLogic/project";
 import {
 	getSelectedProjectIdStored,
 	getSelectedProjectAttributeStored,
 } from "../../AppLogic/storage";
 
-addEventListener("load", () => {
-	const selectedProjectStored = document.querySelector(
-		`[${getSelectedProjectAttributeStored()}='${getSelectedProjectIdStored()}']`
-	);
-	if (!selectedProjectStored) return;
-	getSelectedProject().classList.remove("selected");
-	selectedProjectStored.classList.add("selected");
-	getMainTitle().textContent = selectedProjectStored.textContent;
-});
-
-const mainProjects = document.querySelector("#main-projects-list");
-
-mainProjects.addEventListener("click", (e) => switchProject(e));
-
-const getSelectedProjectId = () => {
-	return +getSelectedProject().dataset.projectId;
-};
-
-const getSelectedMainProjectId = () => {
-	return +getSelectedProject().dataset.mainProjectId;
-};
-
-pubSub.subscribe("project-clicked", switchProject);
-
 const getSelectedProject = () => document.querySelector(".selected");
+const getSelectedProjectId = () => +getSelectedProject().dataset.projectId;
+const isMainProjectSelected = () =>
+	getSelectedProject().classList.toString().includes("main-project");
+const getMainTitle = () => document.querySelector("#main-title");
+const getDataset = () =>
+	isMainProjectSelected() ? "mainProjectId" : "projectId";
 
-function switchProject(e) {
-	styleSelectedProject(e);
-	updateMainTitle();
+const getSelectedMainProjectId = () =>
+	+getSelectedProject().dataset.mainProjectId;
 
-	pubSub.publish(
-		isMainProjectSelected() ? "main-project-switched" : "project-switched"
+function updateMainTitle() {
+	const currentSelectedTitle = document.querySelector(
+		".selected .projects-item-name"
 	);
+	getMainTitle().textContent = currentSelectedTitle.textContent;
 }
-
-pubSub.subscribe("project-delete-confirmed", defaultToInboxProject);
 
 function defaultToInboxProject() {
 	const inbox = document.querySelector("[data-main-project-id='0']");
@@ -49,11 +30,7 @@ function defaultToInboxProject() {
 	updateMainTitle();
 }
 
-const isMainProjectSelected = () => {
-	return getSelectedProject().classList.toString().includes("main-project");
-};
-
-const styleSelectedProject = (e) => {
+function styleSelectedProject(e) {
 	if (getSelectedProject()) {
 		getSelectedProject().classList.remove("selected");
 	}
@@ -67,22 +44,16 @@ const styleSelectedProject = (e) => {
 		"project-attribute",
 		projectItem.getAttributeNames()[1]
 	);
-};
+}
 
-const getDataset = () => {
-	return isMainProjectSelected() ? "mainProjectId" : "projectId";
-};
+function switchProject(e) {
+	styleSelectedProject(e);
+	updateMainTitle();
 
-const updateMainTitle = () => {
-	const currentSelectedTitle = document.querySelector(
-		".selected .projects-item-name"
+	pubSub.publish(
+		isMainProjectSelected() ? "main-project-switched" : "project-switched"
 	);
-	getMainTitle().textContent = currentSelectedTitle.textContent;
-};
-
-const getMainTitle = () => document.querySelector("#main-title");
-
-pubSub.subscribe("project-edited", changeEditedTitle);
+}
 
 function changeEditedTitle(id) {
 	const projectTitle = document.querySelector(
@@ -93,6 +64,24 @@ function changeEditedTitle(id) {
 		getMainTitle().textContent = projectList[id].title;
 	}
 }
+
+pubSub.subscribe("project-edited", changeEditedTitle);
+pubSub.subscribe("project-clicked", switchProject);
+pubSub.subscribe("project-delete-confirmed", defaultToInboxProject);
+
+const mainProjects = document.querySelector("#main-projects-list");
+
+mainProjects.addEventListener("click", (e) => switchProject(e));
+
+window.addEventListener("load", () => {
+	const selectedProjectStored = document.querySelector(
+		`[${getSelectedProjectAttributeStored()}='${getSelectedProjectIdStored()}']`
+	);
+	if (!selectedProjectStored) return;
+	getSelectedProject().classList.remove("selected");
+	selectedProjectStored.classList.add("selected");
+	getMainTitle().textContent = selectedProjectStored.textContent;
+});
 
 export {
 	mainProjects,

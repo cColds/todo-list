@@ -1,7 +1,13 @@
 import { projectList } from "./project";
 import { taskList } from "./task";
 
-const getLocalStorageItem = (item) => JSON.parse(localStorage.getItem(item));
+const getLocalStorageItem = (item) =>
+	JSON.parse(localStorage.getItem(item) || "[]");
+
+const getSelectedProjectIdStored = () => +getLocalStorageItem("project-id");
+
+const getSelectedProjectAttributeStored = () =>
+	localStorage.getItem("project-attribute");
 
 function populateStoredTasks() {
 	const storedTasks = getLocalStorageItem("task");
@@ -10,16 +16,12 @@ function populateStoredTasks() {
 
 function checkTasksStored() {
 	const storedTasks = getLocalStorageItem("task");
-	if (storedTasks == null) return;
-
-	return storedTasks.length ? true : false;
+	return storedTasks.length !== 0;
 }
 
 function checkProjectsStored() {
 	const storedProjects = getLocalStorageItem("project");
-	if (storedProjects == null) return;
-
-	return storedProjects.length ? true : false;
+	return storedProjects.length !== 0;
 }
 
 function populateStoredProjects() {
@@ -28,14 +30,6 @@ function populateStoredProjects() {
 	storedProjects.forEach((project) => {
 		projectList.push(project);
 	});
-}
-
-function getSelectedProjectIdStored() {
-	return +getLocalStorageItem("project-id");
-}
-
-function getSelectedProjectAttributeStored() {
-	return localStorage.getItem("project-attribute");
 }
 
 export {

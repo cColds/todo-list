@@ -1,7 +1,8 @@
-import { taskList } from "../../AppLogic/task";
-import { pubSub } from "../../pubsub";
-import { toggleModal, toggleError } from "./modalFunctionality";
 import { formatISO9075 } from "date-fns";
+import { toggleModal, toggleError } from "./modalFunctionality";
+import pubSub from "../../pubsub";
+import { taskList } from "../../AppLogic/task";
+
 const modal = document.querySelector("#edit-task-modal");
 const overlayModal = document.querySelector("#edit-task-modal-overlay");
 const cancelBtn = document.querySelector("#edit-task-cancel");
@@ -13,6 +14,24 @@ const titleError = document.querySelector("#edit-task-title-error");
 const dueDate = document.querySelector("#edit-task-due-date");
 const description = document.querySelector("#edit-task-description");
 const priority = document.querySelector("#edit-task-priority");
+
+const setEditInputValues = (task) => {
+	title.value = task.title;
+	if (task.dueDate !== "Invalid Date") {
+		dueDate.value = formatISO9075(new Date(task.dueDate));
+	}
+	description.value = task.description;
+	priority.value = task.priority;
+	toggleError(title, titleError);
+};
+// maybe improve later
+let currentTaskId = null;
+
+pubSub.subscribe("edit-task-clicked", (getCurrentTaskId) => {
+	currentTaskId = getCurrentTaskId;
+	toggleModal(modal, overlayModal);
+	setEditInputValues(taskList[currentTaskId]);
+});
 
 title.addEventListener("keyup", () => toggleError(title, titleError));
 cancelBtn.addEventListener("click", () => toggleModal(modal, overlayModal));
@@ -31,21 +50,4 @@ saveBtn.addEventListener("click", () => {
 		priority: priority.value,
 		id: currentTaskId,
 	});
-});
-
-const setEditInputValues = (task) => {
-	title.value = task.title;
-	if (task.dueDate !== "Invalid Date") {
-		dueDate.value = formatISO9075(new Date(task.dueDate));
-	}
-	description.value = task.description;
-	priority.value = task.priority;
-	toggleError(title, titleError);
-};
-// maybe improve later
-let currentTaskId = null;
-pubSub.subscribe("edit-task-clicked", (getCurrentTaskId) => {
-	currentTaskId = getCurrentTaskId;
-	toggleModal(modal, overlayModal);
-	setEditInputValues(taskList[currentTaskId]);
 });
