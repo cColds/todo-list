@@ -83,7 +83,7 @@ function removeDeletedProjectTasks(projectId) {
 function updateProjectId(projectId) {
 	taskList.forEach((task) => {
 		if (task.projectId > projectId) {
-			task.projectId = -1;
+			task.projectId -= 1;
 		}
 	});
 }
