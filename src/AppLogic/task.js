@@ -74,7 +74,6 @@ function filterMainProjectTasks() {
 	if (mainProjectId === 0) filterInbox();
 	else if (mainProjectId === 1) filterToday();
 	else filterWeek();
-	console.log(taskList);
 }
 
 pubSub.subscribe("project-switched", filterProjectTasks);

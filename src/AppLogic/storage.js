@@ -1,40 +1,42 @@
 import { projectList } from "./project";
 import { taskList } from "./task";
 
-const populateStoredTasks = () => {
-	const storedTasks = JSON.parse(localStorage.getItem("task"));
+const getLocalStorageItem = (item) => JSON.parse(localStorage.getItem(item));
 
+function populateStoredTasks() {
+	const storedTasks = getLocalStorageItem("task");
 	storedTasks.forEach((task) => taskList.push(task));
-};
+}
 
-const checkTasksStored = () => {
-	const storedTasks = localStorage.getItem("task");
-	console.log(storedTasks);
+function checkTasksStored() {
+	const storedTasks = getLocalStorageItem("task");
+	if (storedTasks == null) return;
 
-	return storedTasks !== "[]" && storedTasks ? true : false;
-};
+	return storedTasks.length ? true : false;
+}
 
-const populateStoredProjects = () => {
-	const storedProjects = JSON.parse(localStorage.getItem("project"));
+function checkProjectsStored() {
+	const storedProjects = getLocalStorageItem("project");
+	if (storedProjects == null) return;
+
+	return storedProjects.length ? true : false;
+}
+
+function populateStoredProjects() {
+	const storedProjects = getLocalStorageItem("project");
 
 	storedProjects.forEach((project) => {
-		console.log(project.task);
 		projectList.push(project);
 	});
-};
+}
 
-const checkProjectsStored = () => {
-	const storedProjects = localStorage.getItem("project");
-	return storedProjects !== "[]" && storedProjects ? true : false;
-};
+function getSelectedProjectIdStored() {
+	return +getLocalStorageItem("project-id");
+}
 
-const getSelectedProjectIdStored = () => {
-	return +JSON.parse(localStorage.getItem("project-id"));
-};
-
-const getSelectedProjectAttributeStored = () => {
+function getSelectedProjectAttributeStored() {
 	return localStorage.getItem("project-attribute");
-};
+}
 
 export {
 	populateStoredTasks,

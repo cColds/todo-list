@@ -18,7 +18,6 @@ function deleteProject(id) {
 	updateId(projectList);
 	localStorage.setItem("project", JSON.stringify(projectList));
 	pubSub.publish("project-updated");
-	console.log(projectList);
 }
 
 pubSub.subscribe("project-edit-submitted", editProjectTitle);
