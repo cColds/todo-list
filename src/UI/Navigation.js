@@ -28,10 +28,13 @@ const navigation = (() => {
 
 	function styleSelectedProject(e) {
 		const selectedProject = getSelectedProject();
+		const projectItem = e.target.closest(".projects-item");
+
+		if (selectedProject === projectItem) return;
 		if (selectedProject) {
 			selectedProject.classList.remove("selected");
 		}
-		const projectItem = e.target.closest(".projects-item");
+
 		projectItem.classList.add("selected");
 		// localStorage.setItem(
 		// 	"project-id",
