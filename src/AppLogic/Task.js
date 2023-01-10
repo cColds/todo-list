@@ -6,7 +6,6 @@ const Task = (function () {
 
 	function addTask(task) {
 		taskList.push(task);
-		console.log(taskList);
 	}
 
 	function updateId() {
@@ -63,7 +62,7 @@ const Task = (function () {
 		taskList[id].description = description;
 		taskList[id].dueDate = dueDate;
 		taskList[id].priority = priority;
-		// pubSub.publish("check-project-type-to-filter");
+		pubSub.publish("check-project-to-filter-tasks");
 	}
 
 	function render() {

@@ -118,17 +118,23 @@ const navigation = (function () {
 		headerHamburgerMenu.addEventListener("click", toggleNavigationBar);
 	}
 	function render() {
+		toggleNavigation();
+
 		const mainProjects = document.querySelector("#main-projects-list");
 		mainProjects.addEventListener("click", (e) => switchProject(e));
 		window.addEventListener("load", handleSelectedProjectStored);
+
 		pubSub.subscribe("project-selected", switchProject);
 		pubSub.subscribe("edit-project-title", updateProjectTitle);
 		pubSub.subscribe("delete-project", handleDeleteProject);
-		toggleNavigation();
 		pubSub.subscribe("task-submitted", (task) => {
 			pubSub.publish("add-task-to-task-list", task);
 			checkProjectToFilterTasks();
 		});
+		pubSub.subscribe(
+			"check-project-to-filter-tasks",
+			checkProjectToFilterTasks
+		);
 		pubSub.subscribe("complete-task", (taskId) => {
 			pubSub.publish("complete-task-in-task-list", taskId);
 			checkProjectToFilterTasks();
