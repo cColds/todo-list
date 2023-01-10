@@ -75,7 +75,7 @@ const handleModal = (function () {
 
 			const { projectId } = document.querySelector(".selected").dataset;
 			const projectIdValue = projectId != null ? projectId : "";
-			pubSub.publish("task-submitted", {
+			pubSub.publish("add-task-clicked", {
 				title: title.value,
 				dueDate: new Date(`${dueDate.value}`).toString(),
 				description: description.value,
@@ -171,7 +171,7 @@ const handleModal = (function () {
 			}
 			toggleModal(modal, overlayModal);
 
-			pubSub.publish("edit-task", {
+			pubSub.publish("edit-task-clicked", {
 				title: title.value,
 				dueDate: new Date(dueDate.value).toString(),
 				description: description.value,

@@ -7,10 +7,10 @@ const navigation = (function () {
 
 	const getMainTitle = () => document.querySelector("#main-title");
 
-	function getProjectDataType() {
-		const { mainProjectId } = getSelectedProject();
-		return mainProjectId != null ? "mainProjectId" : "projectId";
-	}
+	// function getProjectDataType() {
+	// 	const { mainProjectId } = getSelectedProject();
+	// 	return mainProjectId != null ? "mainProjectId" : "projectId";
+	// }
 	function updateMainTitle() {
 		const currentSelectedTitle = document.querySelector(
 			".selected .projects-item-name"

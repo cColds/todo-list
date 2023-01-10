@@ -1,4 +1,4 @@
-import { isToday, isThisWeek, add } from "date-fns";
+import { isToday, isThisWeek } from "date-fns";
 import pubSub from "../PubSub";
 
 const Task = (function () {
@@ -62,7 +62,6 @@ const Task = (function () {
 		taskList[id].description = description;
 		taskList[id].dueDate = dueDate;
 		taskList[id].priority = priority;
-		pubSub.publish("check-project-to-filter-tasks");
 	}
 
 	function render() {
@@ -72,10 +71,9 @@ const Task = (function () {
 		pubSub.subscribe("edit-task", editTask);
 		pubSub.subscribe("deleted-project-tasks", removeDeletedProjectTasks);
 		pubSub.subscribe("update-project-id", updateProjectId);
-		pubSub.subscribe("add-task-to-task-list", addTask);
-		pubSub.subscribe("complete-task-in-task-list", completeTask);
+		pubSub.subscribe("add-task", addTask);
+		pubSub.subscribe("complete-task", completeTask);
 	}
-
 	return { render, taskList };
 })();
 

@@ -53,7 +53,7 @@ const TaskUI = (function () {
 		allTasks.appendChild(taskContainer);
 
 		completeTask.addEventListener("click", (e) => {
-			pubSub.publish("complete-task", getCurrentTaskId(e));
+			pubSub.publish("complete-task-clicked", getCurrentTaskId(e));
 		});
 
 		editTaskContainer.addEventListener("click", (e) => {
@@ -85,16 +85,20 @@ const TaskUI = (function () {
 	function render() {
 		pubSub.subscribe("filter-tasks", handleTasks);
 		pubSub.subscribe("populate-saved-tasks", handleTasks);
-		pubSub.subscribe("task-submitted", (task) => {
-			pubSub.publish("add-task-to-task-list", task);
-			checkProjectToFilterTasks();
-		});
 		pubSub.subscribe(
 			"check-project-to-filter-tasks",
 			checkProjectToFilterTasks
 		);
-		pubSub.subscribe("complete-task", (taskId) => {
-			pubSub.publish("complete-task-in-task-list", taskId);
+		pubSub.subscribe("add-task-clicked", (task) => {
+			pubSub.publish("add-task", task);
+			checkProjectToFilterTasks();
+		});
+		pubSub.subscribe("complete-task-clicked", (taskId) => {
+			pubSub.publish("complete-task", taskId);
+			checkProjectToFilterTasks();
+		});
+		pubSub.subscribe("edit-task-clicked", (taskId) => {
+			pubSub.publish("edit-task", taskId);
 			checkProjectToFilterTasks();
 		});
 	}
