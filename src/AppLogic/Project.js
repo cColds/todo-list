@@ -20,7 +20,7 @@ const Project = (() => {
 	function editProjectTitle(project) {
 		projectList[project.id].title = project.title;
 		localStorage.setItem("project", JSON.stringify(projectList));
-		pubSub.publish("edit-project-title", project.id);
+		pubSub.publish("edit-project-array", project.id);
 	}
 
 	function render() {

@@ -1,4 +1,5 @@
 import pubSub from "../PubSub";
+import Project from "../AppLogic/Project";
 
 const ProjectUI = (() => {
 	const getProjectListIcon = () =>
@@ -68,9 +69,19 @@ const ProjectUI = (() => {
 		projects.forEach((project) => populateProject(project));
 	}
 
+	function editProjectTitle(id) {
+		const projectTitle = document.querySelector(
+			`[data-project-id='${id}'] .projects-item-name`
+		);
+		projectTitle.textContent = Project.projectList[id].title;
+		const mainTitle = document.querySelector("#main-title");
+		mainTitle.textContent = Project.projectList[id].title;
+	}
+
 	function render() {
 		pubSub.subscribe("filter-projects", handleProjects);
 		pubSub.subscribe("update-project", populateProject);
+		pubSub.subscribe("edit-project-array", editProjectTitle);
 	}
 
 	return {
