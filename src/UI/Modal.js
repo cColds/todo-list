@@ -1,6 +1,6 @@
 import { formatISO9075 } from "date-fns";
 import pubSub from "../PubSub";
-import Project from "../AppLogic/Projects";
+import Project from "../AppLogic/Project";
 import Task from "../AppLogic/Task";
 
 const handleModal = (() => {
@@ -120,9 +120,8 @@ const handleModal = (() => {
 				toggleError(title, titleError);
 				return;
 			}
-
 			toggleModal(modal, overlayModal);
-			pubSub.publish("project-submitted", title.value);
+			pubSub.publish("add-project", title.value);
 		});
 	}
 	function editTask() {
@@ -217,10 +216,11 @@ const handleModal = (() => {
 				return;
 			}
 			toggleModal(modal, overlayModal);
-			pubSub.publish("project-edit-submitted", {
+			pubSub.publish("edit-project", {
 				title: title.value,
 				id: currentProjectId,
 			});
+			pubSub.publish("check-tasks-to-filter");
 		});
 
 		pubSub.subscribe("open-edit-project-modal", (projectId) => {
@@ -258,6 +258,7 @@ const handleModal = (() => {
 		deleteBtn.addEventListener("click", () => {
 			pubSub.publish("delete-project", currentProjectId);
 			toggleModal(modal, overlayModal);
+			pubSub.publish("check-tasks-to-filter");
 		});
 	}
 

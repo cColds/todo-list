@@ -1,14 +1,14 @@
-// import pubSub from "../PubSub";
+import pubSub from "../PubSub";
 // import Task from "./Task";
 
 const Project = (() => {
 	const projectList = [];
 
-	// function addProject(title) {
-	// 	projectList.push({ title, id: projectList.length, task: [] });
-	// 	localStorage.setItem("project", JSON.stringify(projectList));
-	// 	pubSub.publish("project-updated", projectList);
-	// }
+	function addProject(title) {
+		projectList.push({ title, id: projectList.length, task: [] });
+		localStorage.setItem("project", JSON.stringify(projectList));
+		pubSub.publish("update-project", projectList[projectList.length - 1]);
+	}
 
 	// function deleteProject(id) {
 	// 	projectList.splice(id, 1);
@@ -24,7 +24,7 @@ const Project = (() => {
 	// }
 
 	function render() {
-		// pubSub.subscribe("project-submitted", addProject);
+		pubSub.subscribe("add-project", addProject);
 		// pubSub.subscribe("project-edit-submitted", editProjectTitle);
 		// pubSub.subscribe("project-delete-confirmed", deleteProject);
 	}

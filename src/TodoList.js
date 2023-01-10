@@ -1,4 +1,4 @@
-import Project from "./AppLogic/Projects";
+import Project from "./AppLogic/Project";
 // import Storage from "./AppLogic/storage";
 import Task from "./AppLogic/Task";
 import navigation from "./UI/Navigation";

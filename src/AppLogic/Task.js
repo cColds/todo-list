@@ -1,5 +1,6 @@
 import { isToday, isThisWeek } from "date-fns";
 import pubSub from "../PubSub";
+import Project from "./Project";
 
 const Task = (() => {
 	const taskList = [];
@@ -16,22 +17,27 @@ const Task = (() => {
 		});
 	}
 
-	function filterInbox() {
+	function filterInboxTasks() {
 		pubSub.publish("filter-tasks", taskList);
 	}
 
-	function filterToday() {
+	function filterTodayTasks() {
 		const todayTaskList = taskList.filter((task) =>
 			isToday(new Date(task.dueDate))
 		);
 		pubSub.publish("filter-tasks", todayTaskList);
 	}
 
-	function filterWeek() {
+	function filterWeekTasks() {
 		const weekTaskList = taskList.filter((task) =>
 			isThisWeek(new Date(task.dueDate))
 		);
 		pubSub.publish("filter-tasks", weekTaskList);
+	}
+
+	function filterCustomProjectTasks(projectId) {
+		const selectedProject = Project.projectList[projectId];
+		console.log(selectedProject);
 	}
 
 	function completeTask(id) {
@@ -39,7 +45,6 @@ const Task = (() => {
 		updateId(taskList);
 		localStorage.setItem("task", JSON.stringify(taskList));
 	}
-	// helperfunction can be used for project and task function
 
 	// function removeDeletedProjectTasks(projectId) {
 	// 	for (let i = taskList.length - 1; i >= 0; i -= 1) {
@@ -65,14 +70,20 @@ const Task = (() => {
 	}
 
 	function render() {
-		pubSub.subscribe("filter-inbox", filterInbox);
-		pubSub.subscribe("filter-today", filterToday);
-		pubSub.subscribe("filter-week", filterWeek);
-		// pubSub.subscribe("deleted-project-tasks", removeDeletedProjectTasks);
-		// pubSub.subscribe("update-project-id", updateProjectId);
+		pubSub.subscribe("filter-inbox-tasks", filterInboxTasks);
+		pubSub.subscribe("filter-today-tasks", filterTodayTasks);
+		pubSub.subscribe("filter-week-tasks", filterWeekTasks);
+		pubSub.subscribe(
+			"filter-custom-project-tasks",
+			filterCustomProjectTasks
+		);
+
 		pubSub.subscribe("add-task", addTask);
 		pubSub.subscribe("complete-task", completeTask);
 		pubSub.subscribe("edit-task", editTask);
+
+		// pubSub.subscribe("deleted-project-tasks", removeDeletedProjectTasks);
+		// pubSub.subscribe("update-project-id", updateProjectId);
 	}
 	return { render, taskList };
 })();

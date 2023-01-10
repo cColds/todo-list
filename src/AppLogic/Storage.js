@@ -1,4 +1,4 @@
-import Project from "./Projects";
+import Project from "./Project";
 import Task from "./Task";
 
 const Storage = (() => {
