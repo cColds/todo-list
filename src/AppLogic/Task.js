@@ -64,11 +64,9 @@ const Task = (() => {
 	// 	});
 	// }
 
-	function editTask({ id, title, description, dueDate, priority }) {
-		taskList[id].title = title;
-		taskList[id].description = description;
-		taskList[id].dueDate = dueDate;
-		taskList[id].priority = priority;
+	function editTask(newTask) {
+		const index = newTask.id;
+		taskList[index] = newTask;
 	}
 
 	function render() {

@@ -17,16 +17,16 @@ const Project = (() => {
 		pubSub.publish("project-updated", projectList);
 	}
 
-	// function editProjectTitle(project) {
-	// 	projectList[project.id].title = project.title;
-	// 	localStorage.setItem("project", JSON.stringify(projectList));
-	// 	pubSub.publish("edit-project-title", project.id);
-	// }
+	function editProjectTitle(project) {
+		projectList[project.id].title = project.title;
+		localStorage.setItem("project", JSON.stringify(projectList));
+		pubSub.publish("edit-project-title", project.id);
+	}
 
 	function render() {
 		pubSub.subscribe("add-project", addProject);
 		pubSub.subscribe("delete-project", deleteProject);
-		// pubSub.subscribe("project-edit-submitted", editProjectTitle);
+		pubSub.subscribe("edit-project", editProjectTitle);
 	}
 	return { render, projectList };
 })();
