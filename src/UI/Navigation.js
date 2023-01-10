@@ -1,7 +1,7 @@
 import pubSub from "../PubSub";
 import Project from "../AppLogic/Projects";
+import TaskUI from "./TaskUI";
 // import Storage from "../AppLogic/storage";
-
 const navigation = (function () {
 	const getSelectedProject = () => document.querySelector(".selected");
 
@@ -14,9 +14,6 @@ const navigation = (function () {
 
 	const getDataset = () =>
 		isMainProjectName() ? "mainProjectId" : "projectId";
-
-	const getSelectedMainProjectId = () =>
-		+getSelectedProject().dataset.mainProjectId;
 
 	function updateMainTitle() {
 		const currentSelectedTitle = document.querySelector(
@@ -33,7 +30,6 @@ const navigation = (function () {
 	}
 
 	function styleSelectedProject(e) {
-		console.log("joe");
 		if (getSelectedProject()) {
 			getSelectedProject().classList.remove("selected");
 		}
@@ -49,21 +45,10 @@ const navigation = (function () {
 		);
 	}
 
-	function checkProjectToFilterTasks() {
-		const mainProjectId = getSelectedMainProjectId();
-		if (mainProjectId != null) {
-			const mainProjectNames = ["inbox", "today", "week"];
-			pubSub.publish(`filter-${mainProjectNames[mainProjectId]}`);
-		} else {
-			const projectId = getSelectedProjectId();
-			pubSub.publish("custom-project", projectId);
-		}
-	}
-
 	function switchProject(e) {
 		styleSelectedProject(e);
 		updateMainTitle();
-		checkProjectToFilterTasks();
+		TaskUI.checkProjectToFilterTasks();
 	}
 
 	function updateProjectTitle(id) {
@@ -125,20 +110,8 @@ const navigation = (function () {
 		window.addEventListener("load", handleSelectedProjectStored);
 
 		pubSub.subscribe("project-selected", switchProject);
-		pubSub.subscribe("edit-project-title", updateProjectTitle);
+		pubSub.subscribe("edit-project", updateProjectTitle);
 		pubSub.subscribe("delete-project", handleDeleteProject);
-		pubSub.subscribe("task-submitted", (task) => {
-			pubSub.publish("add-task-to-task-list", task);
-			checkProjectToFilterTasks();
-		});
-		pubSub.subscribe(
-			"check-project-to-filter-tasks",
-			checkProjectToFilterTasks
-		);
-		pubSub.subscribe("complete-task", (taskId) => {
-			pubSub.publish("complete-task-in-task-list", taskId);
-			checkProjectToFilterTasks();
-		});
 	}
 	return { render, getSelectedProjectId };
 })();

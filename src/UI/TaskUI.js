@@ -1,7 +1,7 @@
 import { format } from "date-fns";
 import pubSub from "../PubSub";
 
-const displayTasks = (function () {
+const TaskUI = (function () {
 	const formatDueDate = (dueDate) => format(dueDate, "EEEE, LLLL do, y, p");
 
 	const getCurrentTaskId = (e) => +e.target.closest(".task").dataset.taskId;
@@ -71,12 +71,35 @@ const displayTasks = (function () {
 		tasks.forEach((task) => createTask(task));
 	}
 
+	function checkProjectToFilterTasks() {
+		const { mainProjectId } = document.querySelector(".selected").dataset;
+		if (mainProjectId != null) {
+			const mainProjectNames = ["inbox", "today", "week"];
+			pubSub.publish(`filter-${mainProjectNames[mainProjectId]}`);
+		} else {
+			const { projectId } = document.querySelector(".selected").dataset;
+			pubSub.publish("custom-project", projectId);
+		}
+	}
+
 	function render() {
 		pubSub.subscribe("filter-tasks", handleTasks);
 		pubSub.subscribe("populate-saved-tasks", handleTasks);
+		pubSub.subscribe("task-submitted", (task) => {
+			pubSub.publish("add-task-to-task-list", task);
+			checkProjectToFilterTasks();
+		});
+		pubSub.subscribe(
+			"check-project-to-filter-tasks",
+			checkProjectToFilterTasks
+		);
+		pubSub.subscribe("complete-task", (taskId) => {
+			pubSub.publish("complete-task-in-task-list", taskId);
+			checkProjectToFilterTasks();
+		});
 	}
-	return { render };
+	return { render, checkProjectToFilterTasks };
 })();
-export default displayTasks;
+export default TaskUI;
 
 // export default getCurrentTaskId;

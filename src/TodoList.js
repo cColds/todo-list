@@ -3,8 +3,8 @@ import Project from "./AppLogic/Projects";
 import Task from "./AppLogic/Task";
 import navigation from "./UI/Navigation";
 import handleModal from "./UI/Modal";
-import displayProjects from "./UI/ProjectUI";
-import displayTasks from "./UI/TaskUI";
+import ProjectUI from "./UI/ProjectUI";
+import TaskUI from "./UI/TaskUI";
 // import pubSub from "./pubsub";
 
 const TodoListApp = (function () {
@@ -22,8 +22,8 @@ const TodoListApp = (function () {
 		Project.render();
 		handleModal.render();
 		navigation.render();
-		displayProjects.render();
-		displayTasks.render();
+		ProjectUI.render();
+		TaskUI.render();
 		// if (checkTasksAndProjectsStored()) {
 		// 	localStorage.setItem(
 		// 		"project",
