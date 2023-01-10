@@ -1,7 +1,7 @@
 import Project from "./Projects";
 import Task from "./Task";
 
-const Storage = (function () {
+const Storage = (() => {
 	const getLocalStorageItem = (item) =>
 		JSON.parse(localStorage.getItem(item) || "[]");
 

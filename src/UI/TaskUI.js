@@ -1,7 +1,7 @@
 import { format } from "date-fns";
 import pubSub from "../PubSub";
 
-const TaskUI = (function () {
+const TaskUI = (() => {
 	const formatDueDate = (dueDate) => format(dueDate, "EEEE, LLLL do, y, p");
 
 	const getCurrentTaskId = (e) => +e.target.closest(".task").dataset.taskId;

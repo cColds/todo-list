@@ -2,7 +2,7 @@ import pubSub from "../PubSub";
 // import Project from "../AppLogic/Projects";
 import TaskUI from "./TaskUI";
 // import Storage from "../AppLogic/storage";
-const navigation = (function () {
+const navigation = (() => {
 	const getSelectedProject = () => document.querySelector(".selected");
 
 	const getMainTitle = () => document.querySelector("#main-title");

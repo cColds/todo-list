@@ -3,7 +3,7 @@ import pubSub from "../PubSub";
 import Project from "../AppLogic/Projects";
 import Task from "../AppLogic/Task";
 
-const handleModal = (function () {
+const handleModal = (() => {
 	function clearModalValues(task) {
 		task.title.value = "";
 		task.title.classList.remove("active");

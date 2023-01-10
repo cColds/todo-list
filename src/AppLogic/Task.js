@@ -1,7 +1,7 @@
 import { isToday, isThisWeek } from "date-fns";
 import pubSub from "../PubSub";
 
-const Task = (function () {
+const Task = (() => {
 	const taskList = [];
 
 	function addTask(task) {

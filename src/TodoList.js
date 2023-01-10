@@ -7,7 +7,7 @@ import ProjectUI from "./UI/ProjectUI";
 import TaskUI from "./UI/TaskUI";
 // import pubSub from "./pubsub";
 
-const TodoListApp = (function () {
+const TodoListApp = (() => {
 	// function checkTasksAndProjectsStored() {
 	// 	return Storage.checkTasksStored() && Storage.checkProjectsStored();
 	// }

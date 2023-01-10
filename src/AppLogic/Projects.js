@@ -1,7 +1,7 @@
 // import pubSub from "../PubSub";
 // import Task from "./Task";
 
-const Project = (function () {
+const Project = (() => {
 	const projectList = [];
 
 	// function addProject(title) {

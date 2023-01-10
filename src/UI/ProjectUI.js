@@ -1,6 +1,6 @@
 import pubSub from "../PubSub";
 
-const ProjectUI = (function () {
+const ProjectUI = (() => {
 	const getProjectListIcon = () =>
 		`<svg class="projects-item-icon" style="width:20px;height:20px" viewBox="0 0 24 24">
 	<path fill="currentColor"
