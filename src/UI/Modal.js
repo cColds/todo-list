@@ -75,7 +75,7 @@ const handleModal = (function () {
 
 			const { projectId } = document.querySelector(".selected").dataset;
 			const projectIdValue = projectId != null ? projectId : "";
-			pubSub.publish("add-task-clicked", {
+			pubSub.publish("add-task", {
 				title: title.value,
 				dueDate: new Date(`${dueDate.value}`).toString(),
 				description: description.value,
@@ -83,6 +83,7 @@ const handleModal = (function () {
 				id: Task.taskList.length,
 				projectId: projectIdValue,
 			});
+			pubSub.publish("check-tasks-to-filter");
 		});
 	}
 
@@ -171,13 +172,14 @@ const handleModal = (function () {
 			}
 			toggleModal(modal, overlayModal);
 
-			pubSub.publish("edit-task-clicked", {
+			pubSub.publish("edit-task", {
 				title: title.value,
 				dueDate: new Date(dueDate.value).toString(),
 				description: description.value,
 				priority: priority.value,
 				id: currentTaskId,
 			});
+			pubSub.publish("check-tasks-to-filter");
 		});
 	}
 	function editProject() {

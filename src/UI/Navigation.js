@@ -1,5 +1,5 @@
 import pubSub from "../PubSub";
-import Project from "../AppLogic/Projects";
+// import Project from "../AppLogic/Projects";
 import TaskUI from "./TaskUI";
 // import Storage from "../AppLogic/storage";
 const navigation = (function () {
@@ -15,15 +15,16 @@ const navigation = (function () {
 		const currentSelectedTitle = document.querySelector(
 			".selected .projects-item-name"
 		);
-		getMainTitle().textContent = currentSelectedTitle.textContent;
+		const mainTitle = getMainTitle();
+		mainTitle.textContent = currentSelectedTitle.textContent;
 	}
 
-	function defaultToInboxProject() {
-		const inbox = document.querySelector("[data-main-project-id='0']");
+	// function defaultToInboxProject() {
+	// 	const inbox = document.querySelector("[data-main-project-id='0']");
 
-		inbox.classList.add("selected");
-		updateMainTitle();
-	}
+	// 	inbox.classList.add("selected");
+	// 	updateMainTitle();
+	// }
 
 	function styleSelectedProject(e) {
 		const selectedProject = getSelectedProject();
@@ -48,35 +49,35 @@ const navigation = (function () {
 		TaskUI.checkProjectToFilterTasks();
 	}
 
-	function updateProjectTitle(id) {
-		const projectTitle = document.querySelector(
-			`[data-project-id='${id}'] .projects-item-name`
-		);
-		const { projectId } = getSelectedProject().dataset;
-		projectTitle.textContent = Project.projectList[id].title;
-		if (projectId === id) {
-			const mainTitle = getMainTitle();
-			mainTitle.textContent = Project.projectList[id].title;
-		}
-	}
+	// function updateProjectTitle(id) {
+	// 	const projectTitle = document.querySelector(
+	// 		`[data-project-id='${id}'] .projects-item-name`
+	// 	);
+	// 	const { projectId } = getSelectedProject().dataset;
+	// 	projectTitle.textContent = Project.projectList[id].title;
+	// 	if (projectId === id) {
+	// 		const mainTitle = getMainTitle();
+	// 		mainTitle.textContent = Project.projectList[id].title;
+	// 	}
+	// }
 
-	function handleDeleteProject(projectId) {
-		defaultToInboxProject();
-		pubSub.publish("remove-deleted-project-tasks", projectId);
-		pubSub.publish("update-task-id");
-		pubSub.publish("update-project-id", projectId);
-		pubSub.publish("inbox-selected");
-	}
+	// function handleDeleteProject(projectId) {
+	// 	defaultToInboxProject();
+	// 	pubSub.publish("remove-deleted-project-tasks", projectId);
+	// 	pubSub.publish("update-task-id");
+	// 	pubSub.publish("update-project-id", projectId);
+	// 	pubSub.publish("inbox-selected");
+	// }
 
-	function handleSelectedProjectStored() {
-		// const selectedProjectStored = document.querySelector(
-		// 	`[${Storage.getSelectedProjectId()}='${Storage.getSelectedProjectId()}']`
-		// );
-		// if (!selectedProjectStored) return;
-		// getSelectedProject().classList.remove("selected");
-		// selectedProjectStored.classList.add("selected");
-		// getMainTitle().textContent = selectedProjectStored.textContent;
-	}
+	// function handleSelectedProjectStored() {
+	// 	const selectedProjectStored = document.querySelector(
+	// 		`[${Storage.getSelectedProjectId()}='${Storage.getSelectedProjectId()}']`
+	// 	);
+	// 	if (!selectedProjectStored) return;
+	// 	getSelectedProject().classList.remove("selected");
+	// 	selectedProjectStored.classList.add("selected");
+	// 	getMainTitle().textContent = selectedProjectStored.textContent;
+	// }
 
 	function toggleNavigation() {
 		const taskSection = document.querySelector("#task-section");
@@ -106,11 +107,11 @@ const navigation = (function () {
 
 		const mainProjects = document.querySelector("#main-projects-list");
 		mainProjects.addEventListener("click", (e) => switchProject(e));
-		window.addEventListener("load", handleSelectedProjectStored);
-
 		pubSub.subscribe("project-selected", switchProject);
-		pubSub.subscribe("edit-project", updateProjectTitle);
-		pubSub.subscribe("delete-project", handleDeleteProject);
+		// window.addEventListener("load", handleSelectedProjectStored);
+
+		// pubSub.subscribe("edit-project", updateProjectTitle);
+		// pubSub.subscribe("delete-project", handleDeleteProject);
 	}
 	return { render };
 })();

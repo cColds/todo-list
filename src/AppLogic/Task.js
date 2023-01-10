@@ -41,21 +41,21 @@ const Task = (function () {
 	}
 	// helperfunction can be used for project and task function
 
-	function removeDeletedProjectTasks(projectId) {
-		for (let i = taskList.length - 1; i >= 0; i -= 1) {
-			if (taskList[i].projectId === projectId) {
-				taskList.splice(i, 1);
-			}
-		}
-	}
+	// function removeDeletedProjectTasks(projectId) {
+	// 	for (let i = taskList.length - 1; i >= 0; i -= 1) {
+	// 		if (taskList[i].projectId === projectId) {
+	// 			taskList.splice(i, 1);
+	// 		}
+	// 	}
+	// }
 
-	function updateProjectId(projectId) {
-		taskList.forEach((task) => {
-			if (task.projectId > projectId) {
-				task.projectId -= 1;
-			}
-		});
-	}
+	// function updateProjectId(projectId) {
+	// 	taskList.forEach((task) => {
+	// 		if (task.projectId > projectId) {
+	// 			task.projectId -= 1;
+	// 		}
+	// 	});
+	// }
 
 	function editTask({ id, title, description, dueDate, priority }) {
 		taskList[id].title = title;
@@ -68,11 +68,11 @@ const Task = (function () {
 		pubSub.subscribe("filter-inbox", filterInbox);
 		pubSub.subscribe("filter-today", filterToday);
 		pubSub.subscribe("filter-week", filterWeek);
-		pubSub.subscribe("edit-task", editTask);
-		pubSub.subscribe("deleted-project-tasks", removeDeletedProjectTasks);
-		pubSub.subscribe("update-project-id", updateProjectId);
+		// pubSub.subscribe("deleted-project-tasks", removeDeletedProjectTasks);
+		// pubSub.subscribe("update-project-id", updateProjectId);
 		pubSub.subscribe("add-task", addTask);
 		pubSub.subscribe("complete-task", completeTask);
+		pubSub.subscribe("edit-task", editTask);
 	}
 	return { render, taskList };
 })();

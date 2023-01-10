@@ -70,7 +70,6 @@ const ProjectUI = (function () {
 
 	function render() {
 		pubSub.subscribe("filter-projects", handleProjects);
-		pubSub.subscribe("populate-saved-projects", handleProjects);
 	}
 
 	return {

@@ -11,7 +11,18 @@ const TaskUI = (function () {
     <path fill="currentColor" d="M21.7 13.35L20.7 14.35L18.65 12.35L19.65 11.35C19.85 11.14 20.19 11.13 20.42 11.35L21.7 12.63C21.89 12.83 21.89 13.15 21.7 13.35M12 18.94V21H14.06L20.12 14.88L18.07 12.88L12 18.94M5 19H10V21H5C3.9 21 3 20.11 3 19V5C3 3.9 3.9 3 5 3H6V1H8V3H16V1H18V3H19C20.11 3 21 3.9 21 5V9H5V19M5 5V7H19V5H5Z" />
 </svg>`;
 
-	const createTask = (task) => {
+	function checkProjectToFilterTasks() {
+		const { mainProjectId } = document.querySelector(".selected").dataset;
+		if (mainProjectId != null) {
+			const mainProjectNames = ["inbox", "today", "week"];
+			pubSub.publish(`filter-${mainProjectNames[mainProjectId]}`);
+		} else {
+			const { projectId } = document.querySelector(".selected").dataset;
+			pubSub.publish("custom-project", projectId);
+		}
+	}
+
+	function createTask(task) {
 		const allTasks = document.querySelector(".all-tasks");
 
 		const taskContainer = document.createElement("div");
@@ -53,13 +64,13 @@ const TaskUI = (function () {
 		allTasks.appendChild(taskContainer);
 
 		completeTask.addEventListener("click", (e) => {
-			pubSub.publish("complete-task-clicked", getCurrentTaskId(e));
+			pubSub.publish("complete-task", getCurrentTaskId(e));
+			checkProjectToFilterTasks();
 		});
-
 		editTaskContainer.addEventListener("click", (e) => {
 			pubSub.publish("open-edit-task-modal", getCurrentTaskId(e));
 		});
-	};
+	}
 
 	function removeAllTasks() {
 		const allTasks = document.querySelector(".all-tasks");
@@ -71,36 +82,9 @@ const TaskUI = (function () {
 		tasks.forEach((task) => createTask(task));
 	}
 
-	function checkProjectToFilterTasks() {
-		const { mainProjectId } = document.querySelector(".selected").dataset;
-		if (mainProjectId != null) {
-			const mainProjectNames = ["inbox", "today", "week"];
-			pubSub.publish(`filter-${mainProjectNames[mainProjectId]}`);
-		} else {
-			const { projectId } = document.querySelector(".selected").dataset;
-			pubSub.publish("custom-project", projectId);
-		}
-	}
-
 	function render() {
 		pubSub.subscribe("filter-tasks", handleTasks);
-		pubSub.subscribe("populate-saved-tasks", handleTasks);
-		pubSub.subscribe(
-			"check-project-to-filter-tasks",
-			checkProjectToFilterTasks
-		);
-		pubSub.subscribe("add-task-clicked", (task) => {
-			pubSub.publish("add-task", task);
-			checkProjectToFilterTasks();
-		});
-		pubSub.subscribe("complete-task-clicked", (taskId) => {
-			pubSub.publish("complete-task", taskId);
-			checkProjectToFilterTasks();
-		});
-		pubSub.subscribe("edit-task-clicked", (taskId) => {
-			pubSub.publish("edit-task", taskId);
-			checkProjectToFilterTasks();
-		});
+		pubSub.subscribe("check-tasks-to-filter", checkProjectToFilterTasks);
 	}
 	return { render, checkProjectToFilterTasks };
 })();
