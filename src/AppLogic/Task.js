@@ -22,22 +22,24 @@ const Task = (() => {
 	}
 
 	function filterTodayTasks() {
-		const todayTaskList = taskList.filter((task) =>
+		const todayTasks = taskList.filter((task) =>
 			isToday(new Date(task.dueDate))
 		);
-		pubSub.publish("filter-tasks", todayTaskList);
+		pubSub.publish("filter-tasks", todayTasks);
 	}
 
 	function filterWeekTasks() {
-		const weekTaskList = taskList.filter((task) =>
+		const weekTasks = taskList.filter((task) =>
 			isThisWeek(new Date(task.dueDate))
 		);
-		pubSub.publish("filter-tasks", weekTaskList);
+		pubSub.publish("filter-tasks", weekTasks);
 	}
 
-	function filterCustomProjectTasks(projectId) {
-		const selectedProject = Project.projectList[projectId];
-		console.log(selectedProject);
+	function filterCustomProjectTasks(selectedProjectId) {
+		const customProjectTasks = taskList.filter(
+			(task) => task.projectId === selectedProjectId
+		);
+		pubSub.publish("filter-tasks", customProjectTasks);
 	}
 
 	function completeTask(id) {
