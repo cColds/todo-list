@@ -5,16 +5,12 @@ import TaskUI from "./TaskUI";
 const navigation = (function () {
 	const getSelectedProject = () => document.querySelector(".selected");
 
-	const getSelectedProjectId = () => +getSelectedProject().dataset.projectId;
-
 	const getMainTitle = () => document.querySelector("#main-title");
 
-	const isMainProjectName = () =>
-		getSelectedProject().classList.toString().includes("main-project");
-
-	const getDataset = () =>
-		isMainProjectName() ? "mainProjectId" : "projectId";
-
+	function getProjectDataType() {
+		const { mainProjectId } = getSelectedProject();
+		return mainProjectId != null ? "mainProjectId" : "projectId";
+	}
 	function updateMainTitle() {
 		const currentSelectedTitle = document.querySelector(
 			".selected .projects-item-name"
@@ -30,19 +26,20 @@ const navigation = (function () {
 	}
 
 	function styleSelectedProject(e) {
-		if (getSelectedProject()) {
-			getSelectedProject().classList.remove("selected");
+		const selectedProject = getSelectedProject();
+		if (selectedProject) {
+			selectedProject.classList.remove("selected");
 		}
 		const projectItem = e.target.closest(".projects-item");
 		projectItem.classList.add("selected");
-		localStorage.setItem(
-			"project-id",
-			JSON.stringify(projectItem.dataset[getDataset()])
-		);
-		localStorage.setItem(
-			"project-attribute",
-			projectItem.getAttributeNames()[1]
-		);
+		// localStorage.setItem(
+		// 	"project-id",
+		// 	JSON.stringify(projectItem.dataset[getProjectDataType()])
+		// );
+		// localStorage.setItem(
+		// 	"project-attribute",
+		// 	projectItem.getAttributeNames()[1]
+		// );
 	}
 
 	function switchProject(e) {
@@ -55,9 +52,11 @@ const navigation = (function () {
 		const projectTitle = document.querySelector(
 			`[data-project-id='${id}'] .projects-item-name`
 		);
+		const { projectId } = getSelectedProject().dataset;
 		projectTitle.textContent = Project.projectList[id].title;
-		if (getSelectedProjectId() === id) {
-			getMainTitle().textContent = Project.projectList[id].title;
+		if (projectId === id) {
+			const mainTitle = getMainTitle();
+			mainTitle.textContent = Project.projectList[id].title;
 		}
 	}
 
@@ -113,7 +112,7 @@ const navigation = (function () {
 		pubSub.subscribe("edit-project", updateProjectTitle);
 		pubSub.subscribe("delete-project", handleDeleteProject);
 	}
-	return { render, getSelectedProjectId };
+	return { render };
 })();
 
 export default navigation;
