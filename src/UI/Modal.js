@@ -242,8 +242,10 @@ const handleModal = (() => {
 		const deleteBtn = document.querySelector("#delete-project-confirm");
 
 		let currentProjectId = null;
+		// just get current selected id from query selector
+		// since already select project upon clicking delete modal
 
-		pubSub.subscribe("delete-project", (id) => {
+		pubSub.subscribe("open-delete-project-modal", (id) => {
 			currentProjectId = id;
 			toggleModal(modal, overlayModal);
 		});
@@ -258,7 +260,7 @@ const handleModal = (() => {
 		deleteBtn.addEventListener("click", () => {
 			pubSub.publish("delete-project", currentProjectId);
 			toggleModal(modal, overlayModal);
-			pubSub.publish("check-tasks-to-filter");
+			pubSub.publish("default-to-inbox-project");
 		});
 	}
 

@@ -4,17 +4,28 @@ import pubSub from "../PubSub";
 const Project = (() => {
 	const projectList = [];
 
+	function updateId() {
+		let updatedId = 0;
+		projectList.forEach((item) => {
+			item.id = updatedId;
+			updatedId += 1;
+		});
+	}
+
 	function addProject(title) {
 		projectList.push({ title, id: projectList.length, task: [] });
 		localStorage.setItem("project", JSON.stringify(projectList));
-		pubSub.publish("update-project", projectList[projectList.length - 1]);
+		pubSub.publish(
+			"add-project-array",
+			projectList[projectList.length - 1]
+		);
 	}
 
 	function deleteProject(id) {
 		projectList.splice(id, 1);
-		// Task.updateId(projectList);
+		updateId();
 		localStorage.setItem("project", JSON.stringify(projectList));
-		pubSub.publish("project-updated", projectList);
+		pubSub.publish("delete-project-array", projectList);
 	}
 
 	function editProjectTitle(project) {

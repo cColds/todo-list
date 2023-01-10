@@ -50,7 +50,10 @@ const ProjectUI = (() => {
 
 		const projectDelete = projectContentRight.children[0];
 		projectDelete.addEventListener("click", (e) => {
-			pubSub.publish("delete-project", getProjectSelectedId(e));
+			pubSub.publish(
+				"open-delete-project-modal",
+				getProjectSelectedId(e)
+			);
 		});
 		// maybe refactor later
 		const projectEdit = projectContentRight.children[1];
@@ -80,7 +83,8 @@ const ProjectUI = (() => {
 
 	function render() {
 		pubSub.subscribe("filter-projects", handleProjects);
-		pubSub.subscribe("update-project", populateProject);
+		pubSub.subscribe("add-project-array", populateProject);
+		pubSub.subscribe("delete-project-array", handleProjects);
 		pubSub.subscribe("edit-project-array", editProjectTitle);
 	}
 

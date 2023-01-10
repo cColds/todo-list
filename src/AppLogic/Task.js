@@ -1,6 +1,6 @@
 import { isToday, isThisWeek } from "date-fns";
 import pubSub from "../PubSub";
-import Project from "./Project";
+// import Project from "./Project";
 
 const Task = (() => {
 	const taskList = [];

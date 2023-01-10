@@ -19,12 +19,12 @@ const navigation = (() => {
 		mainTitle.textContent = currentSelectedTitle.textContent;
 	}
 
-	// function defaultToInboxProject() {
-	// 	const inbox = document.querySelector("[data-main-project-id='0']");
+	function defaultToInboxProject() {
+		const inbox = document.querySelector("[data-main-project-id='0']");
 
-	// 	inbox.classList.add("selected");
-	// 	updateMainTitle();
-	// }
+		inbox.classList.add("selected");
+		updateMainTitle();
+	}
 
 	function styleSelectedProject(e) {
 		const currentSelectedProject = getSelectedProject();
@@ -51,18 +51,6 @@ const navigation = (() => {
 		updateMainTitle();
 		TaskUI.checkTasksToFilter();
 	}
-
-	// function updateProjectTitle(id) {
-	// 	const projectTitle = document.querySelector(
-	// 		`[data-project-id='${id}'] .projects-item-name`
-	// 	);
-	// 	const { projectId } = getSelectedProject().dataset;
-	// 	projectTitle.textContent = Project.projectList[id].title;
-	// 	if (projectId === id) {
-	// 		const mainTitle = getMainTitle();
-	// 		mainTitle.textContent = Project.projectList[id].title;
-	// 	}
-	// }
 
 	// function handleDeleteProject(projectId) {
 	// 	defaultToInboxProject();
@@ -111,10 +99,8 @@ const navigation = (() => {
 		const mainProjects = document.querySelector("#main-projects-list");
 		mainProjects.addEventListener("click", (e) => switchProject(e));
 		pubSub.subscribe("project-selected", switchProject);
+		pubSub.subscribe("default-to-inbox-project", defaultToInboxProject);
 		// window.addEventListener("load", handleSelectedProjectStored);
-
-		// pubSub.subscribe("edit-project", updateProjectTitle);
-		// pubSub.subscribe("delete-project", handleDeleteProject);
 	}
 	return { render };
 })();
