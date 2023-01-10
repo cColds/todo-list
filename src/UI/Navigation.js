@@ -49,12 +49,11 @@ const navigation = (function () {
 		);
 	}
 
-	function checkProjectTypeToFilter() {
+	function checkProjectToFilterTasks() {
 		const mainProjectId = getSelectedMainProjectId();
-		if (mainProjectId) {
+		if (mainProjectId != null) {
 			const mainProjectNames = ["inbox", "today", "week"];
-
-			pubSub.publish(`${mainProjectNames[mainProjectId]}`);
+			pubSub.publish(`filter-${mainProjectNames[mainProjectId]}`);
 		} else {
 			const projectId = getSelectedProjectId();
 			pubSub.publish("custom-project", projectId);
@@ -64,7 +63,7 @@ const navigation = (function () {
 	function switchProject(e) {
 		styleSelectedProject(e);
 		updateMainTitle();
-		checkProjectTypeToFilter();
+		checkProjectToFilterTasks();
 	}
 
 	function updateProjectTitle(id) {
@@ -122,11 +121,18 @@ const navigation = (function () {
 		const mainProjects = document.querySelector("#main-projects-list");
 		mainProjects.addEventListener("click", (e) => switchProject(e));
 		window.addEventListener("load", handleSelectedProjectStored);
-		pubSub.subscribe("filter-project-type", checkProjectTypeToFilter);
+		pubSub.subscribe("project-selected", switchProject);
 		pubSub.subscribe("edit-project-title", updateProjectTitle);
 		pubSub.subscribe("delete-project", handleDeleteProject);
-		pubSub.subscribe("project-selected", switchProject);
 		toggleNavigation();
+		pubSub.subscribe("task-submitted", (task) => {
+			pubSub.publish("add-task-to-task-list", task);
+			checkProjectToFilterTasks();
+		});
+		pubSub.subscribe("complete-task", (taskId) => {
+			pubSub.publish("complete-task-in-task-list", taskId);
+			checkProjectToFilterTasks();
+		});
 	}
 	return { render, getSelectedProjectId };
 })();

@@ -1,8 +1,7 @@
 import { formatISO9075 } from "date-fns";
 import pubSub from "../PubSub";
 import Project from "../AppLogic/Projects";
-import Task from "../AppLogic/Tasks";
-import displayProjects from "./ProjectsUI";
+import Task from "../AppLogic/Task";
 
 const handleModal = (function () {
 	function clearModalValues(task) {
@@ -76,10 +75,9 @@ const handleModal = (function () {
 
 			const { projectId } = document.querySelector(".selected").dataset;
 			const projectIdValue = projectId != null ? projectId : "";
-
 			pubSub.publish("task-submitted", {
 				title: title.value,
-				dueDate: new Date(dueDate.value).toString(),
+				dueDate: new Date(`${dueDate.value}`).toString(),
 				description: description.value,
 				priority: priority.value,
 				id: Task.taskList.length,

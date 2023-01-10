@@ -1,5 +1,5 @@
 import Project from "./Projects";
-import Task from "./Tasks";
+import Task from "./Task";
 
 const Storage = (function () {
 	const getLocalStorageItem = (item) =>
@@ -33,6 +33,10 @@ const Storage = (function () {
 			Project.projectList.push(project);
 		});
 	}
+
+	// function setItem(key, value) {
+	// 	localStorage.setItem(key, JSON.stringify(value));
+	// }
 
 	const defaultTasks = [
 		{

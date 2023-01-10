@@ -1,5 +1,5 @@
 import pubSub from "../PubSub";
-import Task from "./Tasks";
+import Task from "./Task";
 
 const Project = (function () {
 	const projectList = [];

@@ -1,10 +1,10 @@
 import Project from "./AppLogic/Projects";
 // import Storage from "./AppLogic/storage";
-import Task from "./AppLogic/Tasks";
-import handleModal from "./UI/Modal";
+import Task from "./AppLogic/Task";
 import navigation from "./UI/Navigation";
-import displayProjects from "./UI/ProjectsUI";
-import displayTasks from "./UI/TasksUI";
+import handleModal from "./UI/Modal";
+import displayProjects from "./UI/ProjectUI";
+import displayTasks from "./UI/TaskUI";
 // import pubSub from "./pubsub";
 
 const TodoListApp = (function () {
@@ -18,8 +18,8 @@ const TodoListApp = (function () {
 	// }
 
 	function render() {
-		Project.render();
 		Task.render();
+		Project.render();
 		handleModal.render();
 		navigation.render();
 		displayProjects.render();

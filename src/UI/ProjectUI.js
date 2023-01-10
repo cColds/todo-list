@@ -44,19 +44,17 @@ const displayProjects = (function () {
 			pubSub.publish("project-clicked", e);
 		});
 
+		const getProjectSelectedId = (e) =>
+			e.target.closest("[data-project-id]").dataset.projectId;
+
 		const projectDelete = projectContentRight.children[0];
 		projectDelete.addEventListener("click", (e) => {
-			const projectSelectedId =
-				+e.target.closest("[data-project-id]").dataset.projectId;
-			pubSub.publish("delete-project", projectSelectedId);
+			pubSub.publish("delete-project", getProjectSelectedId(e));
 		});
-
+		// maybe refactor later
 		const projectEdit = projectContentRight.children[1];
 		projectEdit.addEventListener("click", (e) => {
-			const projectSelectedId =
-				+e.target.closest("[data-project-id]").dataset.projectId;
-
-			pubSub.publish("open-edit-project-modal", projectSelectedId);
+			pubSub.publish("open-edit-project-modal", getProjectSelectedId(e));
 		});
 	};
 
