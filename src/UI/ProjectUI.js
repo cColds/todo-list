@@ -41,7 +41,7 @@ const ProjectUI = (() => {
 		projectsContainer.appendChild(projectItem);
 
 		projectItem.addEventListener("click", (e) => {
-			pubSub.publish("project-clicked", e);
+			pubSub.publish("project-selected", e);
 		});
 
 		const getProjectSelectedId = (e) =>

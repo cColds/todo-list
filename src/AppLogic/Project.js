@@ -10,12 +10,12 @@ const Project = (() => {
 		pubSub.publish("update-project", projectList[projectList.length - 1]);
 	}
 
-	// function deleteProject(id) {
-	// 	projectList.splice(id, 1);
-	// 	Task.updateId(projectList);
-	// 	localStorage.setItem("project", JSON.stringify(projectList));
-	// 	pubSub.publish("project-updated", projectList);
-	// }
+	function deleteProject(id) {
+		projectList.splice(id, 1);
+		// Task.updateId(projectList);
+		localStorage.setItem("project", JSON.stringify(projectList));
+		pubSub.publish("project-updated", projectList);
+	}
 
 	// function editProjectTitle(project) {
 	// 	projectList[project.id].title = project.title;
@@ -25,8 +25,8 @@ const Project = (() => {
 
 	function render() {
 		pubSub.subscribe("add-project", addProject);
+		pubSub.subscribe("delete-project", deleteProject);
 		// pubSub.subscribe("project-edit-submitted", editProjectTitle);
-		// pubSub.subscribe("project-delete-confirmed", deleteProject);
 	}
 	return { render, projectList };
 })();
