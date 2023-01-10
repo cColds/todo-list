@@ -46,7 +46,7 @@ const navigation = (() => {
 	function switchProject(e) {
 		styleSelectedProject(e);
 		updateMainTitle();
-		TaskUI.checkProjectToFilterTasks();
+		TaskUI.checkTasksToFilter();
 	}
 
 	// function updateProjectTitle(id) {
