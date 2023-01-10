@@ -27,15 +27,15 @@ const navigation = (() => {
 	// }
 
 	function styleSelectedProject(e) {
-		const selectedProject = getSelectedProject();
-		const projectItem = e.target.closest(".projects-item");
+		const currentSelectedProject = getSelectedProject();
+		const newProjectToSelect = e.target.closest(".projects-item");
 
-		if (selectedProject === projectItem) return;
-		if (selectedProject) {
-			selectedProject.classList.remove("selected");
+		if (currentSelectedProject === newProjectToSelect) return;
+		if (currentSelectedProject) {
+			currentSelectedProject.classList.remove("selected");
 		}
 
-		projectItem.classList.add("selected");
+		newProjectToSelect.classList.add("selected");
 		// localStorage.setItem(
 		// 	"project-id",
 		// 	JSON.stringify(projectItem.dataset[getProjectDataType()])
