@@ -49,7 +49,7 @@ const ProjectUI = (() => {
 			e.target.closest("[data-project-id]").dataset.projectId;
 
 		const projectDeleteButton = projectItem.querySelector(
-			".project-delete-button"
+			".project-delete-icon"
 		);
 
 		projectDeleteButton.addEventListener("click", (e) => {
@@ -60,7 +60,7 @@ const ProjectUI = (() => {
 		});
 
 		const projectEditButton = projectItem.querySelector(
-			".project-edit-button"
+			".project-settings-icon"
 		);
 		projectEditButton.addEventListener("click", (e) => {
 			pubSub.publish("open-edit-project-modal", getProjectSelectedId(e));
