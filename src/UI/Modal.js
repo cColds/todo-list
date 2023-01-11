@@ -148,13 +148,15 @@ const handleModal = (() => {
 			priority.value = task.priority;
 			toggleError(title, titleError);
 		};
-		// maybe improve later
-		let currentTaskId = null;
 
-		pubSub.subscribe("open-edit-task-modal", (getCurrentTaskId) => {
-			currentTaskId = getCurrentTaskId;
+		const getCurrentTaskId = () => {
+			const { taskId } =
+				document.querySelector(".edit-task-active").dataset;
+			return taskId;
+		};
+		pubSub.subscribe("open-edit-task-modal", () => {
 			toggleModal(modal, overlayModal);
-			setEditInputValues(Task.taskList[currentTaskId]);
+			setEditInputValues(Task.taskList[getCurrentTaskId()]);
 		});
 
 		title.addEventListener("keyup", () => toggleError(title, titleError));
@@ -176,8 +178,10 @@ const handleModal = (() => {
 				dueDate: new Date(dueDate.value).toString(),
 				description: description.value,
 				priority: priority.value,
-				id: currentTaskId,
+				id: getCurrentTaskId(),
 			});
+			const currentTask = document.querySelector(".edit-task-active");
+			currentTask.classList.remove("edit-task-active");
 			pubSub.publish("check-tasks-to-filter");
 		});
 	}
@@ -200,8 +204,6 @@ const handleModal = (() => {
 			toggleError(title, titleError);
 		};
 
-		let currentProjectId = null;
-
 		title.addEventListener("keyup", () => toggleError(title, titleError));
 		cancelBtn.addEventListener("click", () =>
 			toggleModal(modal, overlayModal)
@@ -215,16 +217,18 @@ const handleModal = (() => {
 				toggleError(title, titleError);
 				return;
 			}
+
 			toggleModal(modal, overlayModal);
+			const { projectId } = document.querySelector(".selected").dataset;
+
 			pubSub.publish("edit-project", {
 				title: title.value,
-				id: currentProjectId,
+				id: projectId,
 			});
 			pubSub.publish("check-tasks-to-filter");
 		});
 
 		pubSub.subscribe("open-edit-project-modal", (projectId) => {
-			currentProjectId = projectId;
 			toggleModal(modal, overlayModal);
 			setEditInputValues(Project.projectList[projectId]);
 		});
@@ -241,12 +245,7 @@ const handleModal = (() => {
 		);
 		const deleteBtn = document.querySelector("#delete-project-confirm");
 
-		let currentProjectId = null;
-		// just get current selected id from query selector
-		// since already select project upon clicking delete modal
-
-		pubSub.subscribe("open-delete-project-modal", (id) => {
-			currentProjectId = id;
+		pubSub.subscribe("open-delete-project-modal", () => {
 			toggleModal(modal, overlayModal);
 		});
 
@@ -258,7 +257,8 @@ const handleModal = (() => {
 		);
 
 		deleteBtn.addEventListener("click", () => {
-			pubSub.publish("delete-project", currentProjectId);
+			const { projectId } = document.querySelector(".selected").dataset;
+			pubSub.publish("delete-project", projectId);
 			toggleModal(modal, overlayModal);
 			pubSub.publish("default-to-inbox-project");
 		});

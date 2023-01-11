@@ -67,8 +67,11 @@ const TaskUI = (() => {
 			pubSub.publish("complete-task", getCurrentTaskId(e));
 			checkTasksToFilter();
 		});
+
 		editTaskContainer.addEventListener("click", (e) => {
-			pubSub.publish("open-edit-task-modal", getCurrentTaskId(e));
+			const taskClicked = e.target.closest(".task");
+			taskClicked.classList.add("edit-task-active");
+			pubSub.publish("open-edit-task-modal");
 		});
 	}
 

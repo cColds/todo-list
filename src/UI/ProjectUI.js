@@ -48,16 +48,21 @@ const ProjectUI = (() => {
 		const getProjectSelectedId = (e) =>
 			e.target.closest("[data-project-id]").dataset.projectId;
 
-		const projectDelete = projectContentRight.children[0];
-		projectDelete.addEventListener("click", (e) => {
+		const projectDeleteButton = projectItem.querySelector(
+			".project-delete-button"
+		);
+
+		projectDeleteButton.addEventListener("click", (e) => {
 			pubSub.publish(
 				"open-delete-project-modal",
 				getProjectSelectedId(e)
 			);
 		});
-		// maybe refactor later
-		const projectEdit = projectContentRight.children[1];
-		projectEdit.addEventListener("click", (e) => {
+
+		const projectEditButton = projectItem.querySelector(
+			".project-edit-button"
+		);
+		projectEditButton.addEventListener("click", (e) => {
 			pubSub.publish("open-edit-project-modal", getProjectSelectedId(e));
 		});
 	};
