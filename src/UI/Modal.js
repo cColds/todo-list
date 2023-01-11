@@ -154,6 +154,7 @@ const handleModal = (() => {
 				document.querySelector(".edit-task-active").dataset;
 			return taskId;
 		};
+
 		pubSub.subscribe("open-edit-task-modal", () => {
 			toggleModal(modal, overlayModal);
 			setEditInputValues(Task.taskList[getCurrentTaskId()]);
@@ -173,12 +174,16 @@ const handleModal = (() => {
 			}
 			toggleModal(modal, overlayModal);
 
+			const { projectId } = document.querySelector(".selected").dataset;
+			const projectIdValue = projectId != null ? projectId : "";
+
 			pubSub.publish("edit-task", {
 				title: title.value,
 				dueDate: new Date(dueDate.value).toString(),
 				description: description.value,
 				priority: priority.value,
 				id: getCurrentTaskId(),
+				projectId: projectIdValue,
 			});
 			const currentTask = document.querySelector(".edit-task-active");
 			currentTask.classList.remove("edit-task-active");

@@ -7,6 +7,7 @@ const Task = (() => {
 
 	function addTask(task) {
 		taskList.push(task);
+		console.log(taskList);
 	}
 
 	function updateId() {

@@ -84,7 +84,7 @@ const navigation = (() => {
 			nav.classList.toggle("hide");
 			setNavValue();
 		}
-
+		// projectId thing not work loading idk edit project gone
 		const navHamburgerMenu = document.querySelector("#nav-hamburger-menu");
 		const headerHamburgerMenu = document.querySelector(
 			"#header-hamburger-menu"
