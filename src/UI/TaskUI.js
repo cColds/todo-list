@@ -18,7 +18,7 @@ const TaskUI = (() => {
 			pubSub.publish(`filter-${mainProjectNames[mainProjectId]}-tasks`);
 		} else {
 			const { projectId } = document.querySelector(".selected").dataset;
-			pubSub.publish("filter-custom-project-tasks", projectId);
+			pubSub.publish("filter-custom-project-tasks", +projectId);
 		}
 	}
 

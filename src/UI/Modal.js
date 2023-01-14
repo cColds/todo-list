@@ -74,7 +74,7 @@ const handleModal = (() => {
 			toggleModal(modal, overlayModal);
 
 			const { projectId } = document.querySelector(".selected").dataset;
-			const projectIdValue = projectId != null ? projectId : "";
+			const projectIdValue = projectId != null ? +projectId : "";
 			pubSub.publish("add-task", {
 				title: title.value,
 				dueDate: new Date(`${dueDate.value}`).toString(),
@@ -152,7 +152,7 @@ const handleModal = (() => {
 		const getCurrentTaskId = () => {
 			const { taskId } =
 				document.querySelector(".edit-task-active").dataset;
-			return taskId;
+			return +taskId;
 		};
 
 		pubSub.subscribe("open-edit-task-modal", () => {
@@ -174,16 +174,20 @@ const handleModal = (() => {
 			}
 			toggleModal(modal, overlayModal);
 
-			const { projectId } = document.querySelector(".selected").dataset;
-			const projectIdValue = projectId != null ? projectId : "";
-
+			// const { projectId } = document.querySelector(".selected").dataset;
+			// const projectIdValue = projectId != null ? projectId : "";
+			// title: title.value,
+			// 			dueDate: new Date(dueDate.value).toString(),
+			// 			description: description.value,
+			// 			priority: priority.value,
+			// 			id: getCurrentTaskId(),
+			// 			projectId: projectIdValue,
 			pubSub.publish("edit-task", {
 				title: title.value,
 				dueDate: new Date(dueDate.value).toString(),
 				description: description.value,
 				priority: priority.value,
 				id: getCurrentTaskId(),
-				projectId: projectIdValue,
 			});
 			const currentTask = document.querySelector(".edit-task-active");
 			currentTask.classList.remove("edit-task-active");
@@ -262,10 +266,16 @@ const handleModal = (() => {
 		);
 
 		deleteBtn.addEventListener("click", () => {
-			const { projectId } = document.querySelector(".selected").dataset;
-			pubSub.publish("delete-project", projectId);
 			toggleModal(modal, overlayModal);
+			const { projectId } = document.querySelector(".selected").dataset;
+
+			pubSub.publish("delete-project", +projectId);
+			pubSub.publish("delete-project-array", Project.projectList);
+			pubSub.publish("delete-project-tasks", +projectId);
+			pubSub.publish("update-task-project-id", +projectId);
+			pubSub.publish("update-task-id");
 			pubSub.publish("default-to-inbox-project");
+			pubSub.publish("check-tasks-to-filter");
 		});
 	}
 

@@ -4,7 +4,7 @@ import pubSub from "../PubSub";
 const Project = (() => {
 	const projectList = [];
 
-	function updateId() {
+	function updateProjectId() {
 		let updatedId = 0;
 		projectList.forEach((item) => {
 			item.id = updatedId;
@@ -21,11 +21,10 @@ const Project = (() => {
 		);
 	}
 
-	function deleteProject(id) {
-		projectList.splice(id, 1);
-		updateId();
+	function deleteProject(projectId) {
+		projectList.splice(projectId, 1);
+		updateProjectId();
 		localStorage.setItem("project", JSON.stringify(projectList));
-		pubSub.publish("delete-project-array", projectList);
 	}
 
 	function editProjectTitle(project) {

@@ -49,25 +49,40 @@ const Task = (() => {
 		localStorage.setItem("task", JSON.stringify(taskList));
 	}
 
-	// function removeDeletedProjectTasks(projectId) {
-	// 	for (let i = taskList.length - 1; i >= 0; i -= 1) {
-	// 		if (taskList[i].projectId === projectId) {
-	// 			taskList.splice(i, 1);
-	// 		}
-	// 	}
-	// }
+	function updateTaskId() {
+		for (let i = 0; i < taskList.length - 1; i += 1) {
+			taskList[i].id = i;
+		}
+	}
 
-	// function updateProjectId(projectId) {
-	// 	taskList.forEach((task) => {
-	// 		if (task.projectId > projectId) {
-	// 			task.projectId -= 1;
-	// 		}
-	// 	});
-	// }
+	function updateTaskProjectId(projectId) {
+		taskList.forEach((task) => {
+			if (task.projectId > projectId) {
+				task.projectId -= 1;
+			}
+		});
+	}
 
-	function editTask(newTask) {
-		const index = newTask.id;
-		taskList[index] = newTask;
+	// need to remove project's tasks after deleting a project
+	function deleteProjectTasks(projectId) {
+		for (let i = taskList.length - 1; i >= 0; i -= 1) {
+			console.log(projectId, taskList);
+			if (taskList[i].projectId === projectId) {
+				taskList.splice(i, 1);
+			}
+		}
+	}
+
+	function editTask(newTaskValue) {
+		console.log("old", taskList);
+
+		const index = newTaskValue.id;
+
+		taskList[index].title = newTaskValue.title;
+		taskList[index].dueDate = newTaskValue.dueDate;
+		taskList[index].description = newTaskValue.description;
+		taskList[index].priority = newTaskValue.priority;
+		console.log("new", taskList);
 	}
 
 	function render() {
@@ -82,9 +97,12 @@ const Task = (() => {
 		pubSub.subscribe("add-task", addTask);
 		pubSub.subscribe("complete-task", completeTask);
 		pubSub.subscribe("edit-task", editTask);
+		pubSub.subscribe("delete-project-tasks", deleteProjectTasks);
+		pubSub.subscribe("update-task-id", updateTaskId);
+		pubSub.subscribe("update-task-project-id", updateTaskProjectId);
 
 		// pubSub.subscribe("deleted-project-tasks", removeDeletedProjectTasks);
-		// pubSub.subscribe("update-project-id", updateProjectId);
+		// pubSub.subscribe("update-task-id", updateTaskId);
 	}
 	return { render, taskList };
 })();
