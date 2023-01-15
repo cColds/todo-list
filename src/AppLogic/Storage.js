@@ -1,5 +1,4 @@
-import Project from "./Project";
-import Task from "./Task";
+import pubSub from "../PubSub";
 
 const Storage = (() => {
 	const getLocalStorageItem = (item) =>
@@ -11,9 +10,9 @@ const Storage = (() => {
 		localStorage.getItem("project-attribute");
 	};
 
-	function populateStoredTasks() {
+	function populateStoredTasks(taskList) {
 		const storedTasks = getLocalStorageItem("task");
-		storedTasks.forEach((task) => Task.taskList.push(task));
+		storedTasks.forEach((task) => taskList.push(task));
 	}
 
 	function checkTasksStored() {
@@ -26,17 +25,17 @@ const Storage = (() => {
 		return storedProjects.length !== 0;
 	}
 
-	function populateStoredProjects() {
+	function populateStoredProjects(projectList) {
 		const storedProjects = getLocalStorageItem("project");
 
 		storedProjects.forEach((project) => {
-			Project.projectList.push(project);
+			projectList.push(project);
 		});
 	}
 
-	// function setItem(key, value) {
-	// 	localStorage.setItem(key, JSON.stringify(value));
-	// }
+	function setItem({ key, value }) {
+		localStorage.setItem(key, JSON.stringify(value));
+	}
 
 	const defaultTasks = [
 		{
@@ -89,6 +88,16 @@ const Storage = (() => {
 		},
 	];
 
+	function render() {
+		// project local storage
+		pubSub.subscribe("add-project-local-storage", setItem);
+		pubSub.subscribe("delete-project-local-storage", setItem);
+		pubSub.subscribe("edit-project-local-storage", setItem);
+
+		// task local storage
+		pubSub.subscribe("complete-task-local-storage", setItem);
+	}
+
 	return {
 		populateStoredTasks,
 		populateStoredProjects,
@@ -98,16 +107,9 @@ const Storage = (() => {
 		getSelectedProjectAttribute,
 		defaultProjects,
 		defaultTasks,
+		render,
+		setItem,
 	};
 })();
 
 export default Storage;
-
-// export {
-// 	populateStoredTasks,
-// 	populateStoredProjects,
-// 	checkTasksStored,
-// 	checkProjectsStored,
-// 	getSelectedProjectIdStored,
-// 	getSelectedProjectAttributeStored,
-// };

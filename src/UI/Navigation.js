@@ -1,16 +1,11 @@
 import pubSub from "../PubSub";
-// import Project from "../AppLogic/Projects";
 import TaskUI from "./TaskUI";
-// import Storage from "../AppLogic/storage";
+
 const navigation = (() => {
 	const getSelectedProject = () => document.querySelector(".selected");
 
 	const getMainTitle = () => document.querySelector("#main-title");
 
-	// function getProjectDataType() {
-	// 	const { mainProjectId } = getSelectedProject();
-	// 	return mainProjectId != null ? "mainProjectId" : "projectId";
-	// }
 	function updateMainTitle() {
 		const currentSelectedTitle = document.querySelector(
 			".selected .projects-item-name"
@@ -36,14 +31,6 @@ const navigation = (() => {
 		}
 
 		newProjectToSelect.classList.add("selected");
-		// localStorage.setItem(
-		// 	"project-id",
-		// 	JSON.stringify(projectItem.dataset[getProjectDataType()])
-		// );
-		// localStorage.setItem(
-		// 	"project-attribute",
-		// 	projectItem.getAttributeNames()[1]
-		// );
 	}
 
 	function switchProject(e) {
@@ -51,24 +38,6 @@ const navigation = (() => {
 		updateMainTitle();
 		TaskUI.checkTasksToFilter();
 	}
-
-	// function handleDeleteProject(projectId) {
-	// 	defaultToInboxProject();
-	// 	pubSub.publish("remove-deleted-project-tasks", projectId);
-	// 	pubSub.publish("update-task-id");
-	// 	pubSub.publish("update-project-id", projectId);
-	// 	pubSub.publish("inbox-selected");
-	// }
-
-	// function handleSelectedProjectStored() {
-	// 	const selectedProjectStored = document.querySelector(
-	// 		`[${Storage.getSelectedProjectId()}='${Storage.getSelectedProjectId()}']`
-	// 	);
-	// 	if (!selectedProjectStored) return;
-	// 	getSelectedProject().classList.remove("selected");
-	// 	selectedProjectStored.classList.add("selected");
-	// 	getMainTitle().textContent = selectedProjectStored.textContent;
-	// }
 
 	function toggleNavigation() {
 		const taskSection = document.querySelector("#task-section");
@@ -84,7 +53,7 @@ const navigation = (() => {
 			nav.classList.toggle("hide");
 			setNavValue();
 		}
-		// projectId thing not work loading idk edit project gone
+
 		const navHamburgerMenu = document.querySelector("#nav-hamburger-menu");
 		const headerHamburgerMenu = document.querySelector(
 			"#header-hamburger-menu"
@@ -100,7 +69,6 @@ const navigation = (() => {
 		mainProjects.addEventListener("click", (e) => switchProject(e));
 		pubSub.subscribe("project-selected", switchProject);
 		pubSub.subscribe("default-to-inbox-project", defaultToInboxProject);
-		// window.addEventListener("load", handleSelectedProjectStored);
 	}
 	return { render };
 })();

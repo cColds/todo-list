@@ -92,5 +92,3 @@ const TaskUI = (() => {
 	return { render, checkTasksToFilter };
 })();
 export default TaskUI;
-
-// export default getCurrentTaskId;

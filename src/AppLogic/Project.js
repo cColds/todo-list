@@ -1,5 +1,4 @@
 import pubSub from "../PubSub";
-// import Task from "./Task";
 
 const Project = (() => {
 	const projectList = [];
@@ -14,7 +13,11 @@ const Project = (() => {
 
 	function addProject(title) {
 		projectList.push({ title, id: projectList.length, task: [] });
-		localStorage.setItem("project", JSON.stringify(projectList));
+		pubSub.publish("add-project-local-storage", {
+			key: "project",
+			value: projectList,
+		});
+
 		pubSub.publish(
 			"add-project-array",
 			projectList[projectList.length - 1]
@@ -24,12 +27,18 @@ const Project = (() => {
 	function deleteProject(projectId) {
 		projectList.splice(projectId, 1);
 		updateProjectId();
-		localStorage.setItem("project", JSON.stringify(projectList));
+		pubSub.publish("delete-project-local-storage", {
+			key: "project",
+			value: projectList,
+		});
 	}
 
 	function editProjectTitle(project) {
 		projectList[project.id].title = project.title;
-		localStorage.setItem("project", JSON.stringify(projectList));
+		pubSub.publish("edit-project-local-storage", {
+			key: "project",
+			value: projectList,
+		});
 		pubSub.publish("edit-project-array", project.id);
 	}
 

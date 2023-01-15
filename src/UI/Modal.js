@@ -174,14 +174,6 @@ const handleModal = (() => {
 			}
 			toggleModal(modal, overlayModal);
 
-			// const { projectId } = document.querySelector(".selected").dataset;
-			// const projectIdValue = projectId != null ? projectId : "";
-			// title: title.value,
-			// 			dueDate: new Date(dueDate.value).toString(),
-			// 			description: description.value,
-			// 			priority: priority.value,
-			// 			id: getCurrentTaskId(),
-			// 			projectId: projectIdValue,
 			pubSub.publish("edit-task", {
 				title: title.value,
 				dueDate: new Date(dueDate.value).toString(),

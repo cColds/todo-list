@@ -1,13 +1,11 @@
 import { isToday, isThisWeek } from "date-fns";
 import pubSub from "../PubSub";
-// import Project from "./Project";
 
 const Task = (() => {
 	const taskList = [];
 
 	function addTask(task) {
 		taskList.push(task);
-		console.log(taskList);
 	}
 
 	function updateId() {
@@ -46,7 +44,10 @@ const Task = (() => {
 	function completeTask(id) {
 		taskList.splice(id, 1);
 		updateId(taskList);
-		localStorage.setItem("task", JSON.stringify(taskList));
+		pubSub.publish("complete-task-local-storage", {
+			key: "task",
+			value: taskList,
+		});
 	}
 
 	function updateTaskId() {
@@ -63,10 +64,8 @@ const Task = (() => {
 		});
 	}
 
-	// need to remove project's tasks after deleting a project
 	function deleteProjectTasks(projectId) {
 		for (let i = taskList.length - 1; i >= 0; i -= 1) {
-			console.log(projectId, taskList);
 			if (taskList[i].projectId === projectId) {
 				taskList.splice(i, 1);
 			}
@@ -74,15 +73,12 @@ const Task = (() => {
 	}
 
 	function editTask(newTaskValue) {
-		console.log("old", taskList);
-
 		const index = newTaskValue.id;
 
 		taskList[index].title = newTaskValue.title;
 		taskList[index].dueDate = newTaskValue.dueDate;
 		taskList[index].description = newTaskValue.description;
 		taskList[index].priority = newTaskValue.priority;
-		console.log("new", taskList);
 	}
 
 	function render() {
@@ -100,9 +96,6 @@ const Task = (() => {
 		pubSub.subscribe("delete-project-tasks", deleteProjectTasks);
 		pubSub.subscribe("update-task-id", updateTaskId);
 		pubSub.subscribe("update-task-project-id", updateTaskProjectId);
-
-		// pubSub.subscribe("deleted-project-tasks", removeDeletedProjectTasks);
-		// pubSub.subscribe("update-task-id", updateTaskId);
 	}
 	return { render, taskList };
 })();
