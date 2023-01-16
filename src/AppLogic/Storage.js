@@ -1,4 +1,6 @@
 import pubSub from "../PubSub";
+import Project from "./Project";
+import Task from "./Task";
 
 const Storage = (() => {
 	const getLocalStorageItem = (item) =>
@@ -10,26 +12,26 @@ const Storage = (() => {
 		localStorage.getItem("project-attribute");
 	};
 
-	function populateStoredTasks(taskList) {
+	function populateStoredTasks() {
 		const storedTasks = getLocalStorageItem("task");
-		storedTasks.forEach((task) => taskList.push(task));
+		storedTasks.forEach((task) => Task.taskList.push(task));
 	}
 
 	function checkTasksStored() {
 		const storedTasks = getLocalStorageItem("task");
-		return storedTasks.length !== 0;
+		return storedTasks.length === 0;
 	}
 
 	function checkProjectsStored() {
 		const storedProjects = getLocalStorageItem("project");
-		return storedProjects.length !== 0;
+		return storedProjects.length === 0;
 	}
 
-	function populateStoredProjects(projectList) {
+	function populateStoredProjects() {
 		const storedProjects = getLocalStorageItem("project");
 
 		storedProjects.forEach((project) => {
-			projectList.push(project);
+			Project.projectList.push(project);
 		});
 	}
 
@@ -96,6 +98,14 @@ const Storage = (() => {
 
 		// task local storage
 		pubSub.subscribe("complete-task-local-storage", setItem);
+		pubSub.subscribe("add-task-local-storage", setItem);
+
+		// populate
+		pubSub.subscribe("populate-tasks-local-storage", populateStoredTasks);
+		pubSub.subscribe(
+			"populate-projects-local-storage",
+			populateStoredProjects
+		);
 	}
 
 	return {

@@ -6,6 +6,10 @@ const Task = (() => {
 
 	function addTask(task) {
 		taskList.push(task);
+		pubSub.publish("add-task-local-storage", {
+			key: "task",
+			value: taskList,
+		});
 	}
 
 	function updateId() {
@@ -48,6 +52,7 @@ const Task = (() => {
 			key: "task",
 			value: taskList,
 		});
+		console.log(taskList);
 	}
 
 	function updateTaskId() {
@@ -70,6 +75,10 @@ const Task = (() => {
 				taskList.splice(i, 1);
 			}
 		}
+		pubSub.publish("complete-task-local-storage", {
+			key: "task",
+			value: taskList,
+		});
 	}
 
 	function editTask(newTaskValue) {

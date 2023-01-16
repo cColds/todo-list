@@ -72,7 +72,7 @@ const ProjectUI = (() => {
 		allProjects.innerHTML = "";
 	};
 
-	function handleProjects(projects) {
+	function populateAllProjects(projects) {
 		removeAllProjects();
 		projects.forEach((project) => populateProject(project));
 	}
@@ -87,9 +87,8 @@ const ProjectUI = (() => {
 	}
 
 	function render() {
-		pubSub.subscribe("filter-projects", handleProjects);
+		pubSub.subscribe("populate-projects-dom", populateAllProjects);
 		pubSub.subscribe("add-project-array", populateProject);
-		pubSub.subscribe("delete-project-array", handleProjects);
 		pubSub.subscribe("edit-project-array", editProjectTitle);
 	}
 

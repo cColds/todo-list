@@ -262,10 +262,14 @@ const handleModal = (() => {
 			const { projectId } = document.querySelector(".selected").dataset;
 
 			pubSub.publish("delete-project", +projectId);
+
 			pubSub.publish("delete-project-array", Project.projectList);
 			pubSub.publish("delete-project-tasks", +projectId);
+
 			pubSub.publish("update-task-project-id", +projectId);
 			pubSub.publish("update-task-id");
+
+			pubSub.publish("populate-projects-dom", Project.projectList);
 			pubSub.publish("default-to-inbox-project");
 			pubSub.publish("check-tasks-to-filter");
 		});

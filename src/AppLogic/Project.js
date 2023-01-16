@@ -13,15 +13,15 @@ const Project = (() => {
 
 	function addProject(title) {
 		projectList.push({ title, id: projectList.length, task: [] });
-		pubSub.publish("add-project-local-storage", {
-			key: "project",
-			value: projectList,
-		});
 
 		pubSub.publish(
 			"add-project-array",
 			projectList[projectList.length - 1]
 		);
+		pubSub.publish("add-project-local-storage", {
+			key: "project",
+			value: projectList,
+		});
 	}
 
 	function deleteProject(projectId) {
@@ -31,15 +31,17 @@ const Project = (() => {
 			key: "project",
 			value: projectList,
 		});
+
+		console.log(projectList);
 	}
 
 	function editProjectTitle(project) {
 		projectList[project.id].title = project.title;
+		pubSub.publish("edit-project-array", project.id);
 		pubSub.publish("edit-project-local-storage", {
 			key: "project",
 			value: projectList,
 		});
-		pubSub.publish("edit-project-array", project.id);
 	}
 
 	function render() {
